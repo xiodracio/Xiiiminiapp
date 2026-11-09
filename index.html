@@ -207,7 +207,7 @@ body[data-view=sync] #fbtn{display:none!important}
     <p class="lead">Your application has been accepted.</p>
     <p class="lead">You are now an official member of the Illuminati.</p>
     <p>As part of your induction, you will be required to complete your Member Profile through the official Portal by providing the following information:</p>
-    <ul class="req"><li>Full Name</li><li>Date of Birth</li><li>Country of Residence</li><li>Gender</li><li>Username (optional)</li></ul>
+    <ul class="req"><li>Full Name</li><li>Date of Birth</li><li>Country of Residence</li><li>Gender</li><li>Username</li></ul>
     <h3>Privacy Notice</h3>
     <p>To preserve the privacy, anonymity, and security of all members, the Society does not require your email address or phone number during the registration process. Only the information listed above is necessary to establish your membership identity.</p>
     <p>Once your profile is submitted, the Portal will generate:</p>
@@ -221,7 +221,7 @@ body[data-view=sync] #fbtn{display:none!important}
   <section class="view" data-view="form"><div class="glass sheet">
     <h2>Member Profile</h2>
     <label class="fld">Full name<input id="fn" maxlength="60" autocomplete="off" autocapitalize="words"></label>
-    <label class="fld">Username (optional)<input id="un" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. shadow_wolf"></label>
+    <label class="fld">Username<input id="un" maxlength="20" required aria-required="true" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. shadow_wolf"></label>
     <p class="note un" id="unh"></p>
     <label class="fld">Date of birth<input id="dob" type="date" min="1900-01-01"></label>
     <label class="fld">Country of residence<select id="ct"><option value="">Select your country</option></select></label>
@@ -374,7 +374,7 @@ const local={
  me:async()=>{const id=uid();if(ls.get(KB,[]).includes(id))return{status:"banned"};const m=ls.get(KM,[]).find(x=>x.uid===id);return m?{status:"member",member:m}:{status:"none"}},
  register:async p=>{const id=uid(),L=ls.get(KM,[]);if(ls.get(KB,[]).includes(id))return{ok:false,error:"Access revoked."};
   if(L.some(x=>x.uid===id))return{ok:false,error:"This account has already registered."};
-  const un=String(p.username||"").toLowerCase();if(un&&(!UNRE.test(un)||L.some(x=>x.username===un)))return{ok:false,error:un&&UNRE.test(un)?"That username is already taken.":"Invalid username.",field:"username"};
+  const un=String(p.username||"").toLowerCase();if(!un)return{ok:false,error:"Choose a username.",field:"username"};if(un&&(!UNRE.test(un)||L.some(x=>x.username===un)))return{ok:false,error:un&&UNRE.test(un)?"That username is already taken.":"Invalid username.",field:"username"};
   const m=Object.assign({uid:id,code:mkCode(L),at:new Date().toISOString(),tg:V.tg.user&&V.tg.user.username||""},p);L.push(m);ls.set(KM,L);return{ok:true,member:m}},
  list:async()=>{const B=ls.get(KB,[]);return{ok:true,members:ls.get(KM,[]).map(m=>Object.assign({},m,{banned:B.includes(m.uid)})),banned:B.length,banned_ids:B}},
  check_username:async n=>{const u=String(n||"").toLowerCase();if(!UNRE.test(u))return{ok:true,available:false,error:"Invalid username."};const id=uid();return{ok:true,available:!ls.get(KM,[]).some(x=>x.username===u&&x.uid!==id),username:u}},
@@ -902,7 +902,7 @@ $("#dob").max=new Date().toISOString().slice(0,10);
 
 $("#sub").addEventListener("click",async()=>{
  const err=$("#err"),g=$('input[name="g"]:checked'),p={name:$("#fn").value.trim().replace(/\s+/g," "),dob:$("#dob").value,country:$("#ct").value,gender:g?g.value:"",username:$("#un").value.trim().replace(/^@/,"").toLowerCase()};
- const bad=!/\p{L}.*\p{L}/u.test(p.name)?"Enter your full name.":!p.dob||p.dob>$("#dob").max||p.dob<"1900-01-01"?"Enter a valid date of birth.":!p.country?"Select your country of residence.":!p.gender?"Select your gender.":p.username&&!/^[a-z][a-z0-9_]{2,19}$/.test(p.username)?"Username must be 3-20 characters: letters, numbers, underscore, starting with a letter.":p.username&&$("#un").dataset.ok==="0"?"That username is already taken.":"";
+ const bad=!/\p{L}.*\p{L}/u.test(p.name)?"Enter your full name.":!p.dob||p.dob>$("#dob").max||p.dob<"1900-01-01"?"Enter a valid date of birth.":!p.country?"Select your country of residence.":!p.gender?"Select your gender.":!p.username?"Choose a username.":!/^[a-z][a-z0-9_]{2,19}$/.test(p.username)?"Username must be 3-20 characters: letters, numbers, underscore, starting with a letter.":$("#un").dataset.ok==="0"?"That username is already taken.":"";
  err.textContent=bad;if(bad)return;
  const btn=$("#sub");btn.disabled=true;V.tg.haptic("medium");
  let r;try{r=await api.register(p)}catch(e){r={ok:false}}
