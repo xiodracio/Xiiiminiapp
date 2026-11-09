@@ -282,8 +282,8 @@ const local={
  list:async()=>{const B=ls.get(KB,[]);return{ok:true,members:ls.get(KM,[]).map(m=>Object.assign({},m,{banned:B.includes(m.uid)})),banned:B.length,banned_ids:B}},
  check_username:async n=>{const u=String(n||"").toLowerCase();if(!UNRE.test(u))return{ok:true,available:false,error:"Invalid username."};const id=uid();return{ok:true,available:!ls.get(KM,[]).some(x=>x.username===u&&x.uid!==id),username:u}},
  set_username:async n=>{const id=uid(),u=String(n||"").toLowerCase(),L=ls.get(KM,[]),m=L.find(x=>x.uid===id);if(!m)return{ok:false,error:"Complete your member profile first."};if(m.username)return{ok:false,error:"Your username is already set and cannot be changed."};if(!UNRE.test(u))return{ok:false,error:"Invalid username."};if(L.some(x=>x.username===u))return{ok:false,error:"That username is already taken."};m.username=u;ls.set(KM,L);return{ok:true,username:u}},
- merits:async()=>{const id=uid(),B=ls.get(KB,[]),rows=ls.get(KM,[]).map(m=>({u:m.uid,label:m.username?"@"+m.username:"Anonymous member",merits:+m.merits||0,status:B.includes(m.uid)?"Revoked":"Active"})).sort((a,b)=>b.merits-a.merits);
-  let last=null,rk=0;rows.forEach((r,i)=>{if(r.merits!==last){rk=i+1;last=r.merits}r.rank=rk;r.you=r.u===id;delete r.u});
+ merits:async()=>{const id=uid(),B=ls.get(KB,[]),rows=ls.get(KM,[]).map(m=>({u:m.uid,label:m.username?"@"+m.username:"Anonymous member",merits:+m.merits||0,status:B.includes(m.uid)?"Revoked":"Active",t:m.at||""})).sort((a,b)=>b.merits-a.merits||String(a.t).localeCompare(String(b.t)));
+  rows.forEach((r,i)=>{r.rank=i+1;r.you=r.u===id;delete r.u;delete r.t});
   const me=rows.find(r=>r.you);return{ok:true,me:me?{merits:me.merits,rank:me.rank,status:me.status}:null,members:rows}},
  award_merit:async d=>{const L=ls.get(KM,[]),m=L.find(x=>x.uid===(d&&d.id));if(!m)return{ok:false,error:"Member not found."};m.merits=Math.max(0,(+m.merits||0)+(+d.delta||0));ls.set(KM,L);return{ok:true,merits:m.merits}},
  remove:async id=>{ls.set(KM,ls.get(KM,[]).filter(x=>x.uid!==id));return{ok:true}},
