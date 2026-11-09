@@ -30,6 +30,7 @@ h2{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.08;marg
 p{color:var(--mute);line-height:1.6;font-size:14.5px;margin:0 0 12px}
 .hero{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .tag{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--accent);margin:0}
+.hero .tag{font:600 11px var(--sans);font-style:normal;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);padding:9px 20px 9px 22px;border:1px solid rgba(223,227,234,.32);border-radius:99px;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.03));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);box-shadow:0 0 28px rgba(190,205,240,.12),inset 0 1px 0 rgba(255,255,255,.14)}
 .cd-card{width:100%;max-width:440px;padding:18px 16px 16px}
 .cd-card h2{font-size:20px;margin:6px 0 14px}
 .cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -59,7 +60,7 @@ body.no-webgl{background:radial-gradient(ellipse at 50% 38%,#1b1d21,#000 70%)}
 body.ready .tabs{opacity:1;transform:none}
 .cdl{display:block;text-align:center;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
 .tabs .cd div{padding:7px 0 5px;border-radius:12px}.tabs .cd b{font-size:22px}
-.hero .tag{letter-spacing:.06em}
+
 .lead{color:var(--text);font-size:16px}
 h3{font-family:var(--serif);font-weight:500;font-size:20px;margin:18px 0 8px;color:var(--text)}
 .req{list-style:none;margin:0 0 14px;padding:0}.req li{padding:10px 0;border-top:1px solid var(--line);font-size:14px;color:var(--text)}.req li:last-child{border-bottom:1px solid var(--line)}
@@ -85,7 +86,7 @@ body.ready.owner #fbtn{display:block}body[data-view=founders] #fbtn{display:none
 .view[data-view=founders] .sheet{max-height:82%}
 .code{font-family:var(--serif);font-size:clamp(17px,5.4vw,26px);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:#fff;text-align:center;margin:4px 0 14px}
 .mem{border-top:1px solid var(--line);padding:12px 0}.mh{display:flex;justify-content:space-between;align-items:center;gap:8px}.mh b{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:.06em}
-.ma{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mem .ma button{font:600 11px var(--sans);background:none;border-radius:99px;padding:9px 13px}.del{font:600 11px var(--sans);color:#ff9a9a;background:none;border:1px solid rgba(255,154,154,.45);border-radius:99px;padding:9px 13px}.ban{color:#ffc27a;border:1px solid rgba(255,194,122,.45)}.unban{color:#8fe3a8;border:1px solid rgba(143,227,168,.45)}.tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#ffc27a;border:1px solid rgba(255,194,122,.45);border-radius:99px;padding:3px 8px;margin-left:8px;vertical-align:middle}.bh{margin:18px 0 4px;font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.ma{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mem .ma button{font:600 11px var(--sans);background:none;border-radius:99px;padding:9px 13px}.del{font:600 11px var(--sans);color:#ff9a9a;background:none;border:1px solid rgba(255,154,154,.45);border-radius:99px;padding:9px 13px}.ban{color:#ffc27a;border:1px solid rgba(255,194,122,.45)}.unban{color:#8fe3a8;border:1px solid rgba(143,227,168,.45)}.mem .tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#ffc27a;border:1px solid rgba(255,194,122,.45);border-radius:99px;padding:3px 8px;margin-left:8px;vertical-align:middle}.bh{margin:18px 0 4px;font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;opacity:.7}
 dl{display:grid;grid-template-columns:70px 1fr;gap:4px 8px;margin:8px 0 0;font-size:13px}dt{color:var(--dim)}dd{margin:0;color:var(--text);word-break:break-word}
 .cardwrap{position:relative;margin:0 0 6px}
 #cardGl{display:block;margin:0 auto;width:100%;aspect-ratio:1.4/1;touch-action:pan-y;cursor:grab}#cardGl:active{cursor:grabbing}
@@ -100,7 +101,48 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
 .view[data-view=done] .code{font-size:clamp(17px,5.4vw,26px);margin:2px 0 8px}
 .note.un{text-align:left;margin:-6px 0 12px;font-size:12px}.note.un.ok{color:#8fe3a8}.note.un.no{color:#ff9a9a}
 .view[data-view=done] .lbl{margin:0;text-align:center;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
-.locked .tabs{display:none}</style>
+.locked .tabs{display:none}
+/* member code plate + copy */
+.codebox{margin:8px 0 10px;padding:15px 12px;border:1px solid rgba(223,227,234,.22);border-radius:16px;background:rgba(0,0,0,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 30px rgba(190,205,240,.07)}
+.view[data-view=done] .codebox .code{margin:0;text-align:center;font:600 clamp(12px,4.2vw,16px) ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em;color:#fff;white-space:nowrap;-webkit-user-select:all;user-select:all;cursor:pointer}
+.btn.cpy{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 14px;padding:13px 22px;font-size:11.5px}
+.btn.cpy svg{width:15px;height:15px;flex:none}
+.btn.cpy.ok{color:#8fe3a8;border-color:rgba(143,227,168,.45)}
+/* category switcher */
+#cats{display:none;position:fixed;z-index:7;top:calc(var(--sat) + 12px);left:12px;padding:3px;border-radius:99px;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+body[data-view=done] #cats,body[data-view=merits] #cats{display:flex}
+#cats button{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background:none;border:0;border-radius:99px;padding:9px 16px;cursor:pointer}
+#cats button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000}
+/* merits */
+.view[data-view=merits] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=merits] .sheet{max-height:calc(100% - 24px)}}
+.sh{display:flex;align-items:center;gap:12px;margin:0 0 12px;font:600 11px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.sh::after{content:"";flex:1;height:1px;background:var(--line)}.sh small{order:2;font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.mtot{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
+.mtot b{font-family:var(--serif);font-weight:500;font-size:58px;line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mtot span{font:600 11px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.mstat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px}
+.mstat div{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.mstat small{display:block;margin-bottom:4px;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.mstat b{font:500 22px var(--serif);color:#fff}
+.wallet{display:flex;align-items:center;gap:14px;margin:0 0 24px;padding:15px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.35);opacity:.72;pointer-events:none;-webkit-user-select:none;user-select:none}
+.wallet .wi{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--mute)}
+.wallet .wi svg{width:18px;height:18px}
+.wallet .wt{flex:1;min-width:0}.wallet .wt b{display:block;font:600 12px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--text)}
+.wallet .wt span{display:block;margin-top:4px;font-size:12px;color:var(--dim)}
+.wallet .wp{flex:none;font:600 9.5px var(--sans);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:5px 10px}
+.hh,.hr{display:grid;grid-template-columns:38px 1fr auto;column-gap:10px;align-items:center}
+.hh{padding:0 8px 8px;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}.hh span:last-child{text-align:right}
+.hr{padding:11px 8px;border-top:1px solid var(--line)}
+.hr.me{background:rgba(255,255,255,.06);border-radius:12px;border-top-color:transparent}
+.hk{font:500 17px var(--serif);color:var(--dim);font-variant-numeric:tabular-nums}.hk.top{color:#fff}
+.hn{min-width:0}.hn b{display:flex;align-items:center;gap:8px;font:600 13.5px var(--sans);color:var(--text);white-space:nowrap;overflow:hidden}
+.hn em{flex:none;font:600 9px var(--sans);font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#000;background:linear-gradient(#fff,#b9bfca);border-radius:99px;padding:2px 7px}
+.st{display:block;margin-top:3px;font-size:11px;letter-spacing:.08em;color:var(--dim)}
+.st::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:50%;background:var(--dim);vertical-align:1px}.st.ok::before{background:#8fe3a8}.st.no::before{background:#ff9a9a}
+.hm{font:500 20px var(--serif);color:#fff;font-variant-numeric:tabular-nums;text-align:right}
+.mc{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.mc button{font:600 11px var(--sans);color:var(--text);background:none;border:1px solid var(--line);border-radius:99px;padding:7px 12px}
+</style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
@@ -148,7 +190,8 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
   <section class="view" data-view="done"><div class="glass sheet">
     <h2>Profile received</h2>
     <p class="lbl">Your Member Identification Code</p>
-    <div class="code" id="dcode"></div>
+    <div class="codebox"><div class="code" id="dcode"></div></div>
+    <button class="btn cpy" id="ccopy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy code</span></button>
     <div class="cardwrap"><canvas id="cardGl" role="img" aria-label="Your 3D Digital Membership Card. Drag to rotate."></canvas><div class="cfb" id="cfb">Your 3D card needs WebGL, which this browser has turned off.</div></div>
     <div class="cside" role="group" aria-label="Card side"><button id="cbf" aria-pressed="true">Front</button><button id="cbb" aria-pressed="false">Back</button></div>
     <p class="note">Drag the card to rotate it, or double-tap to flip it.</p>
@@ -157,6 +200,22 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
     <p>Your profile has been received and your personalized Digital Membership Card has been generated. Keep your code private. It activates your membership once.</p>
     <p>Additional instructions, access privileges, and operational details will be released once the Founders officially initiate Operation: New Order.</p>
     <p class="lead">Until then, await further communication.</p>
+  </div></section>
+
+  <section class="view" data-view="merits"><div class="glass sheet">
+    <p class="sh">Merits</p>
+    <div class="mtot"><b id="mv">0</b><span>Merits</span></div>
+    <div class="mstat"><div><small>Rank</small><b id="mr">&mdash;</b></div><div><small>Status</small><b id="ms">Active</b></div></div>
+
+    <div class="wallet" aria-disabled="true" role="group" aria-label="BTC Wallet, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>BTC Wallet</b><span>Locked. Not accessible.</span></div>
+      <i class="wp">Locked</i>
+    </div>
+
+    <p class="sh">Hall of Merit<small id="hc"></small></p>
+    <div class="hh"><span>Rank</span><span>Member</span><span>Merits</span></div>
+    <div id="hall"></div>
   </div></section>
 
   <section class="view" data-view="denied"><div class="glass sheet">
@@ -178,6 +237,7 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
   </div></section>
 </main>
 <button id="fbtn">Founders</button>
+<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button></div>
 
 <div class="glass tabs" id="tabs">
   <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
@@ -207,12 +267,16 @@ const local={
  list:async()=>{const B=ls.get(KB,[]);return{ok:true,members:ls.get(KM,[]).map(m=>Object.assign({},m,{banned:B.includes(m.uid)})),banned:B.length,banned_ids:B}},
  check_username:async n=>{const u=String(n||"").toLowerCase();if(!UNRE.test(u))return{ok:true,available:false,error:"Invalid username."};const id=uid();return{ok:true,available:!ls.get(KM,[]).some(x=>x.username===u&&x.uid!==id),username:u}},
  set_username:async n=>{const id=uid(),u=String(n||"").toLowerCase(),L=ls.get(KM,[]),m=L.find(x=>x.uid===id);if(!m)return{ok:false,error:"Complete your member profile first."};if(m.username)return{ok:false,error:"Your username is already set and cannot be changed."};if(!UNRE.test(u))return{ok:false,error:"Invalid username."};if(L.some(x=>x.username===u))return{ok:false,error:"That username is already taken."};m.username=u;ls.set(KM,L);return{ok:true,username:u}},
+ merits:async()=>{const id=uid(),B=ls.get(KB,[]),rows=ls.get(KM,[]).map(m=>({u:m.uid,label:m.username?"@"+m.username:"Anonymous member",merits:+m.merits||0,status:B.includes(m.uid)?"Revoked":"Active"})).sort((a,b)=>b.merits-a.merits);
+  let last=null,rk=0;rows.forEach((r,i)=>{if(r.merits!==last){rk=i+1;last=r.merits}r.rank=rk;r.you=r.u===id;delete r.u});
+  const me=rows.find(r=>r.you);return{ok:true,me:me?{merits:me.merits,rank:me.rank,status:me.status}:null,members:rows}},
+ award_merit:async d=>{const L=ls.get(KM,[]),m=L.find(x=>x.uid===(d&&d.id));if(!m)return{ok:false,error:"Member not found."};m.merits=Math.max(0,(+m.merits||0)+(+d.delta||0));ls.set(KM,L);return{ok:true,merits:m.merits}},
  remove:async id=>{ls.set(KM,ls.get(KM,[]).filter(x=>x.uid!==id));return{ok:true}},
  ban:async id=>{const B=ls.get(KB,[]);if(!B.includes(id)){B.push(id);ls.set(KB,B)}return{ok:true}},
  unban:async id=>{ls.set(KB,ls.get(KB,[]).filter(x=>x!==id));return{ok:true}}
 };
 const call=a=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username")}:local,
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),award_merit:call("award_merit")}:local,
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -520,7 +584,8 @@ let cur="intro",back="done",entered=false,M=[],BI=[],nb=0,LB={remove:"Delete",ba
 const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
- nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm())}
+ nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
+ document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits()}
 function show(m){V.card&&V.card.set(m.name,m.code);$("#dcode").textContent=m.code;$("#dn").textContent=m.name;$("#dc").textContent=m.country;$("#du").textContent=m.username?"@"+m.username:"Not set";$("#uclaim").style.display=m.username?"none":"block"}
 async function enter(){if(entered)return;entered=true;const r=await meP;if(r.status==="error"){if(r.error)$("#dmsg").textContent=r.error;go("denied");return}if(r.status==="denied"||!r.status){document.body.classList.add("locked");if(r.error)$("#dmsg").textContent=r.error;go("denied");return}document.body.classList.add("ready");
  if(V.services.isOwner(r))document.body.classList.add("owner");
@@ -556,19 +621,35 @@ $("#ucb").addEventListener("click",async()=>{const v=$("#uc").value.trim(),h=$("
  const b=$("#ucb");b.disabled=true;let r;try{r=await api.set_username(v)}catch(e){r=null}b.disabled=false;
  if(r&&r.ok){$("#du").textContent="@"+r.username;$("#uclaim").style.display="none"}else{h.className="note un no";h.textContent=(r&&r.error)||"Could not save. Try again."}});
 
+/* Copy member code */
+async function copyText(t){try{await navigator.clipboard.writeText(t);return true}catch(e){}
+ try{const a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");a.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(a);a.select();a.setSelectionRange(0,t.length);const ok=document.execCommand("copy");a.remove();return ok}catch(e){return false}}
+$("#ccopy").addEventListener("click",async()=>{const b=$("#ccopy"),l=b.querySelector("span"),t=$("#dcode").textContent.trim();if(!t)return;const ok=await copyText(t);V.tg.haptic(ok?"medium":"light");l.textContent=ok?"Copied":"Copy failed";b.classList.toggle("ok",ok);clearTimeout(b._t);b._t=setTimeout(()=>{l.textContent="Copy code";b.classList.remove("ok")},1800)});
+$("#dcode").addEventListener("click",()=>$("#ccopy").click());
+
+/* Merits + Hall of Merit (the server decides what each row shows; member codes are never listed) */
+const fmt=n=>(+n||0).toLocaleString("en-US");
+async function loadMerits(){const hl=$("#hall");hl.innerHTML='<p class="note">Loading\u2026</p>';let r;try{r=await api.merits()}catch(e){r=null}
+ const ok=!!(r&&r.ok),me=ok&&r.me?r.me:null,rows=ok&&Array.isArray(r.members)?r.members:[];
+ $("#mv").textContent=fmt(me&&me.merits);$("#mr").textContent=me&&me.rank?"#"+me.rank:"\u2014";$("#ms").textContent=me&&me.status?me.status:"Active";
+ $("#hc").textContent=rows.length?rows.length+(rows.length===1?" member":" members"):"";
+ hl.innerHTML=rows.length?rows.map(m=>'<div class="hr'+(m.you?' me':'')+'"><span class="hk'+(m.rank<=3?' top':'')+'">'+String(m.rank).padStart(2,"0")+'</span><span class="hn"><b>'+esc(m.label||"Anonymous member")+(m.you?'<em>You</em>':'')+'</b><span class="st '+(String(m.status||"Active").toLowerCase()==="active"?"ok":"no")+'">'+esc(m.status||"Active")+'</span></span><span class="hm">'+fmt(m.merits)+'</span></div>').join(""):'<p class="note">No standings yet.</p>'}
+
 /* Founders (owner only; the backend enforces this too) */
 async function load(){const r=await api.list();if(!r||!r.ok){$("#fl").innerHTML="<p>"+esc((r&&r.error)||"Could not load members.")+"</p>";return}M=r.members||[];BI=Array.isArray(r.banned_ids)?r.banned_ids:[];nb=Array.isArray(r.banned_ids)?BI.length:(r.banned||0);draw()}
+const MB=id=>[-5,-1,1,5].map(n=>'<button data-merit="'+n+'" data-id="'+esc(id)+'">'+(n<0?"\u2212":"+")+Math.abs(n)+'</button>').join("");
 function draw(){const q=$("#fq").value.trim().toLowerCase(),BS=new Set(BI.concat(M.filter(m=>m.banned).map(m=>m.uid))),
  rows=M.filter(m=>[m.code,m.legacy_code,m.username,m.name,m.country,m.uid,m.tg||m.tg_username].join(" ").toLowerCase().includes(q)),
  orph=[...BS].filter(id=>!M.some(m=>m.uid===id)&&String(id).toLowerCase().includes(q));
  $("#fc").textContent=M.length+" members, "+BS.size+" banned";
  const bt=(a,id,banned)=>'<button class="'+(a==="remove"?"del":a)+'" data-act="'+a+'" data-id="'+esc(id)+'">'+LB[a]+'</button>';
- $("#fl").innerHTML=rows.map(m=>{const bn=BS.has(m.uid);return '<div class="mem"><div class="mh"><b>'+esc(m.code)+(bn?'<span class="tag">Banned</span>':'')+'</b><div class="ma">'+bt("remove",m.uid)+(bn?bt("unban",m.uid):bt("ban",m.uid))+'</div></div><dl><dt>Name</dt><dd>'+esc(m.name)+'</dd><dt>User</dt><dd>'+(m.username?'@'+esc(m.username):'-')+'</dd><dt>Old code</dt><dd>'+esc(m.legacy_code||'-')+'</dd><dt>Born</dt><dd>'+esc(m.dob)+'</dd><dt>Country</dt><dd>'+esc(m.country)+'</dd><dt>Gender</dt><dd>'+esc(m.gender)+'</dd><dt>Account</dt><dd>'+esc(m.uid)+((m.tg||m.tg_username)?" @"+esc(m.tg||m.tg_username):"")+'</dd><dt>Joined</dt><dd>'+esc(String(m.at||m.created_at||"").slice(0,10))+'</dd></dl></div>'}).join("")||"<p>No members found.</p>";
+ $("#fl").innerHTML=rows.map(m=>{const bn=BS.has(m.uid);return '<div class="mem"><div class="mh"><b>'+esc(m.code)+(bn?'<span class="tag">Banned</span>':'')+'</b><div class="ma">'+bt("remove",m.uid)+(bn?bt("unban",m.uid):bt("ban",m.uid))+'</div></div><dl><dt>Name</dt><dd>'+esc(m.name)+'</dd><dt>User</dt><dd>'+(m.username?'@'+esc(m.username):'-')+'</dd><dt>Old code</dt><dd>'+esc(m.legacy_code||'-')+'</dd><dt>Merits</dt><dd>'+(+m.merits||0)+'<span class="mc">'+MB(m.uid)+'</span></dd><dt>Born</dt><dd>'+esc(m.dob)+'</dd><dt>Country</dt><dd>'+esc(m.country)+'</dd><dt>Gender</dt><dd>'+esc(m.gender)+'</dd><dt>Account</dt><dd>'+esc(m.uid)+((m.tg||m.tg_username)?" @"+esc(m.tg||m.tg_username):"")+'</dd><dt>Joined</dt><dd>'+esc(String(m.at||m.created_at||"").slice(0,10))+'</dd></dl></div>'}).join("")||"<p>No members found.</p>";
  if(orph.length)$("#fl").insertAdjacentHTML("beforeend",'<div class="bh">Banned, no longer a member</div>'+orph.map(id=>'<div class="mem"><div class="mh"><b>'+esc(id)+'<span class="tag">Banned</span></b><div class="ma">'+bt("unban",id)+'</div></div></div>').join(""))}
 $("#fbtn").onclick=async()=>{back=cur;go("founders");await load()};
 $("#fback").onclick=()=>go(back);
 $("#fq").oninput=draw;
-$("#fl").onclick=async e=>{const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act;
+$("#fl").onclick=async e=>{const mb=e.target.closest("[data-merit]");if(mb){mb.disabled=true;let r;try{r=await api.award_merit({id:mb.dataset.id,delta:+mb.dataset.merit})}catch(x){r=null}if(r&&r.ok)await load();else{mb.disabled=false;mb.textContent="Failed"}return}
+ const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act;
  if(a!=="unban"&&!b.dataset.arm){b.dataset.arm=1;b.textContent="Tap again to confirm";setTimeout(()=>{b.dataset.arm="";b.textContent=LB[a]},4000);return}
  b.disabled=true;let r;try{r=await api[a](b.dataset.id)}catch(x){r=null}if(r&&r.ok)await load();else{b.disabled=false;b.textContent="Failed. Try again"}};
 })(window.ILLUMINATI);</script>
