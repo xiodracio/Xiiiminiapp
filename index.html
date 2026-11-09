@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#000000">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://telegram.org https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src https://agzhxwditnlzdcuqjjfz.supabase.co wss://agzhxwditnlzdcuqjjfz.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://telegram.org https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src https://agzhxwditnlzdcuqjjfz.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>ILLUMINATI Member Portal</title>
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNMTQgMTZoMTBsOCAyNiA4LTI2aDEwTDM2IDUwaC04eiIgZmlsbD0iI2RmZTNlYSIvPjwvc3ZnPgo=" type="image/svg+xml">
@@ -387,8 +387,9 @@ const local={
  ban:async id=>{const B=ls.get(KB,[]);if(!B.includes(id)){B.push(id);ls.set(KB,B)}return{ok:true}},
  unban:async id=>{ls.set(KB,ls.get(KB,[]).filter(x=>x!==id));return{ok:true}}
 };
-const call=a=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),award_merit:call("award_merit")}:local,
+const nosync=async()=>({ok:false,error:"Node sync needs the live backend."});
+const call=(a,ka)=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",...(ka?{keepalive:true}:{}),headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync}),
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -706,16 +707,16 @@ const ready=Promise.all([csGet("vm_dec"),csGet("vm_pend")]).then(([d,p])=>{
 const since=Date.parse(V.config.syncFrom||"")||0,regAt=m=>Date.parse(String((m&&(m.at||m.created_at||m.createdAt))||""))||0;
 /* a "new member" registered at/after syncFrom, or just registered on this device. Anyone older never has to sync. */
 const isNew=m=>pend||(since>0&&regAt(m)>=since);
-V.gate={ready,uid:()=>U,isNew,isDecrypted:()=>dec,locked:m=>isNew(m)&&!dec,
+V.gate={ready,uid:()=>U,isNew,isDecrypted:()=>dec,locked:m=>typeof m.locked==="boolean"?m.locked:isNew(m)&&!dec,
   markPending(){pend=true;lsSet(LK.pend,"1");csSet("vm_pend","1")},
   markDecrypted(){dec=true;lsSet(LK.dec,"1");csSet("vm_dec","1")}};
 
-/* ---------- node synchronization ---------- */
-const $=i=>document.getElementById(i),P=V.config.supabase,PROJECT=P.url,KEY=P.anonKey;
+/* ---------- node synchronization: the server checks every node and records the result; this page only shows it ---------- */
+const $=i=>document.getElementById(i),P=V.config.supabase,PROJECT=P.url,KEY=P.anonKey,api=V.services.api;
 const CFG={NEED:5,ROUND:5000,GRACE:900,TOL:250,CYCLE:180000,PING:2500,ALIVE:7000},R=CFG.ROUND;
 const H={apikey:KEY,...(KEY.startsWith("eyJ")?{Authorization:"Bearer "+KEY}:{}),"Content-Type":"application/json"};
-const rest=p=>PROJECT+"/rest/v1/"+p,ALPHA="ABCDEFGHJKMNPQRSTUVWXYZ23456789",RANDOM=/^Random-/;
-let WHO="",ME="",MODE="decrypt",BATCH="",off=0,cur=null,frags=[],slots=[],sent=false,decoded=false,online=0,timers=[],CODE="",codeEp=null,active=false,armed=false,away=null,ws=null,wref=0,hb=null,epoch=null;
+const rest=p=>PROJECT+"/rest/v1/"+p,RANDOM=/^Random-/;
+let WHO="",ME="",MODE="decrypt",BATCH="",off=0,cur=null,frags=[],slots=[],sent=false,decoded=false,online=0,timers=[],CODE="",codeEp=null,active=false,armed=false,away=null,epoch=null,CODES={},lastChat=0,busy=false,lastErr="",wonRole="",qs=0;
 const now=()=>Date.now()+off;
 const show=id=>["nsPick","nsGame","nsDone"].forEach(s=>$(s).hidden=s!==id);
 const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0).toString(36)};
@@ -723,21 +724,19 @@ const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.i
 const clean=s=>s.replace(/[^\w \-]/g,"").replace(/\s+/g," ").trim().slice(0,24);
 /* node id: the member's @username, otherwise an anonymous id. Stable per member, so extra tabs never count as extra players. */
 function identify(){ME=(WHO||"N"+hash(U).slice(0,5).toUpperCase()).replace(/[^\w]/g,"").slice(0,21)||"NODE"}
-
-/* ---------- batches ---------- */
+/* ---------- batches (listed, created and matched by the server) ---------- */
 async function search(q){
-  $("nsRs").textContent="Searching…";$("nsRes").textContent="";
-  const f=q?"&batch=ilike."+encodeURIComponent("*"+q.replace(/[*%,()]/g,"")+"*"):"";
-  try{
-    const r=await fetch(rest("ems_sync?select=batch,player&kind=eq.batch&batch=not.like.f-*&batch=not.like.Random-*"+f+"&order=created_at.desc&limit=30"),{headers:H}),j=await r.json(),seen=new Map();
-    (Array.isArray(j)?j:[]).forEach(x=>{if(!seen.has(x.batch))seen.set(x.batch,x.player)});
-    $("nsRs").textContent=seen.size?"":"No batches found. Create one.";
-    seen.forEach((owner,b)=>{
-      const d=document.createElement("div");d.className="nsitem";
-      d.innerHTML="<div><b></b><small></small></div>";d.querySelector("b").textContent=b;d.querySelector("small").textContent="by "+owner;
-      const btn=document.createElement("button");btn.type="button";btn.className="btn";btn.textContent="Join";btn.onclick=()=>join(b);d.appendChild(btn);$("nsRes").appendChild(d);
-    });
-  }catch(e){$("nsRs").textContent="Could not search right now."}
+  const tk=++qs;$("nsRs").textContent="Searching\u2026";$("nsRes").textContent="";
+  let r;try{r=await api.sync_search({q})}catch(e){r=null}
+  if(tk!==qs)return;
+  if(!r||!r.ok){$("nsRs").textContent=(r&&r.error)||"Could not search right now.";return}
+  const list=Array.isArray(r.batches)?r.batches:[];
+  $("nsRs").textContent=list.length?"":"No batches found. Create one.";
+  list.forEach(x=>{
+    const d=document.createElement("div");d.className="nsitem";
+    d.innerHTML="<div><b></b><small></small></div>";d.querySelector("b").textContent=x.batch;d.querySelector("small").textContent="by "+x.owner;
+    const btn=document.createElement("button");btn.type="button";btn.className="btn";btn.textContent="Join";btn.onclick=()=>join(x.batch);d.appendChild(btn);$("nsRes").appendChild(d);
+  });
 }
 let qt;$("nsQ").oninput=()=>{clearTimeout(qt);qt=setTimeout(()=>search($("nsQ").value.trim()),300)};
 const tabs={nsTS:"nsPS",nsTC:"nsPC",nsTJ:"nsPJ"};
@@ -749,48 +748,24 @@ $("nsPC").addEventListener("submit",async e=>{
   if(priv&&k.length<4){err.textContent="Friends key needs 4+ characters.";return}
   err.textContent="";
   if(priv){join("f-"+n+"-"+hash(n+"|"+k));return}
-  try{await fetch(rest("ems_sync"),{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify({batch:n,player:ME,kind:"batch"})})}catch(x){}
-  join(n);
+  let r;try{r=await api.sync_create({batch:n})}catch(x){r=null}
+  if(!r||!r.ok||!r.batch){err.textContent=(r&&r.error)||"Could not create the batch.";return}
+  join(r.batch);
 });
 $("nsPJ").addEventListener("submit",e=>{
   e.preventDefault();const n=clean($("nsJn").value),k=$("nsJk").value.trim();
   if(!n||!k){$("nsJe").textContent="Enter the batch name and friends key.";return}
   join("f-"+n+"-"+hash(n+"|"+k));
 });
-/* random matchmaking: only Random-* batches that still have an online member. A random batch with nobody online no longer exists. */
+/* random matchmaking: the server joins you to a Random-* batch that has members online, or opens a new one */
 $("nsRnd").onclick=async()=>{
-  const b=$("nsRnd"),err=$("nsRe");err.textContent="";b.disabled=true;b.textContent="Finding members…";
-  let pick="";
-  const on=await liveRows("batch=like.Random-*");
-  if(on){
-    on.forEach(v=>v.delete(ME));
-    const open=[...on].filter(([k,v])=>v.size>0&&v.size<CFG.NEED).sort((a,c)=>c[1].size-a[1].size);
-    if(open.length){const top=open.filter(o=>o[1].size===open[0][1].size);pick=top[Math.floor(Math.random()*top.length)][0]}
-  }
-  if(!pick){
-    pick="Random-"+Math.random().toString(36).slice(2,6).toUpperCase();
-    try{await fetch(rest("ems_sync"),{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify({batch:pick,player:ME,kind:"batch"})})}catch(e){}
-  }
-  b.disabled=false;b.textContent="Join random batch";join(pick)};
-
+  const b=$("nsRnd"),err=$("nsRe");err.textContent="";b.disabled=true;b.textContent="Finding members\u2026";
+  let r;try{r=await api.sync_random({})}catch(e){r=null}
+  b.disabled=false;b.textContent="Join random batch";
+  if(!r||!r.ok||!r.batch){err.textContent=(r&&r.error)||"Could not find a batch. Try again.";return}
+  join(r.batch)};
 /* ---------- game ---------- */
-async function syncClock(){try{const a=Date.now(),r=await fetch(rest("rpc/ems_now"),{method:"POST",headers:H,body:"{}"}),s=await r.json(),b=Date.now();off=s-(a+b)/2}catch(e){}}
-async function send(kind){try{await fetch(rest("ems_sync"),{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify({batch:BATCH,player:ME,kind})})}catch(e){}}
-async function count(kind,from,to){
-  const q=`ems_sync?select=player&batch=eq.${encodeURIComponent(BATCH)}&kind=eq.${kind}&created_at=gte.${encodeURIComponent(new Date(from).toISOString())}&created_at=lt.${encodeURIComponent(new Date(to).toISOString())}`;
-  try{const r=await fetch(rest(q),{headers:H}),j=await r.json();return new Set(j.map(x=>x.player)).size}catch(e){return 0}}
-/* who is online: newest heartbeat is recent and no "leave" came after it */
-async function liveRows(filter){
-  const since=encodeURIComponent(new Date(now()-CFG.ALIVE).toISOString());
-  try{
-    const r=await fetch(rest("ems_sync?select=batch,player,kind&kind=in.(ping,leave)&"+filter+"&created_at=gte."+since+"&order=created_at.desc&limit=1000"),{headers:H}),j=await r.json(),seen=new Set(),on=new Map();
-    (Array.isArray(j)?j:[]).forEach(x=>{const k=x.batch+"\u0000"+x.player;if(seen.has(k))return;seen.add(k);
-      if(x.kind==="ping"){if(!on.has(x.batch))on.set(x.batch,new Set());on.get(x.batch).add(x.player)}});
-    return on}catch(e){return null}}
-/* every member gets their own reference code (from their account + batch + the 3-minute cycle) */
-function makeCode(ep){
-  const a=rng(parseInt(hash(U+"|"+BATCH+"|"+ep+"|a"),36)),b=rng(parseInt(hash(U+"|"+BATCH+"|"+ep+"|b"),36));
-  let c="";for(let i=0;i<10;i++)c+=ALPHA[Math.floor((i%2?b:a)()*ALPHA.length)];return c}
+async function syncClock(){try{const a=Date.now(),r=await fetch(rest("rpc/ems_now"),{method:"POST",headers:H,body:"{}"}),s=await r.json(),b=Date.now();if(typeof s==="number")off=s-(a+b)/2}catch(e){}}
 function newPuzzle(){
   const parts=[0,1,2,3,4].map(i=>CODE.slice(i*2,i*2+2)),r=rng(parseInt(hash(U+"|"+cur),36));let o,n=0;
   do{o=parts.slice();for(let i=4;i>0;i--){const j=Math.floor(r()*(i+1));[o[i],o[j]]=[o[j],o[i]]}}while(o.join("")===CODE&&++n<20);
@@ -800,85 +775,83 @@ function draw(){
   for(let k=0;k<5;k++){const b=document.createElement("button");b.type="button";b.className="nsslot";b.textContent=slots[k]!==undefined?frags[slots[k]]:"";b.onclick=()=>{if(sent||slots[k]===undefined)return;slots.splice(k,1);draw()};$("nsSlots").appendChild(b)}
   frags.forEach((f,i)=>{const b=document.createElement("button");b.type="button";b.className="nstile"+(slots.includes(i)?" used":"");b.textContent=f;b.onclick=()=>{if(sent||slots.length>=5)return;slots.push(i);draw();check()};$("nsTiles").appendChild(b)})}
 function setSt(t,c){$("nsSt").textContent=t;$("nsSt").className=c||""}
-function waiting(t){armed=false;sent=false;slots=[];frags=[];$("nsRef").textContent="· · · · ·";$("nsSlots").innerHTML="";$("nsTiles").innerHTML="";$("nsBarI").style.width="0";$("nsT").textContent="–";if(t)setSt(t)}
+function waiting(t){armed=false;sent=false;slots=[];frags=[];$("nsRef").textContent="\u00b7 \u00b7 \u00b7 \u00b7 \u00b7";$("nsSlots").innerHTML="";$("nsTiles").innerHTML="";$("nsBarI").style.width="0";$("nsT").textContent="\u2013";if(t)setSt(t)}
 const WAIT="Waiting for members. Synchronization starts when "+CFG.NEED+" are online.";
-function check(){if(sent||!armed||slots.length<5)return;if(slots.map(i=>frags[i]).join("")===CODE){sent=true;send("done");setSt("Sequence locked. Hold for verification.","nsok")}}
-async function judge(r){
-  if(decoded||!active||!BATCH)return;
-  const b=BATCH,n=await count("done",r*R,(r+1)*R+CFG.TOL);
+/* the server verifies the sequence, the round timing and that 5 members are online, then records the result */
+function check(){if(sent||!armed||slots.length<5)return;const ans=slots.map(i=>frags[i]).join("");if(ans===CODE){sent=true;setSt("Sequence locked. Hold for verification.","nsok");submit(ans,cur)}}
+async function submit(ans,rd){
+  const b=BATCH;let x;try{x=await api.sync_done({batch:b,round:rd,answer:ans})}catch(e){x=null}
   if(b!==BATCH||decoded)return;
-  if(n>=CFG.NEED)return win();
-  if(active)setSt(`SYNC FAILED · ${n}/${CFG.NEED} nodes aligned. New sequence generated.`,"nsbad")}
-function win(){
+  if(x&&x.ok&&x.won)return win(x);
+  if(!x||!x.ok)setSt((x&&x.error)||"Could not reach the server. Try again next round.","nsbad")}
+async function judge(rd){
+  if(decoded||!active||!BATCH)return;
+  const b=BATCH;let x;try{x=await api.sync_round({batch:b,round:rd})}catch(e){x=null}
+  if(b!==BATCH||decoded)return;
+  if(x&&x.ok&&x.won)return win(x);
+  const n=x&&x.ok?+x.done||0:0;
+  if(active)setSt(`SYNC FAILED \u00b7 ${n}/${CFG.NEED} nodes aligned. New sequence generated.`,"nsbad")}
+function win(x){
+  if(decoded)return;
   decoded=true;goOffline();BATCH="";show("nsDone");
-  const dm=MODE==="decrypt";
-  $("nsDn").textContent=dm?"All nodes aligned. Your Member Identification Code is now decrypted permanently.":"All nodes aligned. Thank you for helping other members synchronize.";
-  $("nsDbtn").textContent=dm?"View my identification code":"Back to profile";
-  try{V.sync.onwin&&V.sync.onwin(MODE)}catch(e){}}
+  wonRole=x&&x.role||"";const mine=wonRole?wonRole==="member":MODE==="decrypt",mer=x&&+x.merits||0;
+  $("nsDn").textContent=mine?"All nodes aligned. Your Member Identification Code is now decrypted permanently.":"All nodes aligned. Thank you for helping other members synchronize."+(mer>0?" You earned "+mer+" merits.":"");
+  $("nsDbtn").textContent=mine?"View my identification code":"Back to profile";
+  try{V.sync.onwin&&V.sync.onwin(mine?"decrypt":"help",x)}catch(e){}}
 function tick(){
   if(decoded||!BATCH)return;
   const sn=now(),ce=Math.floor(sn/CFG.CYCLE);
-  if(ce!==codeEp){codeEp=ce;CODE=makeCode(ce)}
+  if(ce!==codeEp||(!CODE&&CODES[ce])){codeEp=ce;CODE=CODES[ce]||""}
   const left=CFG.CYCLE-(sn%CFG.CYCLE),f=Math.floor(left/60000)+":"+String(Math.floor(left/1000)%60).padStart(2,"0");
   $("nsCt").textContent=f;$("nsRt").textContent=f;chatEpoch(sn);
-  if(!active)return;
+  if(!active||!CODE)return;
   const r=Math.floor(sn/R);
   if(cur===null){cur=r;waiting(CFG.NEED+" members online. Synchronization begins at the next reset.")}
   else if(r!==cur){const prev=cur,was=armed;cur=r;armed=true;newPuzzle();setSt("Rebuild your code and lock it in.");if(was)setTimeout(()=>judge(prev),CFG.GRACE)}
   $("nsBarI").style.width=((sn%R)/R*100)+"%";$("nsT").textContent=((R-sn%R)/1000).toFixed(1)}
+/* heartbeat: tells the server this node is online, and brings back the online count, this node's codes, new chat lines and the win */
 async function pulse(){
-  const b=BATCH;if(!b)return;
-  await send("ping");
-  const on=await liveRows("batch=eq."+encodeURIComponent(b));
-  if(!on||b!==BATCH)return;
-  online=(on.get(b)||new Set()).size;
+  const b=BATCH;if(!b||busy)return;busy=true;
+  let r;try{r=await api.sync_ping({batch:b,after:lastChat})}catch(e){r=null}
+  busy=false;
+  if(!r||b!==BATCH||decoded)return;
+  if(!r.ok){if(r.error&&r.error!==lastErr){lastErr=r.error;sys(r.error)}return}
+  if(r.codes)Object.assign(CODES,r.codes);
+  (Array.isArray(r.chat)?r.chat:[]).forEach(m=>{if(m&&m.id>lastChat){lastChat=m.id;line(String(m.u||"?").slice(0,21),String(m.t||"").slice(0,200),m.u===ME)}});
+  if(r.won)return win(r);
+  online=+r.online||0;
   const was=active;active=online>=CFG.NEED;
   if(!active&&(was||cur!==null)){cur=null;waiting(WAIT)}
-  $("nsOn").textContent=`nodes online: ${online}/${CFG.NEED}`+(online<CFG.NEED?" · awaiting others":"")}
-
-/* ---------- live chat: Supabase Realtime broadcast, in memory only, wiped every 3 min ---------- */
-const topic=()=>"realtime:ns-"+hash(BATCH);
-function wsSend(ev,payload,t){if(ws&&ws.readyState===1)ws.send(JSON.stringify({topic:t||topic(),event:ev,payload:payload||{},ref:String(++wref)}))}
-function chatOpen(){
-  try{ws=new WebSocket(PROJECT.replace("https","wss")+"/realtime/v1/websocket?apikey="+KEY+"&vsn=1.0.0")}catch(e){return}
-  ws.onopen=()=>{
-    wsSend("phx_join",{config:{broadcast:{self:true,ack:false},presence:{key:""},private:false},access_token:KEY});
-    hb=setInterval(()=>wsSend("heartbeat",{},"phoenix"),25000);
-    sys("Connected. Only members in this batch can see this chat.")};
-  ws.onmessage=ev=>{
-    let m;try{m=JSON.parse(ev.data)}catch(e){return}
-    if(m.event==="broadcast"&&m.payload&&m.payload.event==="msg"){const p=m.payload.payload||{};line(String(p.u||"?").slice(0,21),String(p.t||"").slice(0,200),p.u===ME)}};
-  ws.onclose=()=>{clearInterval(hb);if(BATCH&&!decoded)setTimeout(()=>{if(BATCH&&!decoded)chatOpen()},3000)}}
+  $("nsOn").textContent=`nodes online: ${online}/${CFG.NEED}`+(online<CFG.NEED?" \u00b7 awaiting others":"")}
+/* ---------- live chat: relayed by the server, verified members only, wiped every 3 min ---------- */
 function line(u,t,me){
   const d=document.createElement("div");d.className="nsm"+(me?" me":"");
   const b=document.createElement("b");b.textContent=u;d.appendChild(b);d.appendChild(document.createTextNode(t));
   $("nsMsgs").appendChild(d);$("nsMsgs").scrollTop=1e9}
 function sys(t){const d=document.createElement("div");d.className="nsm sys";d.textContent=t;$("nsMsgs").appendChild(d)}
 function chatEpoch(sn){const e=Math.floor(sn/CFG.CYCLE);if(epoch!==null&&e!==epoch){$("nsMsgs").textContent="";sys("Chat reset. Previous messages are gone.")}epoch=e}
-$("nsCf").addEventListener("submit",e=>{
-  e.preventDefault();const t=$("nsCi").value.trim();if(!t)return;
-  wsSend("broadcast",{type:"broadcast",event:"msg",payload:{u:ME,t}});$("nsCi").value=""});
-
+$("nsCf").addEventListener("submit",async e=>{
+  e.preventDefault();const t=$("nsCi").value.trim();if(!t||!BATCH)return;$("nsCi").value="";
+  let r;try{r=await api.sync_chat({batch:BATCH,text:t})}catch(x){r=null}
+  if(!r||!r.ok)sys((r&&r.error)||"Message not sent.");else pulse()});
 /* ---------- lifecycle ---------- */
 async function join(b){
   BATCH=b.slice(0,60);const mine=BATCH,label=b.replace(/^f-(.*)-[a-z0-9]+$/,"$1 (friends)");
-  $("nsMeta").textContent="batch "+label+" · "+ME;$("nsMsgs").textContent="";epoch=null;decoded=false;cur=null;codeEp=null;active=false;online=0;away=null;
-  $("nsOn").textContent="nodes online: 0/"+CFG.NEED+" · awaiting others";
+  $("nsMeta").textContent="batch "+label+" \u00b7 "+ME;$("nsMsgs").textContent="";epoch=null;decoded=false;cur=null;codeEp=null;active=false;online=0;away=null;CODE="";CODES={};lastChat=0;lastErr="";busy=false;wonRole="";
+  $("nsOn").textContent="nodes online: 0/"+CFG.NEED+" \u00b7 awaiting others";
   show("nsGame");waiting(WAIT);
   await syncClock();if(BATCH!==mine)return;
-  tick();timers=[setInterval(tick,100),setInterval(pulse,CFG.PING),setInterval(syncClock,30000)];pulse();chatOpen()}
-function stopGame(){timers.forEach(clearInterval);timers=[];clearInterval(hb);active=false;cur=null;armed=false;if(ws){const w=ws;ws=null;w.onclose=null;try{w.close()}catch(e){}}}
-/* offline: stop heartbeats + chat, tell the server, and if this was the last online member of a random batch, remove it */
+  tick();timers=[setInterval(tick,100),setInterval(pulse,CFG.PING),setInterval(syncClock,30000)];pulse();sys("Connected. Only verified members in this batch can see this chat.")}
+function stopGame(){timers.forEach(clearInterval);timers=[];active=false;cur=null;armed=false}
+/* offline: stop heartbeats, tell the server (it removes an empty random batch itself) */
 function goOffline(){
   const b=BATCH;if(!b)return;
-  const last=online<=1;
   stopGame();
-  try{fetch(rest("ems_sync"),{method:"POST",keepalive:true,headers:{...H,Prefer:"return=minimal"},body:JSON.stringify({batch:b,player:ME,kind:"leave"})}).catch(()=>{})}catch(e){}
-  if(RANDOM.test(b)&&last){try{fetch(rest("ems_sync?batch=eq."+encodeURIComponent(b)+"&kind=eq.batch"),{method:"DELETE",keepalive:true,headers:H}).catch(()=>{})}catch(e){}}}
+  try{api.sync_leave({batch:b})}catch(e){}}
 function leaveBatch(){goOffline();BATCH="";away=null}
 $("nsLeave").onclick=()=>{leaveBatch();show("nsPick");search($("nsQ").value.trim())};
 $("nsBack").onclick=()=>{leaveBatch();V.sync.onexit&&V.sync.onexit(false)};
-$("nsDbtn").onclick=()=>{V.sync.onexit&&V.sync.onexit(MODE==="decrypt")};
+$("nsDbtn").onclick=()=>{V.sync.onexit&&V.sync.onexit(wonRole==="member"||(!wonRole&&MODE==="decrypt"))};
 /* leaving the miniapp = offline. Coming back: named batches rejoin, random batches are gone. */
 function leaveApp(){if(!BATCH||away!==null)return;away=BATCH;goOffline()}
 function resumeApp(){
@@ -887,13 +860,12 @@ function resumeApp(){
 document.addEventListener("visibilitychange",()=>document.hidden?leaveApp():resumeApp());
 addEventListener("pagehide",leaveApp);
 try{if(tg&&tg.onEvent){tg.onEvent("deactivated",leaveApp);tg.onEvent("activated",resumeApp)}}catch(e){}
-
 V.sync={onwin:null,onexit:null,
   setUser(n){WHO=String(n||"").replace(/^@/,"")},
   start(mode){
     leaveBatch();MODE=mode==="help"?"help":"decrypt";identify();
     $("nsMode").textContent=MODE==="decrypt"?"Decrypt identification code":"Help another member";
-    $("nsWho").textContent=MODE==="decrypt"?"Join a batch. When 5 members are online and sync together, your Member Identification Code is decrypted permanently.":"Join a batch and help other members sync. Your own code is not affected.";
+    $("nsWho").textContent=MODE==="decrypt"?"Join a batch. When 5 members are online and sync together, your Member Identification Code is decrypted permanently.":"Join a batch and help other members sync. Your own code is not affected. You earn 10 merits for every new member you help decrypt.";
     decoded=false;show("nsPick");$("nsTS").click();search("")}};
 })(window.ILLUMINATI);</script>
 
@@ -915,7 +887,7 @@ function paintCode(){const m=MEM;if(!m)return;const lk=V.gate.locked(m);
  $("#ccopy").style.display=lk?"none":"";$("#chelp").style.display=lk?"none":""}
 function scramble(){const el=$("#dcode"),t=MEM.code,A="0123456789ABCDEFGHJKMNPQRSTVWXYZ";let n=0;const iv=setInterval(()=>{n++;const k=Math.floor(t.length*n/24);el.textContent=n>=24?t:t.split("").map((c,i)=>i<k||c==="-"?c:A[Math.floor(Math.random()*A.length)]).join("");if(n>=24)clearInterval(iv)},45)}
 function startSync(mode){V.sync.start(mode);go("sync")}
-function show(m){MEM=m;if(V.gate.isNew(m)&&!V.gate.isDecrypted())V.gate.markPending();V.sync.setUser(m.username||"");paintCode();$("#dn").textContent=m.name;$("#dc").textContent=m.country;$("#du").textContent=m.username?"@"+m.username:"Not set";$("#uclaim").style.display=m.username?"none":"block"}
+function show(m){MEM=m;if(typeof m.locked!=="boolean"&&V.gate.isNew(m)&&!V.gate.isDecrypted())V.gate.markPending();V.sync.setUser(m.username||"");paintCode();$("#dn").textContent=m.name;$("#dc").textContent=m.country;$("#du").textContent=m.username?"@"+m.username:"Not set";$("#uclaim").style.display=m.username?"none":"block"}
 async function enter(){if(entered)return;entered=true;const r=await meP;await V.gate.ready;if(r.status==="error"){if(r.error)$("#dmsg").textContent=r.error;go("denied");return}if(r.status==="denied"||!r.status){document.body.classList.add("locked");if(r.error)$("#dmsg").textContent=r.error;go("denied");return}document.body.classList.add("ready");
  if(V.services.isOwner(r))document.body.classList.add("owner");
  if(r.status==="banned")go("banned");else if(r.status==="member"&&r.member){show(r.member);go("done")}else go("letter")}
@@ -957,7 +929,9 @@ $("#ccopy").addEventListener("click",async()=>{const b=$("#ccopy"),l=b.querySele
 $("#dcode").addEventListener("click",()=>{if(!$("#dcode").dataset.lk)$("#ccopy").click()});
 $("#cdec").addEventListener("click",()=>startSync("decrypt"));
 $("#chelp").addEventListener("click",()=>startSync("help"));
-V.sync.onwin=mode=>{if(mode==="decrypt"&&MEM&&V.gate.locked(MEM)){V.gate.markDecrypted();justDec=true;paintCode()}};
+V.sync.onwin=async(mode,x)=>{if(!MEM||!V.gate.locked(MEM))return;
+ if(typeof MEM.locked==="boolean"){let r;try{r=await api.me()}catch(e){r=null}if(r&&r.member&&r.member.locked===false){justDec=true;show(r.member)}}
+ else{V.gate.markDecrypted();justDec=true;paintCode()}};
 V.sync.onexit=reveal=>{go("done");if(reveal&&justDec&&MEM){justDec=false;setTimeout(scramble,450)}};
 
 /* Merits + Hall of Merit (the server decides what each row shows; member codes are never listed) */
