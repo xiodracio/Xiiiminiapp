@@ -85,7 +85,7 @@ body.ready.owner #fbtn{display:block}body[data-view=founders] #fbtn{display:none
 .view[data-view=founders] .sheet{max-height:82%}
 .code{font-family:var(--serif);font-size:clamp(17px,5.4vw,26px);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:#fff;text-align:center;margin:4px 0 14px}
 .mem{border-top:1px solid var(--line);padding:12px 0}.mh{display:flex;justify-content:space-between;align-items:center;gap:8px}.mh b{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:.06em}
-.del{font:600 11px var(--sans);color:#ff9a9a;background:none;border:1px solid rgba(255,154,154,.45);border-radius:99px;padding:9px 13px}
+.ma{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mem .ma button{font:600 11px var(--sans);background:none;border-radius:99px;padding:9px 13px}.del{font:600 11px var(--sans);color:#ff9a9a;background:none;border:1px solid rgba(255,154,154,.45);border-radius:99px;padding:9px 13px}.ban{color:#ffc27a;border:1px solid rgba(255,194,122,.45)}.unban{color:#8fe3a8;border:1px solid rgba(143,227,168,.45)}.tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#ffc27a;border:1px solid rgba(255,194,122,.45);border-radius:99px;padding:3px 8px;margin-left:8px;vertical-align:middle}.bh{margin:18px 0 4px;font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;opacity:.7}
 dl{display:grid;grid-template-columns:70px 1fr;gap:4px 8px;margin:8px 0 0;font-size:13px}dt{color:var(--dim)}dd{margin:0;color:var(--text);word-break:break-word}
 .cardwrap{position:relative;margin:0 0 6px}
 #cardGl{display:block;margin:0 auto;width:100%;aspect-ratio:1.4/1;touch-action:pan-y;cursor:grab}#cardGl:active{cursor:grabbing}
@@ -189,7 +189,7 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
  demoMode:false,        /* true = this device acts as owner (testing). Set false in production */
  supabase:{url:"https://agzhxwditnlzdcuqjjfz.supabase.co",anonKey:"sb_publishable_-B_v-SqjFjh_Q8R29CksBQ_nO4KgmYy",fn:"illuminati-portal"}  /* fill url + anonKey to switch from local storage to Supabase */
 }};
-/* Backend seam: the UI only calls V.services.api.{me,register,list,remove}. Local storage below; Supabase Edge Function when configured. */
+/* Backend seam: the UI only calls V.services.api.{me,register,list,remove,ban,unban}. Local storage below; Supabase Edge Function when configured. */
 (function(V){
 const C=V.config,S=C.supabase,KM="vm_members",KB="vm_banned",KD="vm_device";
 const ls={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -204,13 +204,15 @@ const local={
   if(L.some(x=>x.uid===id))return{ok:false,error:"This account has already registered."};
   const un=String(p.username||"").toLowerCase();if(un&&(!UNRE.test(un)||L.some(x=>x.username===un)))return{ok:false,error:un&&UNRE.test(un)?"That username is already taken.":"Invalid username.",field:"username"};
   const m=Object.assign({uid:id,code:mkCode(L),at:new Date().toISOString(),tg:V.tg.user&&V.tg.user.username||""},p);L.push(m);ls.set(KM,L);return{ok:true,member:m}},
- list:async()=>({ok:true,members:ls.get(KM,[]),banned:ls.get(KB,[]).length}),
+ list:async()=>{const B=ls.get(KB,[]);return{ok:true,members:ls.get(KM,[]).map(m=>Object.assign({},m,{banned:B.includes(m.uid)})),banned:B.length,banned_ids:B}},
  check_username:async n=>{const u=String(n||"").toLowerCase();if(!UNRE.test(u))return{ok:true,available:false,error:"Invalid username."};const id=uid();return{ok:true,available:!ls.get(KM,[]).some(x=>x.username===u&&x.uid!==id),username:u}},
  set_username:async n=>{const id=uid(),u=String(n||"").toLowerCase(),L=ls.get(KM,[]),m=L.find(x=>x.uid===id);if(!m)return{ok:false,error:"Complete your member profile first."};if(m.username)return{ok:false,error:"Your username is already set and cannot be changed."};if(!UNRE.test(u))return{ok:false,error:"Invalid username."};if(L.some(x=>x.username===u))return{ok:false,error:"That username is already taken."};m.username=u;ls.set(KM,L);return{ok:true,username:u}},
- remove:async id=>{ls.set(KM,ls.get(KM,[]).filter(x=>x.uid!==id));const B=ls.get(KB,[]);if(!B.includes(id)){B.push(id);ls.set(KB,B)}return{ok:true}}
+ remove:async id=>{ls.set(KM,ls.get(KM,[]).filter(x=>x.uid!==id));return{ok:true}},
+ ban:async id=>{const B=ls.get(KB,[]);if(!B.includes(id)){B.push(id);ls.set(KB,B)}return{ok:true}},
+ unban:async id=>{ls.set(KB,ls.get(KB,[]).filter(x=>x!==id));return{ok:true}}
 };
 const call=a=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),check_username:call("check_username"),set_username:call("set_username")}:local,
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username")}:local,
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -514,7 +516,7 @@ V.card={
 
 <script>(function(V){
 const $=(s,r)=>(r||document).querySelector(s),api=V.services.api,esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
-let cur="intro",back="done",entered=false,M=[],nb=0;
+let cur="intro",back="done",entered=false,M=[],BI=[],nb=0,LB={remove:"Delete",ban:"Ban",unban:"Unban"};
 const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
@@ -555,16 +557,20 @@ $("#ucb").addEventListener("click",async()=>{const v=$("#uc").value.trim(),h=$("
  if(r&&r.ok){$("#du").textContent="@"+r.username;$("#uclaim").style.display="none"}else{h.className="note un no";h.textContent=(r&&r.error)||"Could not save. Try again."}});
 
 /* Founders (owner only; the backend enforces this too) */
-async function load(){const r=await api.list();if(!r||!r.ok){$("#fl").innerHTML="<p>"+esc((r&&r.error)||"Could not load members.")+"</p>";return}M=r.members||[];nb=r.banned||0;draw()}
-function draw(){const q=$("#fq").value.trim().toLowerCase(),rows=M.filter(m=>[m.code,m.legacy_code,m.username,m.name,m.country,m.uid,m.tg||m.tg_username].join(" ").toLowerCase().includes(q));
- $("#fc").textContent=M.length+" members, "+nb+" banned";
- $("#fl").innerHTML=rows.map(m=>'<div class="mem"><div class="mh"><b>'+esc(m.code)+'</b><button class="del" data-del="'+esc(m.uid)+'">Delete and ban</button></div><dl><dt>Name</dt><dd>'+esc(m.name)+'</dd><dt>User</dt><dd>'+(m.username?'@'+esc(m.username):'-')+'</dd><dt>Old code</dt><dd>'+esc(m.legacy_code||'-')+'</dd><dt>Born</dt><dd>'+esc(m.dob)+'</dd><dt>Country</dt><dd>'+esc(m.country)+'</dd><dt>Gender</dt><dd>'+esc(m.gender)+'</dd><dt>Account</dt><dd>'+esc(m.uid)+((m.tg||m.tg_username)?" @"+esc(m.tg||m.tg_username):"")+'</dd><dt>Joined</dt><dd>'+esc(String(m.at||m.created_at||"").slice(0,10))+'</dd></dl></div>').join("")||"<p>No members found.</p>"}
+async function load(){const r=await api.list();if(!r||!r.ok){$("#fl").innerHTML="<p>"+esc((r&&r.error)||"Could not load members.")+"</p>";return}M=r.members||[];BI=Array.isArray(r.banned_ids)?r.banned_ids:[];nb=Array.isArray(r.banned_ids)?BI.length:(r.banned||0);draw()}
+function draw(){const q=$("#fq").value.trim().toLowerCase(),BS=new Set(BI.concat(M.filter(m=>m.banned).map(m=>m.uid))),
+ rows=M.filter(m=>[m.code,m.legacy_code,m.username,m.name,m.country,m.uid,m.tg||m.tg_username].join(" ").toLowerCase().includes(q)),
+ orph=[...BS].filter(id=>!M.some(m=>m.uid===id)&&String(id).toLowerCase().includes(q));
+ $("#fc").textContent=M.length+" members, "+BS.size+" banned";
+ const bt=(a,id,banned)=>'<button class="'+(a==="remove"?"del":a)+'" data-act="'+a+'" data-id="'+esc(id)+'">'+LB[a]+'</button>';
+ $("#fl").innerHTML=rows.map(m=>{const bn=BS.has(m.uid);return '<div class="mem"><div class="mh"><b>'+esc(m.code)+(bn?'<span class="tag">Banned</span>':'')+'</b><div class="ma">'+bt("remove",m.uid)+(bn?bt("unban",m.uid):bt("ban",m.uid))+'</div></div><dl><dt>Name</dt><dd>'+esc(m.name)+'</dd><dt>User</dt><dd>'+(m.username?'@'+esc(m.username):'-')+'</dd><dt>Old code</dt><dd>'+esc(m.legacy_code||'-')+'</dd><dt>Born</dt><dd>'+esc(m.dob)+'</dd><dt>Country</dt><dd>'+esc(m.country)+'</dd><dt>Gender</dt><dd>'+esc(m.gender)+'</dd><dt>Account</dt><dd>'+esc(m.uid)+((m.tg||m.tg_username)?" @"+esc(m.tg||m.tg_username):"")+'</dd><dt>Joined</dt><dd>'+esc(String(m.at||m.created_at||"").slice(0,10))+'</dd></dl></div>'}).join("")||"<p>No members found.</p>";
+ if(orph.length)$("#fl").insertAdjacentHTML("beforeend",'<div class="bh">Banned, no longer a member</div>'+orph.map(id=>'<div class="mem"><div class="mh"><b>'+esc(id)+'<span class="tag">Banned</span></b><div class="ma">'+bt("unban",id)+'</div></div></div>').join(""))}
 $("#fbtn").onclick=async()=>{back=cur;go("founders");await load()};
 $("#fback").onclick=()=>go(back);
 $("#fq").oninput=draw;
-$("#fl").onclick=async e=>{const b=e.target.closest("[data-del]");if(!b)return;
- if(!b.dataset.arm){b.dataset.arm=1;b.textContent="Tap again to confirm";setTimeout(()=>{b.dataset.arm="";b.textContent="Delete and ban"},4000);return}
- b.disabled=true;const r=await api.remove(b.dataset.del);if(r&&r.ok)await load();else{b.disabled=false;b.textContent="Failed. Try again"}};
+$("#fl").onclick=async e=>{const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act;
+ if(a!=="unban"&&!b.dataset.arm){b.dataset.arm=1;b.textContent="Tap again to confirm";setTimeout(()=>{b.dataset.arm="";b.textContent=LB[a]},4000);return}
+ b.disabled=true;let r;try{r=await api[a](b.dataset.id)}catch(x){r=null}if(r&&r.ok)await load();else{b.disabled=false;b.textContent="Failed. Try again"}};
 })(window.ILLUMINATI);</script>
 </body>
 </html>
