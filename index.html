@@ -110,9 +110,25 @@ body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-w
 .btn.cpy.ok{color:#8fe3a8;border-color:rgba(143,227,168,.45)}
 /* category switcher */
 #cats{display:none;position:fixed;z-index:7;top:calc(var(--sat) + 12px);left:12px;padding:3px;border-radius:99px;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-body[data-view=done] #cats,body[data-view=merits] #cats{display:flex}
-#cats button{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background:none;border:0;border-radius:99px;padding:9px 16px;cursor:pointer}
+body[data-view=done] #cats,body[data-view=merits] #cats,body[data-view=genesis] #cats{display:flex}
+#cats button{font:600 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);background:none;border:0;border-radius:99px;padding:9px 16px;cursor:pointer}
 #cats button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000}
+/* genesis lock */
+.view[data-view=genesis] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=genesis] .sheet{max-height:calc(100% - 24px)}}
+.gl-t{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:.08em;margin:0 0 10px;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gl-pct{display:flex;align-items:baseline;gap:10px;margin:4px 0 8px}.gl-pct b{font-family:var(--serif);font-weight:500;font-size:58px;line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gl-pct span{font:600 11px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.gl-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:0 0 14px}.gl-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#9aa1ae,#fff);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.gl-m{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px}
+.gl-m div{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.gl-m small{display:block;margin-bottom:4px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.gl-m b{font:500 22px var(--serif);color:#fff;font-variant-numeric:tabular-nums}
+.gl-s{display:flex;align-items:center;gap:10px;margin:0 0 16px;font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.gl-s::before{content:"";width:7px;height:7px;border-radius:50%;background:#ffd27a;box-shadow:0 0 10px #ffd27a;animation:glp 1.6s infinite}.gl-s.ok::before{background:#8fe3a8;box-shadow:0 0 10px #8fe3a8;animation:none}
+@keyframes glp{50%{opacity:.35}}
+.gl-p{font-size:13.5px}
+.wallet.open{opacity:1;pointer-events:auto;border-color:rgba(143,227,168,.45)}.wallet.open .wp{color:#8fe3a8;border-color:rgba(143,227,168,.45)}
 /* merits */
 .view[data-view=merits] .sheet{max-height:calc(100% - var(--sat) - 64px)}
 @media (min-width:700px){.view[data-view=merits] .sheet{max-height:calc(100% - 24px)}}
@@ -253,6 +269,28 @@ body[data-view=sync] #fbtn{display:none!important}
     <p class="lead">Until then, await further communication.</p>
   </div></section>
 
+  <section class="view" data-view="genesis"><div class="glass sheet">
+    <p class="sh">Genesis Lock</p>
+    <p class="gl-p">The Genesis Lock is a global synchronization protocol that can only advance through collective participation.</p>
+    <p class="gl-p">Every interaction with the network contributes to its overall synchronization state. As the protocol stabilizes, the Progress Index gradually increases, unlocking new transmissions, encrypted archives, hidden nodes, and previously inaccessible sections of the system.</p>
+    <div class="gl-pct"><b id="glp">0%</b><span>Progress</span></div>
+    <div class="gl-bar" role="progressbar" aria-label="Genesis Lock progress" aria-valuemin="0" aria-valuemax="100"><i id="glb"></i></div>
+    <div class="gl-m">
+      <div><small>Participants Online</small><b id="glo">&mdash;</b></div>
+      <div><small>Network Stability</small><b id="gls">&mdash;</b></div>
+      <div style="grid-column:span 2"><small>Synchronization Accuracy</small><b id="gla">&mdash;</b></div>
+    </div>
+    <div class="gl-s" id="glst">Status: Awaiting Full Synchronization</div>
+    <p class="gl-p">Progress cannot be accelerated by any individual. The protocol advances only when the network reaches and maintains the required synchronization conditions.</p>
+    <p class="gl-p">Unexpected anomalies, synchronization failures, and unidentified interference may temporarily reduce network stability or delay activation.</p>
+    <p class="gl-p">When the Genesis Lock reaches full synchronization, the protocol will transition to its next operational phase and reveal the next stage of the investigation.</p>
+    <div class="wallet" id="glw" aria-disabled="true" role="group" aria-label="BTC Wallet, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>BTC Wallet</b><span id="glws">Unlocks at full synchronization.</span></div>
+      <i class="wp" id="glwp">Locked</i>
+    </div>
+  </div></section>
+
   <section class="view" data-view="merits"><div class="glass sheet">
     <p class="sh">Merits</p>
     <div class="mtot"><b id="mv">0</b><span>Merits</span></div>
@@ -348,7 +386,7 @@ body[data-view=sync] #fbtn{display:none!important}
   </div></section>
 </main>
 <button id="fbtn">Founders</button>
-<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button></div>
+<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button></div>
 
 <div class="glass tabs" id="tabs">
   <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
@@ -383,13 +421,14 @@ const local={
   rows.forEach((r,i)=>{r.rank=i+1;r.you=r.u===id;delete r.u;delete r.t});
   const me=rows.find(r=>r.you);return{ok:true,me:me?{merits:me.merits,rank:me.rank,status:me.status}:null,members:rows}},
  award_merit:async d=>{const L=ls.get(KM,[]),m=L.find(x=>x.uid===(d&&d.id));if(!m)return{ok:false,error:"Member not found."};m.merits=Math.max(0,(+m.merits||0)+(+d.delta||0));ls.set(KM,L);return{ok:true,merits:m.merits}},
+ genesis:async()=>{const B=ls.get(KB,[]),L=ls.get(KM,[]).filter(m=>!B.includes(m.uid)),mer=L.reduce((a,m)=>a+(+m.merits||0),0),pr=Math.min(100,L.length*100/150000),ac=Math.min(100,mer*100/1e6);return{ok:true,progress:pr,accuracy:ac,stability:100,online:1,unlocked:pr>=100&&ac>=100}},
  remove:async id=>{ls.set(KM,ls.get(KM,[]).filter(x=>x.uid!==id));return{ok:true}},
  ban:async id=>{const B=ls.get(KB,[]);if(!B.includes(id)){B.push(id);ls.set(KB,B)}return{ok:true}},
  unban:async id=>{ls.set(KB,ls.get(KB,[]).filter(x=>x!==id));return{ok:true}}
 };
 const nosync=async()=>({ok:false,error:"Node sync needs the live backend."});
 const call=(a,ka)=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",...(ka?{keepalive:true}:{}),headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync}),
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),genesis:call("genesis"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync}),
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -886,7 +925,7 @@ const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
  nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;if(n!=="intro"&&V.pyramid&&V.pyramid.stop)V.pyramid.stop();V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
- document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
+ document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();if(n==="genesis")glStart();else glStop();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
 let MEM=null,justDec=false;
 const MASK="VC-\u2022\u2022Q\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022";
 /* new members see the code only after one node sync; everyone else sees it right away */
@@ -950,7 +989,19 @@ async function loadMerits(){const hl=$("#hall");hl.innerHTML='<p class="note">Lo
  const ok=!!(r&&r.ok),me=ok&&r.me?r.me:null,rows=ok&&Array.isArray(r.members)?r.members:[];
  $("#mv").textContent=fmt(me&&me.merits);$("#mr").textContent=me&&me.rank?"#"+me.rank:"\u2014";$("#ms").textContent=me&&me.status?me.status:"Active";
  $("#hc").textContent=rows.length?rows.length+(rows.length===1?" member":" members"):"";
- hl.innerHTML=rows.length?rows.map(m=>'<div class="hr'+(m.you?' me':'')+'"><span class="hk'+(m.rank<=3?' top':'')+'">'+String(m.rank).padStart(2,"0")+'</span><span class="hn"><b>'+esc(m.label||"Anonymous member")+(m.you?'<em>You</em>':'')+'</b><span class="st '+(String(m.status||"Active").toLowerCase()==="active"?"ok":"no")+'">'+esc(m.status||"Active")+'</span></span><span class="hm">'+fmt(m.merits)+'</span></div>').join(""):'<p class="note">No standings yet.</p>'}
+ if(ok&&typeof r.wallet==="boolean")paintWallet(r.wallet);hl.innerHTML=rows.length?rows.map(m=>'<div class="hr'+(m.you?' me':'')+'"><span class="hk'+(m.rank<=3?' top':'')+'">'+String(m.rank).padStart(2,"0")+'</span><span class="hn"><b>'+esc(m.label||"Anonymous member")+(m.you?'<em>You</em>':'')+'</b><span class="st '+(String(m.status||"Active").toLowerCase()==="active"?"ok":"no")+'">'+esc(m.status||"Active")+'</span></span><span class="hm">'+fmt(m.merits)+'</span></div>').join(""):'<p class="note">No standings yet.</p>'}
+
+/* Genesis Lock: live metrics from the backend (progress = members/150,000, accuracy = merits/1,000,000) */
+let glT=0,glBusy=false;
+const pct=v=>{v=+v||0;return v>0&&v<0.01?"<0.01%":v>=100?"100%":v.toFixed(2)+"%"};
+function paintWallet(un){document.querySelectorAll(".wallet").forEach(w=>{w.classList.toggle("open",!!un);w.setAttribute("aria-label","BTC Wallet, "+(un?"unlocked":"locked"));const t=w.querySelector(".wt span"),p=w.querySelector(".wp");if(t)t.textContent=un?"Unlocked. Genesis Lock fully synchronized.":(w.id==="glw"?"Unlocks at full synchronization.":"Locked. Not accessible.");if(p)p.textContent=un?"Open":"Locked"})}
+async function glLoad(){if(glBusy)return;glBusy=true;let r;try{r=await api.genesis()}catch(e){r=null}glBusy=false;
+ if(!r||!r.ok)return;const p=Math.max(0,Math.min(100,+r.progress||0)),un=!!r.unlocked;
+ $("#glp").textContent=pct(p);$("#glb").style.width=p+"%";$("#glb").parentNode.setAttribute("aria-valuenow",p.toFixed(2));
+ $("#glo").textContent=fmt(r.online);$("#gls").textContent=(+r.stability||0).toFixed(1)+"%";$("#gla").textContent=pct(r.accuracy);
+ const st=$("#glst");st.classList.toggle("ok",un);st.textContent=un?"Status: Fully Synchronized":"Status: Awaiting Full Synchronization";paintWallet(un)}
+function glStart(){glStop();glLoad();glT=setInterval(()=>{if(!document.hidden)glLoad()},8000)}
+function glStop(){clearInterval(glT);glT=0}
 
 /* Founders (owner only; the backend enforces this too) */
 async function load(){const r=await api.list();if(!r||!r.ok){$("#fl").innerHTML="<p>"+esc((r&&r.error)||"Could not load members.")+"</p>";return}M=r.members||[];BI=Array.isArray(r.banned_ids)?r.banned_ids:[];nb=Array.isArray(r.banned_ids)?BI.length:(r.banned||0);draw()}
