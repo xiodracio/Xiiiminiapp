@@ -206,6 +206,14 @@ body[data-view=sync] #fbtn{display:none!important}
 .nsok{color:#8fe3a8}.nsbad{color:#ff9a9a}
 .codebox.lk .code{color:var(--dim)!important;letter-spacing:.1em}
 #clockn{text-align:center;margin:-2px 0 4px}
+/* access web category */
+#cats{max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}#cats::-webkit-scrollbar{display:none}
+#cats button{white-space:nowrap;padding:9px 10px;letter-spacing:.05em;font-size:10.5px}
+#webn{margin-top:14px}.view[data-view=web] .wallet.web{margin-bottom:14px}
+body[data-view=web] #cats{display:flex}
+.view[data-view=web] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=web] .sheet{max-height:calc(100% - 24px)}}
+.view[data-view=web] .gl-m{grid-template-columns:1fr 1fr 1fr}.view[data-view=web] .gl-m div{padding:12px 10px}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -307,6 +315,26 @@ body[data-view=sync] #fbtn{display:none!important}
     <div id="hall"></div>
   </div></section>
 
+  <section class="view" data-view="web"><div class="glass sheet">
+    <p class="sh">Access Web</p>
+    <p class="gl-p">Web access is locked. It can only be unlocked once a node synchronization is decrypted.</p>
+    <p class="gl-p">The synchronization needs 100 members online in the same batch at the same time. Each round gives you a 7 second timer, and the batch live chat stays open for 10 minutes before it resets.</p>
+    <div class="gl-m">
+      <div><small>Nodes needed</small><b>100</b></div>
+      <div><small>Timer</small><b>7s</b></div>
+      <div><small>Live chat</small><b>10 min</b></div>
+    </div>
+    <div class="wallet web" id="webw" aria-disabled="true" role="group" aria-label="Web access, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>Web Access</b><span>Locked. Decrypt a 100-node synchronization to unlock.</span></div>
+      <i class="wp" id="webp">Locked</i>
+    </div>
+    <button class="btn solid" id="webdec" type="button">Decrypt web access</button>
+    <button class="btn solid" id="webgo" type="button" style="display:none">Open vssociety.site</button>
+    <button class="btn" id="webhelp" type="button" style="display:none">Open Node Sync &middot; help other members unlock web access</button>
+    <p class="gl-p" id="webn">The decryption runs once. Join a batch with other members, rebuild your reference code before the 7 second timer ends, and when 100 nodes align together web access opens permanently.</p>
+  </div></section>
+
     <section class="view" data-view="sync"><div class="glass sheet">
     <div class="nshead"><button class="fback" id="nsBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button><span class="eyebrow" id="nsMode">Node synchronization</span></div>
 
@@ -338,7 +366,7 @@ body[data-view=sync] #fbtn{display:none!important}
     <div id="nsGame" hidden>
       <div class="nshead" style="margin-top:2px"><span class="eyebrow" id="nsMeta"></span><button class="nslink" id="nsLeave" type="button">Change batch</button></div>
       <h2>Synchronize</h2>
-      <p>Your reference code is unique to you. Rebuild it before the timer ends. Synchronization only runs while 5 members are online.</p>
+      <p id="nsRule">Your reference code is unique to you. Rebuild it before the timer ends. Synchronization only runs while 5 members are online.</p>
       <div class="nscard">
         <p class="nslbl">Your reference code</p>
         <div class="nsref" id="nsRef"></div>
@@ -355,7 +383,7 @@ body[data-view=sync] #fbtn{display:none!important}
         <div class="nshead"><span class="nslbl" style="margin:0">Live chat</span><span class="nsdim">resets in <span id="nsCt">3:00</span></span></div>
         <div id="nsMsgs" aria-live="polite"></div>
         <form id="nsCf" autocomplete="off"><input class="nsin" id="nsCi" maxlength="200" placeholder="Message your batch" aria-label="Message"><button class="btn solid" type="submit">Send</button></form>
-        <p class="nsdim" style="margin:10px 0 0;font-size:11px">Messages live only on screen for online members and vanish every 3 minutes.</p>
+        <p class="nsdim" id="nsCn" style="margin:10px 0 0;font-size:11px">Messages live only on screen for online members and vanish every 3 minutes.</p>
       </div>
     </div>
 
@@ -386,7 +414,7 @@ body[data-view=sync] #fbtn{display:none!important}
   </div></section>
 </main>
 <button id="fbtn">Founders</button>
-<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button></div>
+<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button></div>
 
 <div class="glass tabs" id="tabs">
   <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
@@ -428,7 +456,7 @@ const local={
 };
 const nosync=async()=>({ok:false,error:"Node sync needs the live backend."});
 const call=(a,ka)=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",...(ka?{keepalive:true}:{}),headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),genesis:call("genesis"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync}),
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),genesis:call("genesis"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat"),web_status:call("web_status")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync,web_status:async()=>({ok:true,web:false})}),
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -762,7 +790,14 @@ V.gate={ready,uid:()=>U,isNew,isDecrypted:()=>dec,locked:m=>typeof m.locked==="b
 
 /* ---------- node synchronization: the server checks every node and records the result; this page only shows it ---------- */
 const $=i=>document.getElementById(i),P=V.config.supabase,PROJECT=P.url,KEY=P.anonKey,api=V.services.api;
-const CFG={NEED:5,ROUND:5000,GRACE:900,TOL:250,CYCLE:180000,PING:2500,ALIVE:7000},R=CFG.ROUND;
+const KINDS={decrypt:{NEED:5,ROUND:5000,CYCLE:180000},web:{NEED:100,ROUND:7000,CYCLE:600000}},CFG={NEED:5,ROUND:5000,GRACE:900,TOL:250,CYCLE:180000,PING:2500,ALIVE:7000};let R=CFG.ROUND,KIND="decrypt";
+/* every sync call carries the kind: web syncs run in their own batch namespace on the server */
+const call=(f,d)=>api[f](KIND==="web"?Object.assign({mode:"web"},d):d);
+const mm=ms=>Math.round(ms/60000)+" minute"+(ms>=120000?"s":"");
+function setKind(k){KIND=k==="web"?"web":"decrypt";Object.assign(CFG,KINDS[KIND]);R=CFG.ROUND;WAIT="Waiting for members. Synchronization starts when "+CFG.NEED+" are online.";
+  $("nsRule").textContent="Your reference code is unique to you. Rebuild it before the timer ends. Synchronization only runs while "+CFG.NEED+" members are online.";
+  $("nsCn").textContent="Messages live only on screen for online members and vanish every "+mm(CFG.CYCLE)+".";
+  $("nsT").textContent=(R/1000).toFixed(1);$("nsRt").textContent=$("nsCt").textContent=Math.floor(CFG.CYCLE/60000)+":00"}
 const H={apikey:KEY,...(KEY.startsWith("eyJ")?{Authorization:"Bearer "+KEY}:{}),"Content-Type":"application/json"};
 const rest=p=>PROJECT+"/rest/v1/"+p,RANDOM=/^Random-/;
 let WHO="",ME="",MODE="decrypt",BATCH="",off=0,cur=null,frags=[],slots=[],sent=false,decoded=false,online=0,timers=[],CODE="",codeEp=null,active=false,armed=false,away=null,epoch=null,CODES={},lastChat=0,busy=false,lastErr="",wonRole="",qs=0;
@@ -776,7 +811,7 @@ function identify(){ME=(WHO||"N"+hash(U).slice(0,5).toUpperCase()).replace(/[^\w
 /* ---------- batches (listed, created and matched by the server) ---------- */
 async function search(q){
   const tk=++qs;$("nsRs").textContent="Searching\u2026";$("nsRes").textContent="";
-  let r;try{r=await api.sync_search({q})}catch(e){r=null}
+  let r;try{r=await call("sync_search",{q})}catch(e){r=null}
   if(tk!==qs)return;
   if(!r||!r.ok){$("nsRs").textContent=(r&&r.error)||"Could not search right now.";return}
   const list=Array.isArray(r.batches)?r.batches:[];
@@ -797,7 +832,7 @@ $("nsPC").addEventListener("submit",async e=>{
   if(priv&&k.length<4){err.textContent="Friends key needs 4+ characters.";return}
   err.textContent="";
   if(priv){join("f-"+n+"-"+hash(n+"|"+k));return}
-  let r;try{r=await api.sync_create({batch:n})}catch(x){r=null}
+  let r;try{r=await call("sync_create",{batch:n})}catch(x){r=null}
   if(!r||!r.ok||!r.batch){err.textContent=(r&&r.error)||"Could not create the batch.";return}
   join(r.batch);
 });
@@ -809,7 +844,7 @@ $("nsPJ").addEventListener("submit",e=>{
 /* random matchmaking: the server joins you to a Random-* batch that has members online, or opens a new one */
 $("nsRnd").onclick=async()=>{
   const b=$("nsRnd"),err=$("nsRe");err.textContent="";b.disabled=true;b.textContent="Finding members\u2026";
-  let r;try{r=await api.sync_random({})}catch(e){r=null}
+  let r;try{r=await call("sync_random",{})}catch(e){r=null}
   b.disabled=false;b.textContent="Join random batch";
   if(!r||!r.ok||!r.batch){err.textContent=(r&&r.error)||"Could not find a batch. Try again.";return}
   join(r.batch)};
@@ -825,17 +860,17 @@ function draw(){
   frags.forEach((f,i)=>{const b=document.createElement("button");b.type="button";b.className="nstile"+(slots.includes(i)?" used":"");b.textContent=f;b.onclick=()=>{if(sent||slots.length>=5)return;slots.push(i);draw();check()};$("nsTiles").appendChild(b)})}
 function setSt(t,c){$("nsSt").textContent=t;$("nsSt").className=c||""}
 function waiting(t){armed=false;sent=false;slots=[];frags=[];$("nsRef").textContent="\u00b7 \u00b7 \u00b7 \u00b7 \u00b7";$("nsSlots").innerHTML="";$("nsTiles").innerHTML="";$("nsBarI").style.width="0";$("nsT").textContent="\u2013";if(t)setSt(t)}
-const WAIT="Waiting for members. Synchronization starts when "+CFG.NEED+" are online.";
+let WAIT="Waiting for members. Synchronization starts when "+CFG.NEED+" are online.";
 /* the server verifies the sequence, the round timing and that 5 members are online, then records the result */
 function check(){if(sent||!armed||slots.length<5)return;const ans=slots.map(i=>frags[i]).join("");if(ans===CODE){sent=true;setSt("Sequence locked. Hold for verification.","nsok");submit(ans,cur)}}
 async function submit(ans,rd){
-  const b=BATCH;let x;try{x=await api.sync_done({batch:b,round:rd,answer:ans})}catch(e){x=null}
+  const b=BATCH;let x;try{x=await call("sync_done",{batch:b,round:rd,answer:ans})}catch(e){x=null}
   if(b!==BATCH||decoded)return;
   if(x&&x.ok&&x.won)return win(x);
   if(!x||!x.ok)setSt((x&&x.error)||"Could not reach the server. Try again next round.","nsbad")}
 async function judge(rd){
   if(decoded||!active||!BATCH)return;
-  const b=BATCH;let x;try{x=await api.sync_round({batch:b,round:rd})}catch(e){x=null}
+  const b=BATCH;let x;try{x=await call("sync_round",{batch:b,round:rd})}catch(e){x=null}
   if(b!==BATCH||decoded)return;
   if(x&&x.ok&&x.won)return win(x);
   const n=x&&x.ok?+x.done||0:0;
@@ -844,9 +879,10 @@ function win(x){
   if(decoded)return;
   decoded=true;goOffline();BATCH="";show("nsDone");
   wonRole=x&&x.role||"";const mine=wonRole?wonRole==="member":MODE==="decrypt",mer=x&&+x.merits||0;
-  $("nsDn").textContent=mine?"All nodes aligned. Your Member Identification Code is now decrypted permanently.":"All nodes aligned. Thank you for helping other members synchronize."+(mer>0?" You earned "+mer+" merits.":"");
-  $("nsDbtn").textContent=mine?"View my identification code":"Back to profile";
-  try{V.sync.onwin&&V.sync.onwin(mine?"decrypt":"help",x)}catch(e){}}
+  const W=KIND==="web";
+  $("nsDn").textContent=mine?(W?"All 100 nodes aligned. Web access is now unlocked permanently.":"All nodes aligned. Your Member Identification Code is now decrypted permanently."):"All nodes aligned. Thank you for helping other members "+(W?"unlock web access.":"synchronize.")+(mer>0?" You earned "+mer+" merits.":"");
+  $("nsDbtn").textContent=W?(mine?"Open web access":"Back to web access"):(mine?"View my identification code":"Back to profile");
+  try{V.sync.onwin&&V.sync.onwin(mine?"decrypt":"help",x,KIND)}catch(e){}}
 function tick(){
   if(decoded||!BATCH)return;
   const sn=now(),ce=Math.floor(sn/CFG.CYCLE);
@@ -861,7 +897,7 @@ function tick(){
 /* heartbeat: tells the server this node is online, and brings back the online count, this node's codes, new chat lines and the win */
 async function pulse(){
   const b=BATCH;if(!b||busy)return;busy=true;
-  let r;try{r=await api.sync_ping({batch:b,after:lastChat})}catch(e){r=null}
+  let r;try{r=await call("sync_ping",{batch:b,after:lastChat})}catch(e){r=null}
   busy=false;
   if(!r||b!==BATCH||decoded)return;
   if(!r.ok){if(r.error&&r.error!==lastErr){lastErr=r.error;sys(r.error)}return}
@@ -881,7 +917,7 @@ function sys(t){const d=document.createElement("div");d.className="nsm sys";d.te
 function chatEpoch(sn){const e=Math.floor(sn/CFG.CYCLE);if(epoch!==null&&e!==epoch){$("nsMsgs").textContent="";sys("Chat reset. Previous messages are gone.")}epoch=e}
 $("nsCf").addEventListener("submit",async e=>{
   e.preventDefault();const t=$("nsCi").value.trim();if(!t||!BATCH)return;$("nsCi").value="";
-  let r;try{r=await api.sync_chat({batch:BATCH,text:t})}catch(x){r=null}
+  let r;try{r=await call("sync_chat",{batch:BATCH,text:t})}catch(x){r=null}
   if(!r||!r.ok)sys((r&&r.error)||"Message not sent.");else pulse()});
 /* ---------- lifecycle ---------- */
 async function join(b){
@@ -896,11 +932,11 @@ function stopGame(){timers.forEach(clearInterval);timers=[];active=false;cur=nul
 function goOffline(){
   const b=BATCH;if(!b)return;
   stopGame();
-  try{api.sync_leave({batch:b})}catch(e){}}
+  try{call("sync_leave",{batch:b})}catch(e){}}
 function leaveBatch(){goOffline();BATCH="";away=null}
 $("nsLeave").onclick=()=>{leaveBatch();show("nsPick");search($("nsQ").value.trim())};
-$("nsBack").onclick=()=>{leaveBatch();V.sync.onexit&&V.sync.onexit(false)};
-$("nsDbtn").onclick=()=>{V.sync.onexit&&V.sync.onexit(wonRole==="member"||(!wonRole&&MODE==="decrypt"))};
+$("nsBack").onclick=()=>{leaveBatch();V.sync.onexit&&V.sync.onexit(false,KIND)};
+$("nsDbtn").onclick=()=>{V.sync.onexit&&V.sync.onexit(wonRole==="member"||(!wonRole&&MODE==="decrypt"),KIND)};
 /* leaving the miniapp = offline. Coming back: named batches rejoin, random batches are gone. */
 function leaveApp(){if(!BATCH||away!==null)return;away=BATCH;goOffline()}
 function resumeApp(){
@@ -911,10 +947,11 @@ addEventListener("pagehide",leaveApp);
 try{if(tg&&tg.onEvent){tg.onEvent("deactivated",leaveApp);tg.onEvent("activated",resumeApp)}}catch(e){}
 V.sync={onwin:null,onexit:null,
   setUser(n){WHO=String(n||"").replace(/^@/,"")},
-  start(mode){
-    leaveBatch();MODE=mode==="help"?"help":"decrypt";identify();
-    $("nsMode").textContent=MODE==="decrypt"?"Decrypt identification code":"Help another member";
-    $("nsWho").textContent=MODE==="decrypt"?"Join a batch. When 5 members are online and sync together, your Member Identification Code is decrypted permanently.":"Join a batch and help other members sync. Your own code is not affected. You earn 10 merits for every new member you help decrypt.";
+  start(mode,kind){
+    leaveBatch();setKind(kind);MODE=mode==="help"?"help":"decrypt";identify();
+    const W=KIND==="web";
+    $("nsMode").textContent=MODE==="decrypt"?(W?"Decrypt web access":"Decrypt identification code"):"Help another member";
+    $("nsWho").textContent=MODE==="decrypt"?(W?"Join a batch. When "+CFG.NEED+" members are online and sync together, web access is unlocked permanently.":"Join a batch. When "+CFG.NEED+" members are online and sync together, your Member Identification Code is decrypted permanently."):(W?"Join a batch and help other members unlock web access. Your own access is not affected. You earn 10 merits for every new member you help unlock.":"Join a batch and help other members sync. Your own code is not affected. You earn 10 merits for every new member you help decrypt.");
     decoded=false;show("nsPick");$("nsTS").click();search("")}};
 })(window.ILLUMINATI);</script>
 
@@ -925,7 +962,7 @@ const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
  nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;if(n!=="intro"&&V.pyramid&&V.pyramid.stop)V.pyramid.stop();V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
- document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();if(n==="genesis")glStart();else glStop();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
+ document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();if(n==="web")webLoad();if(n==="genesis")glStart();else glStop();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
 let MEM=null,justDec=false;
 const MASK="VC-\u2022\u2022Q\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022";
 /* new members see the code only after one node sync; everyone else sees it right away */
@@ -935,8 +972,8 @@ function paintCode(){const m=MEM;if(!m)return;const lk=V.gate.locked(m);
  $("#cdec").style.display=lk?"":"none";$("#clockn").style.display=lk?"":"none";
  $("#ccopy").style.display=lk?"none":"";$("#chelp").style.display=lk?"none":""}
 function scramble(){const el=$("#dcode"),t=MEM.code,A="0123456789ABCDEFGHJKMNPQRSTVWXYZ";let n=0;const iv=setInterval(()=>{n++;const k=Math.floor(t.length*n/24);el.textContent=n>=24?t:t.split("").map((c,i)=>i<k||c==="-"?c:A[Math.floor(Math.random()*A.length)]).join("");if(n>=24)clearInterval(iv)},45)}
-function startSync(mode){V.sync.start(mode);go("sync")}
-function show(m){MEM=m;if(typeof m.locked!=="boolean"&&V.gate.isNew(m)&&!V.gate.isDecrypted())V.gate.markPending();V.sync.setUser(m.username||"");paintCode();$("#dn").textContent=m.name;$("#dc").textContent=m.country;$("#du").textContent=m.username?"@"+m.username:"Not set";$("#uclaim").style.display=m.username?"none":"block"}
+function startSync(mode,kind){V.sync.start(mode,kind);go("sync")}
+function show(m){MEM=m;if(typeof m.locked!=="boolean"&&V.gate.isNew(m)&&!V.gate.isDecrypted())V.gate.markPending();V.sync.setUser(m.username||"");if(typeof m.web==="boolean")paintWeb(m.web);paintCode();$("#dn").textContent=m.name;$("#dc").textContent=m.country;$("#du").textContent=m.username?"@"+m.username:"Not set";$("#uclaim").style.display=m.username?"none":"block"}
 async function enter(){if(entered)return;entered=true;const r=await meP;await V.gate.ready;if(r.status==="error"){if(r.error)$("#dmsg").textContent=r.error;go("denied");return}if(r.status==="denied"||!r.status){document.body.classList.add("locked");if(r.error)$("#dmsg").textContent=r.error;go("denied");return}document.body.classList.add("ready");
  if(V.services.isOwner(r))document.body.classList.add("owner");
  if(r.status==="banned")go("banned");else if(r.status==="member"&&r.member){show(r.member);go("done")}else go("letter")}
@@ -978,10 +1015,10 @@ $("#ccopy").addEventListener("click",async()=>{const b=$("#ccopy"),l=b.querySele
 $("#dcode").addEventListener("click",()=>{if(!$("#dcode").dataset.lk)$("#ccopy").click()});
 $("#cdec").addEventListener("click",()=>startSync("decrypt"));
 $("#chelp").addEventListener("click",()=>startSync("help"));
-V.sync.onwin=async(mode,x)=>{if(!MEM||!V.gate.locked(MEM))return;
+V.sync.onwin=async(mode,x,kind)=>{if(kind==="web"){if(mode==="decrypt")paintWeb(true);return}if(!MEM||!V.gate.locked(MEM))return;
  if(typeof MEM.locked==="boolean"){let r;try{r=await api.me()}catch(e){r=null}if(r&&r.member&&r.member.locked===false){justDec=true;show(r.member)}}
  else{V.gate.markDecrypted();justDec=true;paintCode()}};
-V.sync.onexit=reveal=>{go("done");if(reveal&&justDec&&MEM){justDec=false;setTimeout(scramble,450)}};
+V.sync.onexit=(reveal,kind)=>{if(kind==="web"){go("web");return}go("done");if(reveal&&justDec&&MEM){justDec=false;setTimeout(scramble,450)}};
 
 /* Merits + Hall of Merit (the server decides what each row shows; member codes are never listed) */
 const fmt=n=>(+n||0).toLocaleString("en-US");
@@ -994,7 +1031,7 @@ async function loadMerits(){const hl=$("#hall");hl.innerHTML='<p class="note">Lo
 /* Genesis Lock: live metrics from the backend (progress = members/150,000, accuracy = merits/1,000,000) */
 let glT=0,glBusy=false;
 const pct=v=>{v=+v||0;return v>0&&v<0.01?"<0.01%":v>=100?"100%":v.toFixed(2)+"%"};
-function paintWallet(un){document.querySelectorAll(".wallet").forEach(w=>{w.classList.toggle("open",!!un);w.setAttribute("aria-label","BTC Wallet, "+(un?"unlocked":"locked"));const t=w.querySelector(".wt span"),p=w.querySelector(".wp");if(t)t.textContent=un?"Unlocked. Genesis Lock fully synchronized.":(w.id==="glw"?"Unlocks at full synchronization.":"Locked. Not accessible.");if(p)p.textContent=un?"Open":"Locked"})}
+function paintWallet(un){document.querySelectorAll(".wallet:not(.web)").forEach(w=>{w.classList.toggle("open",!!un);w.setAttribute("aria-label","BTC Wallet, "+(un?"unlocked":"locked"));const t=w.querySelector(".wt span"),p=w.querySelector(".wp");if(t)t.textContent=un?"Unlocked. Genesis Lock fully synchronized.":(w.id==="glw"?"Unlocks at full synchronization.":"Locked. Not accessible.");if(p)p.textContent=un?"Open":"Locked"})}
 async function glLoad(){if(glBusy)return;glBusy=true;let r;try{r=await api.genesis()}catch(e){r=null}glBusy=false;
  if(!r||!r.ok)return;const p=Math.max(0,Math.min(100,+r.progress||0)),un=!!r.unlocked;
  $("#glp").textContent=pct(p);$("#glb").style.width=p+"%";$("#glb").parentNode.setAttribute("aria-valuenow",p.toFixed(2));
@@ -1002,6 +1039,17 @@ async function glLoad(){if(glBusy)return;glBusy=true;let r;try{r=await api.genes
  const st=$("#glst");st.classList.toggle("ok",un);st.textContent=un?"Status: Fully Synchronized":"Status: Awaiting Full Synchronization";paintWallet(un)}
 function glStart(){glStop();glLoad();glT=setInterval(()=>{if(!document.hidden)glLoad()},8000)}
 function glStop(){clearInterval(glT);glT=0}
+
+/* Access Web: locked until a 100-node synchronization is decrypted (the server decides, this only shows it) */
+let webBusy=false;
+function paintWeb(un){un=!!un;const w=$("#webw");w.classList.toggle("open",un);w.setAttribute("aria-label","Web access, "+(un?"unlocked":"locked"));
+ w.querySelector(".wt span").textContent=un?"Unlocked. Your node synchronization is decrypted.":"Locked. Decrypt a 100-node synchronization to unlock.";$("#webp").textContent=un?"Open":"Locked";
+ $("#webdec").style.display=un?"none":"";$("#webgo").style.display=un?"":"none";$("#webhelp").style.display=un?"":"none";
+ $("#webn").textContent=un?"Web access is unlocked permanently. You can still join a batch to help other members reach 100 nodes. You earn 10 merits for every new member you help unlock.":"The decryption runs once. Join a batch with other members, rebuild your reference code before the 7 second timer ends, and when 100 nodes align together web access opens permanently."}
+async function webLoad(){if(webBusy)return;webBusy=true;let r;try{r=await api.web_status()}catch(e){r=null}webBusy=false;if(r&&r.ok)paintWeb(r.web)}
+$("#webdec").addEventListener("click",()=>startSync("decrypt","web"));
+$("#webgo").addEventListener("click",()=>{const u="https://vssociety.site";try{const t=V.tg.app;if(t&&t.openLink){t.openLink(u);return}}catch(e){}window.open(u,"_blank","noopener")});
+$("#webhelp").addEventListener("click",()=>startSync("help","web"));
 
 /* Founders (owner only; the backend enforces this too) */
 async function load(){const r=await api.list();if(!r||!r.ok){$("#fl").innerHTML="<p>"+esc((r&&r.error)||"Could not load members.")+"</p>";return}M=r.members||[];BI=Array.isArray(r.banned_ids)?r.banned_ids:[];nb=Array.isArray(r.banned_ids)?BI.length:(r.banned||0);draw()}
