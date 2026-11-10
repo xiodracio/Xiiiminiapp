@@ -430,7 +430,8 @@ return {LOGO:LOGO,PYR:PYR};})();</script>
 (function(){
 const $=id=>document.getElementById(id),LOGO=ILLUMINATI_MODEL.LOGO,PYR=ILLUMINATI_MODEL.PYR;
 let remeasure=true;
-window.ILLUMINATI.pyramid={setView:n=>{remeasure=true}};
+let stopped=false,ro=null,stopStage=()=>{};
+window.ILLUMINATI.pyramid={setView:n=>{remeasure=true},stop:()=>stopStage()};
 const cv=$('stage');let R;
 try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){document.body.classList.add('no-webgl');return}
 R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.05;R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0,0);
@@ -535,7 +536,7 @@ function measure(){
  boxT={x0:x0,x1:x1,t:t,b:b};if(!box.init){box=Object.assign({init:1},boxT)}
 }
 resize();measure();
-if(window.ResizeObserver)new ResizeObserver(resize).observe(cv);else addEventListener('resize',resize);
+if(window.ResizeObserver){ro=new ResizeObserver(resize);ro.observe(cv)}else addEventListener('resize',resize);
 const ez=x=>{x=Math.min(Math.max(x,0),1);return x*x*x*(x*(x*6-15)+10)};
 let th=-.5,vel=1.1,drag=false,lx=0,frame=0;const SPIN=1.1;
 cv.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;vel=0;try{cv.setPointerCapture(e.pointerId)}catch(_){}});
@@ -559,6 +560,15 @@ const d=Math.min(Math.max(halfH*H/(bh*th2),halfW*H/(bw*th2)),550);
 cam.position.set(0,d*.02,d);cam.lookAt(0,0,0);
 if(isFinite(d)&&d>0)cam.setViewOffset(W,H,W/2-(box.x0+box.x1)/2,H/2-(box.t+box.b)/2,W,H);else{cam.clearViewOffset();cam.position.set(0,0,30)}
 R.render(scene,cam)});
+/* The big pyramid transformation is the intro only. When the member leaves the intro screen it fades out and the whole
+   WebGL context is released, so the portal (and the 3D card) never share the GPU with a second model. */
+stopStage=()=>{if(stopped)return;stopped=true;
+ cv.style.transition='opacity .45s ease';cv.style.opacity='0';cv.style.pointerEvents='none';
+ setTimeout(()=>{R.setAnimationLoop(null);if(ro)ro.disconnect();removeEventListener('resize',resize);
+  scene.traverse(o=>{if(o.geometry)o.geometry.dispose();[].concat(o.material||[]).forEach(m=>{['map','normalMap'].forEach(k=>m[k]&&m[k].dispose());m.dispose()})});
+  if(scene.environment)scene.environment.dispose();
+  R.dispose();try{R.forceContextLoss()}catch(_){}
+  cv.style.display='none'},520)};
 })();</script>
 <script>/* Digital Membership Card: 3D card on the Profile received screen. Reuses the pyramid data loaded above; built lazily when the screen opens. */
 (function(V){
@@ -875,7 +885,7 @@ let cur="intro",back="done",entered=false,M=[],BI=[],nb=0,LB={remove:"Delete",ba
 const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
- nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
+ nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;if(n!=="intro"&&V.pyramid&&V.pyramid.stop)V.pyramid.stop();V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
  document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
 let MEM=null,justDec=false;
 const MASK="VC-\u2022\u2022Q\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022";
