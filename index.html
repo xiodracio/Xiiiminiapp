@@ -214,6 +214,17 @@ body[data-view=web] #cats{display:flex}
 .view[data-view=web] .sheet{max-height:calc(100% - var(--sat) - 64px)}
 @media (min-width:700px){.view[data-view=web] .sheet{max-height:calc(100% - 24px)}}
 .view[data-view=web] .gl-m{grid-template-columns:1fr 1fr 1fr}.view[data-view=web] .gl-m div{padding:12px 10px}
+
+/* founders star + tools */
+#fbtn{width:40px;height:40px;min-width:40px;aspect-ratio:1/1;padding:0;border-radius:50%;letter-spacing:0;line-height:0;color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none}
+#fbtn svg{width:18px;height:18px;display:block}
+body.ready.owner #fbtn{display:flex;align-items:center;justify-content:center}
+body[data-view=founders] #fbtn,body[data-view=sync] #fbtn{display:none!important}
+#cats{max-width:calc(100vw - 70px)}
+body[data-view=tools] #cats{display:flex}
+.view[data-view=tools] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=tools] .sheet{max-height:calc(100% - 24px)}}
+#toolsl{margin-top:14px}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -405,6 +416,12 @@ body[data-view=web] #cats{display:flex}
     <p>This account has been removed from the Society. It can no longer register or sign in.</p>
   </div></section>
 
+  <section class="view" data-view="tools"><div class="glass sheet">
+    <p class="sh">Tools</p>
+    <p class="gl-p">Tools for members will appear here.</p>
+    <div id="toolsl"><div class="wallet" aria-disabled="true" role="group" aria-label="No tools yet"><div class="wt"><b>Coming soon</b><span>No tools are available yet.</span></div></div></div>
+  </div></section>
+
   <section class="view" data-view="founders"><div class="glass sheet">
     <div class="fhead">
       <div class="frow"><button class="fback" id="fback" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button><h2>Founders</h2><span class="fcount" id="fc"></span></div>
@@ -413,8 +430,8 @@ body[data-view=web] #cats{display:flex}
     <div id="fl"></div>
   </div></section>
 </main>
-<button id="fbtn">Founders</button>
-<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button></div>
+<button id="fbtn" type="button" aria-label="Founders" title="Founders"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.4 9.6l6.7-.9z"/></svg></button>
+<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button></div>
 
 <div class="glass tabs" id="tabs">
   <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
