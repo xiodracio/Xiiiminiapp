@@ -1058,7 +1058,7 @@ V.sync={onwin:null,onexit:null,
 <script>/* Spore: 5-player co-op outbreak. All game state is on the server (illuminati-spore); this page only draws it and sends cure attempts. */
 (function(V){
 const $=i=>document.getElementById(i),api=V.services.api;
-const DUR=20,USERS=5,CURES=4,NODES=12,HOME=[0,2,5,7,10],CW=180000,RANDOM=/^Random-/;
+const DUR=20,USERS=5,CURES=4,NODES=20,HOME=[0,4,8,12,16],CW=180000,RANDOM=/^Random-/;
 const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0).toString(36)};
 const clean=s=>s.replace(/[^\w \-]/g,'').replace(/\s+/g,' ').trim().slice(0,24);
 const ADJ=Array.from({length:NODES},(_,i)=>[(i+1)%NODES,(i+NODES-1)%NODES,(i+4)%NODES]);
