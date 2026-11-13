@@ -225,6 +225,34 @@ body[data-view=tools] #cats{display:flex}
 .view[data-view=tools] .sheet{max-height:calc(100% - var(--sat) - 64px)}
 @media (min-width:700px){.view[data-view=tools] .sheet{max-height:calc(100% - 24px)}}
 #toolsl{margin-top:14px}
+/* spore (founder only for now) */
+#cats button.sporebtn{display:none;flex:none;width:34px;height:34px;padding:0;margin-right:2px;border-radius:50%;align-items:center;justify-content:center;letter-spacing:0}
+body.owner #cats button.sporebtn{display:inline-flex}
+#cats button.sporebtn svg{width:22px;height:22px;display:block}
+body[data-view=spore] #cats{display:flex}
+.view[data-view=spore] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=spore] .sheet{max-height:calc(100% - 24px)}}
+.view[data-view=spore] [hidden]{display:none!important}
+.sp-stat{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.sp-stat b{font:500 26px var(--serif);letter-spacing:0;color:#fff;font-variant-numeric:tabular-nums}
+#spBar{height:100%;width:100%;background:var(--accent);transition:width .25s linear}
+#spCv{display:block;width:100%;aspect-ratio:1/1;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:16px;margin:0 0 12px;touch-action:manipulation}
+.sp-pls{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.sp-pl{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;padding:8px 0 6px;font-size:11px;color:var(--mute)}
+.sp-pl.me{border-color:var(--accent);box-shadow:0 0 18px rgba(190,205,240,.18)}
+.sp-pl b{display:block;font-weight:600;letter-spacing:.06em;color:var(--text)}
+.sp-pips{letter-spacing:2px;color:#8fe3a8}
+.sp-row{display:flex;gap:8px;margin-top:10px}
+.sp-row .btn{margin:0;padding:0 18px;width:auto;flex:none;min-height:48px}
+#spCode{text-transform:uppercase;flex:1;min-width:0;letter-spacing:.2em;font-family:var(--mono)}
+#spGo{margin-top:12px}
+#spInfo{margin:12px 0 0;font-size:13px;color:var(--mute);min-height:1.4em}
+#spLog{text-align:left;font-size:13px;color:var(--mute);min-height:20px}
+#spLog div{padding:1px 0;word-break:break-word}
+#spChat{height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.3);font-size:14px;color:var(--mute);text-align:left}
+#spCf{display:flex;gap:8px;margin-top:10px}#spCf .nsin{flex:1;min-width:0}#spCf .btn{width:auto;margin:0;padding:0 18px}
+.sp-ok{color:#8fe3a8}.sp-bad{color:#ff9a9a}.sp-warn{color:#ffd27a}.sp-dim{color:var(--dim)}
+#spOres{font:500 28px var(--serif)}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -406,6 +434,61 @@ body[data-view=tools] #cats{display:flex}
     </div>
   </div></section>
 
+  <section class="view" data-view="spore"><div class="glass sheet">
+    <div id="spPick">
+      <span class="eyebrow">Spore outbreak</span>
+      <h2>Choose a batch</h2>
+      <p>Join a batch. When 5 members are online and press Start, the outbreak begins. Every game is unique to its batch.</p>
+      <div class="nscard"><p class="nslbl">No friends here yet?</p><p>Get matched into a random batch with other members waiting to play.</p><button class="btn solid" id="spRnd" type="button" style="margin:0">Join random batch</button><p class="note err" id="spRe" role="alert"></p></div>
+      <div class="nstabs" role="group" aria-label="Batch options"><button id="spTS" type="button" aria-pressed="true">Search</button><button id="spTC" type="button" aria-pressed="false">Create</button><button id="spTJ" type="button" aria-pressed="false">Friends key</button></div>
+      <div id="spPS">
+        <input class="nsin" type="search" id="spQ" placeholder="Search batches" maxlength="40" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search batches">
+        <div id="spRes"></div>
+        <p class="note" id="spRs" style="text-align:left"></p>
+      </div>
+      <form id="spPC" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="spCn" maxlength="24" autocomplete="off"></label>
+        <label class="nschk"><input type="checkbox" id="spCf2"> Friends only (hidden from search)</label>
+        <label class="fld" id="spKw" hidden>Friends key<input id="spCk" maxlength="24" placeholder="Share this with friends" autocomplete="off"></label>
+        <p class="note err" id="spCe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Create &amp; join</button>
+      </form>
+      <form id="spPJ" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="spJn" maxlength="24" autocomplete="off"></label>
+        <label class="fld">Friends key<input id="spJk" maxlength="24" autocomplete="off"></label>
+        <p class="note err" id="spJe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Join</button>
+      </form>
+    </div>
+
+    <div id="spGame" hidden>
+      <div class="nshead"><span class="eyebrow" id="spMeta"></span><button class="nslink" id="spLeave" type="button">Change batch</button></div>
+      <h2>Spore: 5 Users</h2>
+      <p class="gl-p">Each of the 5 users guards one home node (ringed U1 to U5) and has only 4 cures. Only the owner can cure their home node. If any home node is infected at 20s, or an owner runs out of cures while theirs is infected, everyone loses. Win: +5 merits for all 5 users. Loss: -2 merits for all 5 users.</p>
+      <div class="nscard">
+        <div class="sp-stat"><span id="spL">Accepted: 0/5</span><span><b id="spT">20</b>s</span></div>
+        <div class="nsbar"><div id="spBar"></div></div>
+        <p class="nsdim" id="spOn" style="margin:8px 0 0"></p>
+      </div>
+      <canvas id="spCv" aria-label="Spore network. Tap a node."></canvas>
+      <div class="nscard">
+        <div class="sp-pls" id="spPlayers"></div>
+        <div id="spInfo">Tap a node.</div>
+        <div class="sp-row"><input class="nsin" id="spCode" maxlength="4" placeholder="code" autocomplete="off" autocapitalize="characters" spellcheck="false" hidden><button class="btn solid" id="spCure" type="button" hidden>Cure</button><button class="btn" id="spScan" type="button" hidden>Scan</button></div>
+        <button class="btn solid" id="spGo" type="button" disabled>Start</button>
+        <p class="note" style="margin-top:12px">The game begins when all 5 users in your batch press Start. Every cure attempt costs 1 cure, even a wrong code or a fake alarm. A node may be a false alarm, and a cure on a false alarm still costs 1. A scan is free but takes 3s, then shows a node's true state for 10s. Codes mutate every 6s.</p>
+      </div>
+      <div class="nscard" id="spLog"></div>
+      <div class="nscard" id="spOver" hidden><p class="nslbl">Outbreak report</p><div id="spOres"></div><p class="nsdim" id="spOt" style="margin-top:6px"></p><p class="nsdim" id="spOm" style="margin-top:4px;color:var(--text)"></p><button class="btn solid" id="spAgain" type="button" style="margin-top:8px">Play again</button></div>
+      <div class="nscard" style="text-align:left">
+        <div class="nshead"><span class="nslbl" style="margin:0">Live chat</span><span class="nsdim">resets in <span id="spCc">3:00</span></span></div>
+        <div id="spChat" aria-live="polite"></div>
+        <form id="spCf" autocomplete="off"><input class="nsin" id="spCi" maxlength="140" placeholder="Message your batch" aria-label="Message"><button class="btn solid" type="submit">Send</button></form>
+        <p class="nsdim" style="margin:10px 0 0;font-size:11px">Messages live only for online members and vanish every 3 minutes.</p>
+      </div>
+    </div>
+  </div></section>
+
   <section class="view" data-view="denied"><div class="glass sheet">
     <h2>Access denied</h2>
     <p id="dmsg">This miniapp is only for members of the paid channel. Join the channel, then reopen the app.</p>
@@ -431,7 +514,7 @@ body[data-view=tools] #cats{display:flex}
   </div></section>
 </main>
 <button id="fbtn" type="button" aria-label="Founders" title="Founders"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.4 9.6l6.7-.9z"/></svg></button>
-<div id="cats" role="group" aria-label="Sections"><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button></div>
+<div id="cats" role="group" aria-label="Sections"><button class="sporebtn" data-go="spore" aria-pressed="false" aria-label="Spore" title="Spore"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.8v8.4l6.6-4.2z" fill="currentColor"/></svg></button><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button></div>
 
 <div class="glass tabs" id="tabs">
   <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
@@ -472,8 +555,8 @@ const local={
  unban:async id=>{ls.set(KB,ls.get(KB,[]).filter(x=>x!==id));return{ok:true}}
 };
 const nosync=async()=>({ok:false,error:"Node sync needs the live backend."});
-const call=(a,ka)=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+S.fn,{method:"POST",...(ka?{keepalive:true}:{}),headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
-V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),genesis:call("genesis"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat"),web_status:call("web_status")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync,web_status:async()=>({ok:true,web:false})}),
+const call=(a,ka,fn)=>async d=>{try{const r=await fetch(S.url+"/functions/v1/"+(fn||S.fn),{method:"POST",...(ka?{keepalive:true}:{}),headers:{"Content-Type":"application/json",apikey:S.anonKey,...(S.anonKey.startsWith("eyJ")?{Authorization:"Bearer "+S.anonKey}:{})},body:JSON.stringify({action:a,initData:V.tg.initData,data:d})});return await r.json()}catch(e){return{ok:false,error:"Network error. Try again."}}};
+V.services={api:S.url?{me:call("me"),register:call("register"),list:call("list"),remove:call("remove"),ban:call("ban"),unban:call("unban"),check_username:call("check_username"),set_username:call("set_username"),merits:call("merits"),genesis:call("genesis"),award_merit:call("award_merit"),sync_search:call("sync_search"),sync_create:call("sync_create"),sync_random:call("sync_random"),sync_ping:call("sync_ping"),sync_done:call("sync_done"),sync_round:call("sync_round"),sync_leave:call("sync_leave",true),sync_chat:call("sync_chat"),web_status:call("web_status"),spore_search:call("spore_search",0,"illuminati-spore"),spore_create:call("spore_create",0,"illuminati-spore"),spore_random:call("spore_random",0,"illuminati-spore"),spore_state:call("spore_state",0,"illuminati-spore"),spore_ready:call("spore_ready",0,"illuminati-spore"),spore_cure:call("spore_cure",0,"illuminati-spore"),spore_scan:call("spore_scan",0,"illuminati-spore"),spore_leave:call("spore_leave",1,"illuminati-spore"),spore_chat:call("spore_chat",0,"illuminati-spore")}:Object.assign({},local,{sync_search:nosync,sync_create:nosync,sync_random:nosync,sync_ping:nosync,sync_done:nosync,sync_round:nosync,sync_leave:nosync,sync_chat:nosync,web_status:async()=>({ok:true,web:false}),spore_search:async()=>({ok:false,error:"Spore needs the live backend."}),spore_create:async()=>({ok:false,error:"Spore needs the live backend."}),spore_random:async()=>({ok:false,error:"Spore needs the live backend."}),spore_state:async()=>({ok:false,error:"Spore needs the live backend."}),spore_ready:async()=>({ok:false,error:"Spore needs the live backend."}),spore_cure:async()=>({ok:false,error:"Spore needs the live backend."}),spore_scan:async()=>({ok:false,error:"Spore needs the live backend."}),spore_leave:async()=>({ok:false,error:"Spore needs the live backend."}),spore_chat:async()=>({ok:false,error:"Spore needs the live backend."})}),
  isOwner:r=>S.url?!!(r&&r.owner):!!C.demoMode};
 })(window.ILLUMINATI);</script>
 <script>(function (V) {
@@ -972,6 +1055,153 @@ V.sync={onwin:null,onexit:null,
     decoded=false;show("nsPick");$("nsTS").click();search("")}};
 })(window.ILLUMINATI);</script>
 
+<script>/* Spore: 5-player co-op outbreak. All game state is on the server (illuminati-spore); this page only draws it and sends cure attempts. */
+(function(V){
+const $=i=>document.getElementById(i),api=V.services.api;
+const DUR=20,USERS=5,CURES=4,NODES=12,HOME=[0,2,5,7,10],CW=180000,RANDOM=/^Random-/;
+const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0).toString(36)};
+const clean=s=>s.replace(/[^\w \-]/g,'').replace(/\s+/g,' ').trim().slice(0,24);
+const ADJ=Array.from({length:NODES},(_,i)=>[(i+1)%NODES,(i+NODES-1)%NODES,(i+4)%NODES]);
+ADJ.forEach((a,i)=>a.forEach(j=>{if(!ADJ[j].includes(i))ADJ[j].push(i)}));
+const POS=Array.from({length:NODES},(_,i)=>{const a=i/NODES*6.283;return{x:.5+.38*Math.cos(a),y:.5+.38*Math.sin(a)}});
+const HL=i=>HOME.includes(i)?' (User '+(HOME.indexOf(i)+1)+' home)':'';
+const cv=$('spCv'),cx=cv.getContext('2d');let W=0,H=0;
+let alive=false,batch='',isRnd=false,rtries=0,timer=0,busy=false,ST=null,G=null,sel=null,seen=0,after=0,tAt=0,elAt=0,scanUntil=0,scan={},loc=[],cw=Math.floor(Date.now()/CW),sentAt=0,settled=false;
+function fit(){const d=devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;if(!W)return;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+const code=$('spCode');
+function view(p){$('spPick').hidden=p!=='p';$('spGame').hidden=p!=='g';if(p==='g')setTimeout(fit,0);if(p==='p')search()}
+function myRank(){return G?G.me:(ST&&ST.me)||0}
+/* ---------- pick a batch ---------- */
+async function search(){
+  const q=$('spQ').value.trim().toLowerCase(),box=$('spRes');let r;try{r=await api.spore_search({q})}catch(e){r=null}
+  if(!alive||batch)return;
+  box.textContent='';
+  if(!r||!r.ok){$('spRs').textContent=(r&&r.error)||'Spore is unavailable right now.';return}
+  const list=r.batches||[];$('spRs').textContent=list.length?'':'No batches found. Create one.';
+  list.forEach(x=>{const d=document.createElement('div');d.className='nsitem';d.innerHTML='<div><b></b><small></small></div>';
+    d.querySelector('b').textContent=x.batch;d.querySelector('small').textContent='by '+(x.o||'a member')+' · '+x.n+'/'+USERS+(x.live?' · in progress':'');
+    const b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Join';b.disabled=x.n>=USERS||x.live;b.onclick=()=>join(x.batch,false);d.appendChild(b);box.appendChild(d)});
+}
+const tabs={spTS:'spPS',spTC:'spPC',spTJ:'spPJ'};
+Object.keys(tabs).forEach(k=>$(k).onclick=()=>{Object.keys(tabs).forEach(j=>{$(j).setAttribute('aria-pressed',String(j===k));$(tabs[j]).hidden=j!==k});if(k==='spTS')search()});
+$('spQ').oninput=search;
+$('spCf2').onchange=()=>{$('spKw').hidden=!$('spCf2').checked};
+$('spPC').addEventListener('submit',async e=>{
+  e.preventDefault();const n=clean($('spCn').value),priv=$('spCf2').checked,k=$('spCk').value.trim(),err=$('spCe');
+  if(n.length<3){err.textContent='Batch name needs 3+ characters.';return}
+  if(priv&&k.length<4){err.textContent='Friends key needs 4+ characters.';return}
+  err.textContent='';
+  if(priv){join('f-'+n+'-'+hash(n+'|'+k),false);return}
+  let r;try{r=await api.spore_create({batch:n})}catch(x){r=null}
+  if(!r||!r.ok){err.textContent=(r&&r.error)||'Could not create the batch.';return}
+  join(r.batch,false)});
+$('spPJ').addEventListener('submit',e=>{
+  e.preventDefault();const n=clean($('spJn').value),k=$('spJk').value.trim();
+  if(!n||!k){$('spJe').textContent='Enter the batch name and friends key.';return}
+  $('spJe').textContent='';join('f-'+n+'-'+hash(n+'|'+k),false)});
+async function random(){
+  let r;try{r=await api.spore_random({})}catch(e){r=null}
+  if(!r||!r.ok){$('spRe').textContent=(r&&r.error)||'Could not find a batch right now.';return}
+  join(r.batch,true)}
+$('spRnd').onclick=()=>{rtries=0;$('spRe').textContent='';random()};
+/* ---------- lifecycle ---------- */
+function reset(){clearTimeout(timer);timer=0;busy=false;ST=null;G=null;sel=null;after=0;scan={};loc=[];settled=false;$('spOver').hidden=true;$('spLog').textContent='';$('spChat').textContent=''}
+function leaveLocal(msg){
+  const b=batch;reset();batch='';
+  if(msg!==undefined)$('spRe').textContent=msg;
+  view('p');return b}
+function join(name,rnd){
+  reset();batch=name;isRnd=!!rnd;
+  $('spMeta').textContent='batch '+name.replace(/^f-(.*)-[a-z0-9]+$/,'$1 (friends)');
+  sys('Connected. Only members in this batch can see this chat.');
+  view('g');ui();schedule(0)}
+function schedule(ms){clearTimeout(timer);if(alive&&batch)timer=setTimeout(tick,ms)}
+async function tick(){
+  if(!alive||!batch)return;
+  if(document.hidden||busy){schedule(1000);return}
+  busy=true;const b=batch;let r;
+  try{r=await api.spore_state({batch:b,seen,after})}catch(e){r=null}
+  busy=false;if(!alive||b!==batch)return;
+  if(r&&r.gone){
+    if(isRnd&&++rtries<5){leaveLocal();say('Batch full or in progress. Finding another.','warn');random();return}
+    leaveLocal(r.error||'That batch is full or in progress.');return}
+  if(r&&r.status==='denied'){leaveLocal(r.error||'Access denied.');return}
+  if(r&&r.ok)apply(r);
+  schedule(G&&!G.over?900:1500)}
+function apply(r){
+  ST=r;G=r.game||null;settled=true;
+  if(G){elAt=G.el;tAt=performance.now()}
+  if(G&&G.over){const w=G.win;$('spOres').textContent=w?'Network survived!':'Network lost.';$('spOres').className=w?'sp-ok':'sp-bad';
+    $('spOt').textContent=String(G.why||'');$('spOm').textContent=w?'Each of the 5 users earned +5 merits.':'Each of the 5 users lost 2 merits.';$('spOver').hidden=false}
+  else $('spOver').hidden=true;
+  (r.chat||[]).forEach(m=>{after=Math.max(after,m.id);line(m.u?'User '+m.u:'?',m.t,m.u&&m.u===myRank())});
+  renderLog();ui()}
+$('spLeave').onclick=async()=>{const b=batch;leaveLocal('');if(b)try{api.spore_leave({batch:b})}catch(e){}};
+$('spAgain').onclick=()=>{if(G)seen=G.id;G=null;sel=null;$('spOver').hidden=true;$('spLog').textContent='';loc=[];ui();schedule(0)};
+/* ---------- log + chat ---------- */
+function say(m,c){loc.unshift([m,c||'']);loc=loc.slice(0,4);renderLog()}
+function renderLog(){const box=$('spLog');box.textContent='';
+  const rows=loc.concat(G&&G.ev?G.ev.slice().reverse():[]).slice(0,8);
+  rows.forEach(e=>{const d=document.createElement('div');d.className=e[1]==='ok'?'sp-ok':e[1]==='bad'?'sp-bad':e[1]==='warn'?'sp-warn':'';d.textContent=String(e[0]).slice(0,120);box.appendChild(d)})}
+function line(u,x,me){const d=document.createElement('div');d.className='nsm'+(me?' me':'');const b=document.createElement('b');b.textContent=u;d.append(b,document.createTextNode(x));$('spChat').appendChild(d);$('spChat').scrollTop=1e9}
+function sys(x){const d=document.createElement('div');d.className='nsm sys';d.textContent=x;$('spChat').appendChild(d);$('spChat').scrollTop=1e9}
+$('spCf').addEventListener('submit',async e=>{e.preventDefault();const x=$('spCi').value.replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,140);
+  if(!x||!batch||Date.now()-sentAt<1000)return;sentAt=Date.now();$('spCi').value='';
+  let r;try{r=await api.spore_chat({batch,text:x})}catch(e){r=null}
+  if(!r||!r.ok)sys((r&&r.error)||'Could not send.');else schedule(0)});
+setInterval(()=>{const n=Date.now(),w=Math.floor(n/CW);if(w!==cw){cw=w;$('spChat').textContent='';sys('Chat reset. Previous messages are gone.')}const s=Math.ceil(((cw+1)*CW-n)/1000);$('spCc').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},1000);
+setInterval(()=>{if(alive&&!batch&&!document.hidden&&!$('spPS').hidden&&!$('spPick').hidden)search()},5000);
+/* ---------- game UI ---------- */
+function leftMs(){return G&&!G.over?Math.max(0,DUR*1000-(elAt+performance.now()-tAt)):G&&G.over?0:DUR*1000}
+function shown(i){const n=G&&G.nodes[i]?G.nodes[i]:null,s=scan[i];if(s&&s.u>Date.now())return s.inf?'inf':'ok';return n&&n.i?'inf':'ok'}
+function ui(){
+  const me=myRank(),play=!!G&&!G.over,roster=(ST&&ST.roster)||[],ready=!G&&me&&roster[me-1]&&roster[me-1].r;
+  $('spL').textContent=G?'Home nodes safe: '+HOME.filter(h=>shown(h)==='ok').length+'/5':'Accepted: '+roster.filter(p=>p.r).length+'/5';
+  $('spOn').textContent='nodes online: '+(G?USERS:roster.length)+'/'+USERS+(me?' · you are User '+me:'')+(!G&&roster.length<USERS?' · awaiting others':'')+(settled?'':' · joining…');
+  $('spPlayers').innerHTML=[0,1,2,3,4].map(i=>{const p=roster[i],c=G?G.cures[i]:CURES,mine=i===me-1;
+    return '<div class="sp-pl'+(mine?' me':'')+'"><b>'+(G||p?(mine?'You':'User '+(i+1)):'Empty')+'</b>'+(G?'<span class="sp-pips">'+'●'.repeat(c)+'<span class="sp-dim">'+'○'.repeat(CURES-c)+'</span></span>':'<span class="'+(p&&p.r?'sp-ok':'sp-dim')+'">'+(p?(p.r?'Ready':'Waiting'):'-')+'</span>')+'</div>'}).join('');
+  $('spGo').hidden=!!G;$('spGo').disabled=!settled||!me||!!ready;$('spGo').textContent=ready?'Accepted. Waiting for the others...':'Start';
+  ['spCode','spCure','spScan'].forEach(i=>$(i).hidden=!play);
+  $('spCure').disabled=!play||sel===null||!me||G.cures[me-1]===0;const sc=Date.now()<scanUntil;$('spScan').disabled=!play||sel===null||sc;$('spScan').textContent=sc?'Scanning...':'Scan';
+  const sh=sel===null?null:shown(sel),nd=sel!==null&&G?G.nodes[sel]:null;
+  $('spInfo').textContent=sel===null?(play?'You are User '+me+'. Tap a node.':'Tap a node.'):'Node '+(sel+1)+HL(sel)+': '+(sh==='inf'?'infected.'+(play&&nd&&nd.c?' Cure code: '+nd.c:''):'looks healthy.');
+}
+$('spGo').onclick=async()=>{if(!batch)return;$('spGo').disabled=true;let r;try{r=await api.spore_ready({batch})}catch(e){r=null}
+  if(r&&!r.ok)say(r.error||'Could not start.','bad');schedule(0)};
+async function cure(){if(!batch||!G||G.over||sel===null)return;const n=sel,c=code.value;code.value='';$('spCure').disabled=true;
+  let r;try{r=await api.spore_cure({game:G.id,node:n,code:c})}catch(e){r=null}
+  if(!r||!r.ok)say((r&&r.error)||'Could not send the cure.','bad');schedule(0);ui()}
+$('spCure').onclick=cure;code.onkeydown=e=>{if(e.key==='Enter')cure()};
+$('spScan').onclick=()=>{if(!G||G.over||sel===null||Date.now()<scanUntil)return;const i=sel,gid=G.id;scanUntil=Date.now()+3000;say('Scanning Node '+(i+1)+'...');ui();
+  setTimeout(async()=>{let r;try{r=await api.spore_scan({game:gid,node:i})}catch(e){r=null}
+    if(r&&r.ok){scan[i]={u:Date.now()+10000,inf:!!r.inf};say('Scan: Node '+(i+1)+' is '+(r.inf?'infected.':'clean.'),'ok')}else say((r&&r.error)||'Scan failed.','bad');
+    scanUntil=0;ui();setTimeout(ui,10100)},3000);setTimeout(ui,3050)};
+cv.onclick=e=>{const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let b=null,bd=30;POS.forEach((n,i)=>{const d=Math.hypot(n.x*W-mx,n.y*H-my);if(d<bd){bd=d;b=i}});sel=b;ui()};
+function draw(){
+  if(!alive)return;
+  if(document.hidden||$('spGame').hidden){requestAnimationFrame(draw);return}
+  if(!W||W!==cv.clientWidth)fit();
+  const me=myRank(),l=Math.ceil(leftMs()/1000);
+  if($('spT').textContent!==String(l))$('spT').textContent=l;
+  $('spBar').style.width=(leftMs()/(DUR*1000)*100)+'%';
+  cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(255,255,255,.14)';cx.lineWidth=1;
+  ADJ.forEach((a,i)=>a.forEach(j=>{if(j<i)return;cx.beginPath();cx.moveTo(POS[i].x*W,POS[i].y*H);cx.lineTo(POS[j].x*W,POS[j].y*H);cx.stroke()}));
+  POS.forEach((n,i)=>{
+    const inf=shown(i)==='inf',x=n.x*W,y=n.y*H,hu=HOME.indexOf(i);
+    cx.save();if(inf){cx.shadowColor='#ff6b73';cx.shadowBlur=16}
+    cx.fillStyle=inf?'#ff6b73':'#dfe3ea';cx.beginPath();cx.arc(x,y,11,0,7);cx.fill();cx.restore();
+    if(sel===i){cx.strokeStyle='#fff';cx.lineWidth=2;cx.beginPath();cx.arc(x,y,21,0,7);cx.stroke();cx.lineWidth=1}
+    if(hu>=0){cx.strokeStyle='#8fe3a8';cx.lineWidth=hu===me-1?3:2;cx.beginPath();cx.arc(x,y,15,0,7);cx.stroke();cx.lineWidth=1}
+    cx.fillStyle=hu>=0?'#f0f1f4':'#7d8088';cx.font='10px ui-monospace,monospace';cx.textAlign='center';cx.fillText(hu>=0?(hu===me-1?'YOU':'U'+(hu+1)):i+1,x,y+28);
+  });
+  requestAnimationFrame(draw)}
+addEventListener('resize',fit);
+V.spore={
+  enter(){if(alive)return;alive=true;draw();if(batch){const b=batch;batch='';join(b,isRnd)}else view('p')},
+  stop(){alive=false;clearTimeout(timer);timer=0;busy=false}
+};
+})(window.ILLUMINATI);</script>
+
 <script>(function(V){
 const $=(s,r)=>(r||document).querySelector(s),api=V.services.api,esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
 let cur="intro",back="done",entered=false,M=[],BI=[],nb=0,LB={remove:"Delete",ban:"Ban",unban:"Unban"};
@@ -979,7 +1209,7 @@ const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
  nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;if(n!=="intro"&&V.pyramid&&V.pyramid.stop)V.pyramid.stop();V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
- document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();if(n==="web")webLoad();if(n==="genesis")glStart();else glStop();try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
+ document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));if(n==="merits")loadMerits();if(n==="web")webLoad();if(n==="genesis")glStart();else glStop();if(V.spore){if(n==="spore")V.spore.enter();else V.spore.stop()}try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"?bb.show():bb.hide()}catch(e){}}
 let MEM=null,justDec=false;
 const MASK="VC-\u2022\u2022Q\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022";
 /* new members see the code only after one node sync; everyone else sees it right away */
