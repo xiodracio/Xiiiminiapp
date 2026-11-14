@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000"><meta name="color-scheme" content="dark"><meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://telegram.org https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://agzhxwditnlzdcuqjjfz.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>ILLUMINATI Member Portal</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNMTQgMTZoMTBsOCAyNiA4LTI2aDEwTDM2IDUwaC04eiIgZmlsbD0iI2RmZTNlYSIvPjwvc3ZnPgo=" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet"></noscript>
+<style>:root{--bg:#000;--text:#f0f1f4;--mute:#a9adb5;--dim:#7d8088;--line:rgba(255,255,255,.14);--accent:#dfe3ea;
+--serif:"Cormorant Garamond",Georgia,serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--h:var(--tg-h,100%);--sat:calc(env(safe-area-inset-top,0px) + var(--tg-sat,0px));--sab:calc(env(safe-area-inset-bottom,0px) + var(--tg-sab,0px));color-scheme:dark}
+@supports (height:100dvh){:root{--h:var(--tg-h,100dvh)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#000;color:var(--text);font-family:var(--sans);overflow:hidden;overscroll-behavior:none}
+body{height:var(--h)}
+#stage{position:fixed;top:0;left:0;width:100%;height:var(--h);touch-action:none;z-index:0}
+#safeProbe{position:fixed;top:0;left:0;width:0;height:var(--sat);visibility:hidden;pointer-events:none}
+.vignette{position:fixed;top:0;left:0;width:100%;height:var(--h);pointer-events:none;z-index:1;background:radial-gradient(ellipse at 50% 38%,rgba(120,140,190,.14),transparent 55%),linear-gradient(#000 0,transparent calc(var(--sat) + 10px),transparent 82%,#000 100%)}
+main{position:fixed;top:0;left:0;width:100%;height:var(--h);z-index:3;pointer-events:none}
+.view{position:absolute;left:0;right:0;bottom:calc(var(--sab) + 76px);top:0;padding:0 14px;display:flex;flex-direction:column;justify-content:flex-end;overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(28px) scale(.98);filter:blur(10px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1),filter .5s,visibility 0s .5s}
+.view.on{opacity:1;visibility:visible;transform:none;filter:none;transition-delay:.08s,.08s,.08s,0s}
+.view.out{opacity:0;visibility:visible;transform:translateY(-18px) scale(1.02);filter:blur(12px)}
+.glass{pointer-events:auto;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);box-shadow:0 20px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.18)}
+.sheet{padding:22px 20px;max-height:58%;overflow-y:auto;margin-top:auto}
+.eyebrow{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+h2{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.08;margin:8px 0 12px;letter-spacing:.01em;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+p{color:var(--mute);line-height:1.6;font-size:14.5px;margin:0 0 12px}
+.hero{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.tag{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--accent);margin:0}
+.hero .tag{font:600 11px var(--sans);font-style:normal;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);padding:9px 20px 9px 22px;border:1px solid rgba(223,227,234,.32);border-radius:99px;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.03));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);box-shadow:0 0 28px rgba(190,205,240,.12),inset 0 1px 0 rgba(255,255,255,.14)}
+.cd-card{width:100%;max-width:440px;padding:18px 16px 16px}
+.cd-card h2{font-size:20px;margin:6px 0 14px}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cd div{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 0 8px}
+.cd b{display:block;font-family:var(--serif);font-weight:500;font-size:34px;font-variant-numeric:tabular-nums;color:#fff}
+.cd small{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.facts{display:flex;justify-content:space-between;gap:6px;margin-top:12px;font-size:10.5px;color:var(--dim);letter-spacing:.06em}.facts b{display:block;color:var(--text);font-weight:600;margin-top:2px}
+.cap{margin:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chips span{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.ranks{list-style:none;margin:0;padding:0}
+.rk{display:grid;grid-template-columns:38px 1fr;column-gap:8px;padding:11px 0;border-top:1px solid var(--line)}
+.rk i{font-family:var(--serif);font-style:normal;color:var(--dim);grid-row:span 2;font-size:17px}.rk b{font-size:12px;letter-spacing:.16em}.rk span{font-size:12.5px;color:var(--mute)}.rk.cl b{color:var(--dim)}
+.ids div{padding:12px 0;border-top:1px solid var(--line);font-size:13px;color:var(--mute);line-height:1.5}.ids b{display:block;color:var(--text);margin-bottom:2px;font-size:13.5px}
+.btn{font:600 12px var(--sans);letter-spacing:.18em;text-transform:uppercase;border-radius:99px;padding:15px 22px;border:1px solid var(--line);background:transparent;color:var(--text);width:100%;margin-top:14px;cursor:pointer}
+.btn.solid{background:linear-gradient(#fff,#b9bfca);color:#000;border:0;box-shadow:0 0 30px rgba(190,205,240,.25)}.btn:active{transform:scale(.98)}
+.note{font-size:12px;color:var(--dim);margin:10px 0 0;min-height:1em;text-align:center}
+details{border-top:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-size:14.5px;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--dim);font-size:18px;line-height:1}details[open] summary::after{content:"–"}summary::-webkit-details-marker{display:none}details p{margin:10px 0 0;font-size:13.5px}
+.tabs{position:fixed;z-index:6;left:12px;right:12px;bottom:calc(var(--sab) + 12px);display:flex;padding:6px;border-radius:99px;background:rgba(20,21,26,.55);border:1px solid var(--line);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);max-width:460px;margin:auto}
+.tabs button{flex:1;font:600 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:none;border:0;padding:12px 0;border-radius:99px;transition:.35s}
+.tabs button.on{color:#000;background:linear-gradient(#fff,#b9bfca)}
+@media (min-width:700px){.view{max-width:520px;left:auto;right:5vw}.cd-card{max-width:520px}}
+@media (prefers-reduced-motion:reduce){.view,.tabs button{transition:none}}
+body.no-webgl{background:radial-gradient(ellipse at 50% 38%,#1b1d21,#000 70%)}
+.view{bottom:calc(var(--sab) + 100px)}
+.tabs{display:block;padding:10px 12px;border-radius:22px;opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s}
+body.ready .tabs{opacity:1;transform:none}
+.cdl{display:block;text-align:center;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+.tabs .cd div{padding:7px 0 5px;border-radius:12px}.tabs .cd b{font-size:22px}
+
+.lead{color:var(--text);font-size:16px}
+h3{font-family:var(--serif);font-weight:500;font-size:20px;margin:18px 0 8px;color:var(--text)}
+.req{list-style:none;margin:0 0 14px;padding:0}.req li{padding:10px 0;border-top:1px solid var(--line);font-size:14px;color:var(--text)}.req li:last-child{border-bottom:1px solid var(--line)}
+.stick{position:sticky;bottom:-22px;margin:8px -20px -22px;padding:18px 20px 22px;background:linear-gradient(transparent,rgba(8,9,12,.94) 40%)}.stick .btn{margin:0}
+.view[data-view=form] .sheet{max-height:74%}
+.fld{display:block;margin:0 0 12px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.fld input,.fld select{display:block;width:100%;min-height:48px;margin-top:6px;font:16px var(--sans);letter-spacing:0;text-transform:none;color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px;-webkit-appearance:none;appearance:none}
+.fld select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a9adb5' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+select option{background:#111;color:#fff}
+.fld input:focus,.fld select:focus{outline:2px solid var(--accent);outline-offset:1px}
+fieldset{border:0;padding:0;margin:0 0 12px}legend{padding:0;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}.seg label{position:relative}
+.seg input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+.seg span{display:block;text-align:center;padding:13px 0;border:1px solid var(--line);border-radius:14px;font-size:14px;color:var(--mute);background:rgba(0,0,0,.35)}
+.seg input:checked+span{background:linear-gradient(#fff,#b9bfca);color:#000;border-color:transparent}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.err{color:#ff9a9a;min-height:1.3em;margin:6px 0 0}
+.btn:disabled{opacity:.5}
+.sum{margin:0 0 14px;padding:0;list-style:none}.sum li{padding:10px 0;border-top:1px solid var(--line);font-size:14px;color:var(--mute);display:flex;justify-content:space-between;gap:12px}.sum b{color:var(--text);font-weight:500;text-align:right}
+
+#fbtn{display:none;position:fixed;z-index:7;top:calc(var(--sat) + 12px);right:12px;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text);padding:10px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+body.ready.owner #fbtn{display:block}body[data-view=founders] #fbtn{display:none!important}
+.view[data-view=founders] .sheet{max-height:82%}
+.code{font-family:var(--serif);font-size:clamp(17px,5.4vw,26px);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:#fff;text-align:center;margin:4px 0 14px}
+.mem{border-top:1px solid var(--line);padding:12px 0}.mh{display:flex;justify-content:space-between;align-items:center;gap:8px}.mh b{font:600 12.5px var(--mono);letter-spacing:.06em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ma{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mem .ma button{font:600 11px var(--sans);background:none;border-radius:99px;padding:9px 13px}.del{font:600 11px var(--sans);color:#ff9a9a;background:none;border:1px solid rgba(255,154,154,.45);border-radius:99px;padding:9px 13px}.ban{color:#ffc27a;border:1px solid rgba(255,194,122,.45)}.unban{color:#8fe3a8;border:1px solid rgba(143,227,168,.45)}.mem .tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#ffc27a;border:1px solid rgba(255,194,122,.45);border-radius:99px;padding:3px 8px;margin-left:8px;vertical-align:middle}.bh{margin:18px 0 4px;font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+dl{display:grid;grid-template-columns:70px 1fr;gap:4px 8px;margin:8px 0 0;font-size:13px}dt{color:var(--dim)}dd{margin:0;color:var(--text);word-break:break-word}
+.cardwrap{position:relative;margin:0 0 6px}
+#cardGl{display:block;margin:0 auto;width:100%;aspect-ratio:1.4/1;touch-action:pan-y;cursor:grab}#cardGl:active{cursor:grabbing}
+.cfb{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--dim);padding:12px}
+.cside{display:flex;width:max-content;margin:0 auto 6px;border:1px solid var(--line);border-radius:99px;padding:3px}
+.cside button{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background:none;border:0;border-radius:99px;padding:8px 20px}
+.cside button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000}
+.view[data-view=done] .sheet{max-height:calc(100% - var(--sat) - 150px)}
+@media (min-width:700px){.view[data-view=done] .sheet{max-height:calc(100% - 24px)}}
+body[data-view=done] .view[data-view=done] .glass{background:rgba(14,15,18,.84);backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-view=done] .tabs{background:rgba(20,21,26,.88);backdrop-filter:none;-webkit-backdrop-filter:none}
+.view[data-view=done] .code{font-size:clamp(17px,5.4vw,26px);margin:2px 0 8px}
+.note.un{text-align:left;margin:-6px 0 12px;font-size:12px}.note.un.ok{color:#8fe3a8}.note.un.no{color:#ff9a9a}
+.view[data-view=done] .lbl{margin:0;text-align:center;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.locked .tabs{display:none}
+/* member code plate + copy */
+.codebox{margin:8px 0 10px;padding:15px 12px;border:1px solid rgba(223,227,234,.22);border-radius:16px;background:rgba(0,0,0,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 30px rgba(190,205,240,.07)}
+.view[data-view=done] .codebox .code{margin:0;text-align:center;font:600 clamp(12px,4.2vw,16px) var(--mono);letter-spacing:.06em;color:#fff;white-space:nowrap;-webkit-user-select:all;user-select:all;cursor:pointer}
+.btn.cpy{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 14px;padding:13px 22px;font-size:11.5px}
+.btn.cpy svg{width:15px;height:15px;flex:none}
+.btn.cpy.ok{color:#8fe3a8;border-color:rgba(143,227,168,.45)}
+/* category switcher */
+#cats{display:none;position:fixed;z-index:7;top:calc(var(--sat) + 12px);left:12px;padding:3px;border-radius:99px;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+body[data-view=done] #cats,body[data-view=merits] #cats,body[data-view=genesis] #cats{display:flex}
+#cats button{font:600 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);background:none;border:0;border-radius:99px;padding:9px 16px;cursor:pointer}
+#cats button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000}
+/* genesis lock */
+.view[data-view=genesis] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=genesis] .sheet{max-height:calc(100% - 24px)}}
+.gl-t{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:.08em;margin:0 0 10px;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gl-pct{display:flex;align-items:baseline;gap:10px;margin:4px 0 8px}.gl-pct b{font-family:var(--serif);font-weight:500;font-size:58px;line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gl-pct span{font:600 11px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.gl-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:0 0 14px}.gl-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#9aa1ae,#fff);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.gl-m{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px}
+.gl-m div{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.gl-m small{display:block;margin-bottom:4px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.gl-m b{font:500 22px var(--serif);color:#fff;font-variant-numeric:tabular-nums}
+.gl-s{display:flex;align-items:center;gap:10px;margin:0 0 16px;font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.gl-s::before{content:"";width:7px;height:7px;border-radius:50%;background:#ffd27a;box-shadow:0 0 10px #ffd27a;animation:glp 1.6s infinite}.gl-s.ok::before{background:#8fe3a8;box-shadow:0 0 10px #8fe3a8;animation:none}
+@keyframes glp{50%{opacity:.35}}
+.gl-p{font-size:13.5px}
+.wallet.open{opacity:1;pointer-events:auto;border-color:rgba(143,227,168,.45)}.wallet.open .wp{color:#8fe3a8;border-color:rgba(143,227,168,.45)}
+/* merits */
+.view[data-view=merits] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=merits] .sheet{max-height:calc(100% - 24px)}}
+.sh{display:flex;align-items:center;gap:12px;margin:0 0 12px;font:600 11px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.sh::after{content:"";flex:1;height:1px;background:var(--line)}.sh small{order:2;font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.mtot{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
+.mtot b{font-family:var(--serif);font-weight:500;font-size:58px;line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mtot span{font:600 11px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.mstat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px}
+.mstat div{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.mstat small{display:block;margin-bottom:4px;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.mstat b{font:500 22px var(--serif);color:#fff}
+.wallet{display:flex;align-items:center;gap:14px;margin:0 0 24px;padding:15px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.35);opacity:.72;pointer-events:none;-webkit-user-select:none;user-select:none}
+.wallet .wi{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--mute)}
+.wallet .wi svg{width:18px;height:18px}
+.wallet .wt{flex:1;min-width:0}.wallet .wt b{display:block;font:600 12px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--text)}
+.wallet .wt span{display:block;margin-top:4px;font-size:12px;color:var(--dim)}
+.wallet .wp{flex:none;font:600 9.5px var(--sans);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:5px 10px}
+.hh,.hr{display:grid;grid-template-columns:38px 1fr auto;column-gap:10px;align-items:center}
+.hh{padding:0 8px 8px;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}.hh span:last-child{text-align:right}
+.hr{padding:11px 8px;border-top:1px solid var(--line)}
+.hr.me{background:rgba(255,255,255,.06);border-radius:12px;border-top-color:transparent}
+.hk{font:500 17px var(--serif);color:var(--dim);font-variant-numeric:tabular-nums}.hk.top{color:#fff}
+.hn{min-width:0}.hn b{display:flex;align-items:center;gap:8px;font:600 13.5px var(--sans);color:var(--text);white-space:nowrap;overflow:hidden}
+.hn em{flex:none;font:600 9px var(--sans);font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#000;background:linear-gradient(#fff,#b9bfca);border-radius:99px;padding:2px 7px}
+.st{display:block;margin-top:3px;font-size:11px;letter-spacing:.08em;color:var(--dim)}
+.st::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:50%;background:var(--dim);vertical-align:1px}.st.ok::before{background:#8fe3a8}.st.no::before{background:#ff9a9a}
+.hm{font:500 20px var(--serif);color:#fff;font-variant-numeric:tabular-nums;text-align:right}
+.mc{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.mc button{font:600 11px var(--sans);color:var(--text);background:none;border:1px solid var(--line);border-radius:99px;padding:7px 12px}
+
+/* founders: sticky back + search, roomier, one-tap merits */
+.view[data-view=founders] .sheet{max-height:calc(100% - var(--sat) - 16px)}
+.fhead{position:sticky;top:-22px;z-index:3;margin:-22px -20px 4px;padding:14px 16px 12px;background:rgba(14,15,18,.95);border-bottom:1px solid var(--line);border-radius:22px 22px 0 0}
+.frow{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.frow h2{margin:0;font-size:24px;flex:1}
+.fback{display:inline-flex;align-items:center;gap:4px;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--line);border-radius:99px;padding:10px 14px 10px 9px;cursor:pointer;touch-action:manipulation}
+.fback svg{width:16px;height:16px}.fback:active{transform:scale(.96)}
+.fcount{font-size:10.5px;letter-spacing:.08em;color:var(--dim);text-align:right}
+.fhead input{display:block;width:100%;min-height:44px;font:16px var(--sans);color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;-webkit-appearance:none;appearance:none}
+.fhead input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.mem .mh{flex-wrap:wrap;gap:10px}.mem .mh b{flex:1 1 100%;min-width:0}.mem .ma{flex:1 1 100%;justify-content:flex-start}
+.mv{display:inline-block;font:600 15px var(--sans);color:#fff;font-variant-numeric:tabular-nums}
+.mv.pop{animation:mvpop .28s ease-out}@keyframes mvpop{40%{transform:scale(1.22)}}
+.mc{flex-wrap:nowrap}.mc button{flex:1 1 0;min-width:0;padding:10px 0;touch-action:manipulation}.mc button:active{transform:scale(.94);background:rgba(255,255,255,.1)}
+/* node sync + decrypt */
+body[data-view=sync] #fbtn{display:none!important}
+.view[data-view=sync] .sheet{max-height:calc(100% - var(--sat) - 16px)}
+.view[data-view=sync] [hidden]{display:none!important}
+.nshead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.nslink{background:none;border:0;color:var(--dim);font:600 11px var(--sans);letter-spacing:.18em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:6px 0}
+.nscard{margin:0 0 12px;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.35);text-align:center}
+.nscard>p:not(.nslbl):not(.nsdim):not(.note){margin:0 0 12px;font-size:13.5px}
+.nslbl{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+.nsdim{font-size:12px;color:var(--dim)}
+.nstabs{display:flex;gap:6px;margin:0 0 12px}
+.nstabs button{flex:1;font:600 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:none;border:1px solid var(--line);border-radius:99px;padding:11px 0;cursor:pointer}
+.nstabs button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000;border-color:transparent}
+.nsin{display:block;width:100%;min-height:48px;margin:0;font:16px var(--sans);color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px;-webkit-appearance:none;appearance:none}
+.nsin:focus{outline:2px solid var(--accent);outline-offset:1px}
+.nschk{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12.5px;color:var(--mute)}
+.nschk input{width:18px;height:18px;margin:0;flex:none}
+.nsitem{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.35);margin-top:8px}
+.nsitem b{display:block;font-weight:600;font-size:14px;word-break:break-word}.nsitem small{color:var(--dim);font-size:12px}
+.nsitem .btn{width:auto;margin:0;padding:9px 16px;font-size:11px;flex:none}
+.nsref{font-family:var(--serif);font-size:clamp(28px,9vw,40px);letter-spacing:.18em;text-align:center;background:linear-gradient(#fff,#9aa1ae);-webkit-background-clip:text;background-clip:text;color:transparent;min-height:1.2em}
+.nsbar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin:12px 0 6px}
+#nsBarI{height:100%;width:0;background:var(--accent)}
+.nsrow{display:flex;gap:6px;justify-content:center;min-height:52px}
+.nsslot,.nstile{width:18%;min-width:46px;height:52px;border-radius:12px;font:600 17px var(--sans);letter-spacing:.06em;display:flex;align-items:center;justify-content:center;color:var(--text);cursor:pointer;padding:0;-webkit-appearance:none;appearance:none;touch-action:manipulation}
+.nsslot{border:1px dashed var(--line);background:rgba(255,255,255,.03)}
+.nstile{border:1px solid var(--accent);background:rgba(255,255,255,.08)}.nstile.used{opacity:.2;pointer-events:none}
+#nsMsgs{height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.3);font-size:14px;color:var(--mute)}
+.nsm{word-break:break-word}.nsm b{color:var(--accent);font-weight:600;margin-right:6px}.nsm.me b{color:var(--mute)}.nsm.sys{color:var(--dim);font-style:italic}
+#nsCf{display:flex;gap:8px;margin-top:10px}#nsCf .nsin{flex:1;min-width:0}#nsCf .btn{width:auto;margin:0;padding:0 18px}
+.nsok{color:#8fe3a8}.nsbad{color:#ff9a9a}
+.codebox.lk .code{color:var(--dim)!important;letter-spacing:.1em}
+#clockn{text-align:center;margin:-2px 0 4px}
+/* access web category */
+#cats{max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}#cats::-webkit-scrollbar{display:none}
+#cats button{white-space:nowrap;padding:9px 10px;letter-spacing:.05em;font-size:10.5px}
+#webn{margin-top:14px}.view[data-view=web] .wallet.web{margin-bottom:14px}
+body[data-view=web] #cats{display:flex}
+.view[data-view=web] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=web] .sheet{max-height:calc(100% - 24px)}}
+.view[data-view=web] .gl-m{grid-template-columns:1fr 1fr 1fr}.view[data-view=web] .gl-m div{padding:12px 10px}
+
+/* founders star + tools */
+#fbtn{width:40px;height:40px;min-width:40px;aspect-ratio:1/1;padding:0;border-radius:50%;letter-spacing:0;line-height:0;color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none}
+#fbtn svg{width:18px;height:18px;display:block}
+body.ready.owner #fbtn{display:flex;align-items:center;justify-content:center}
+body[data-view=founders] #fbtn,body[data-view=sync] #fbtn{display:none!important}
+#cats{max-width:calc(100vw - 70px)}
+body[data-view=tools] #cats{display:flex}
+.view[data-view=tools] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=tools] .sheet{max-height:calc(100% - 24px)}}
+#toolsl{margin-top:14px}
+
+/* spore (open to every member) */
+#cats button.sporebtn{display:none;flex:none;width:34px;height:34px;padding:0;margin-right:2px;border-radius:50%;align-items:center;justify-content:center;letter-spacing:0}
+body.ready #cats button.sporebtn{display:inline-flex}
+#cats button.sporebtn svg{width:22px;height:22px;display:block}
+body[data-view=spore] #cats{display:flex}
+.view[data-view=spore] .sheet{max-height:calc(100% - var(--sat) - 64px)}
+@media (min-width:700px){.view[data-view=spore] .sheet{max-height:calc(100% - 24px)}}
+.view[data-view=spore] [hidden]{display:none!important}
+.sp-stat{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.sp-stat b{font:500 26px var(--serif);letter-spacing:0;color:#fff;font-variant-numeric:tabular-nums}
+#spBar{height:100%;width:100%;background:var(--accent);transition:width .25s linear}
+#spCv{display:block;width:100%;aspect-ratio:1/1;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:16px;margin:0 0 12px;touch-action:manipulation}
+.sp-pls{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.sp-pl{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;padding:8px 0 6px;font-size:11px;color:var(--mute)}
+.sp-pl.me{border-color:var(--accent);box-shadow:0 0 18px rgba(190,205,240,.18)}
+.sp-pl b{display:block;font-weight:600;letter-spacing:.06em;color:var(--text)}
+.sp-pips{letter-spacing:2px;color:#8fe3a8}
+.sp-row{display:flex;gap:8px;margin-top:10px}
+.sp-row .btn{margin:0;padding:0 18px;width:auto;flex:none;min-height:48px}
+#spCode{text-transform:uppercase;flex:1;min-width:0;letter-spacing:.2em;font-family:var(--mono)}
+#spGo{margin-top:12px}
+#spInfo{margin:12px 0 0;font-size:13px;color:var(--mute);min-height:1.4em}
+#spLog{text-align:left;font-size:13px;color:var(--mute);min-height:20px}
+#spLog div{padding:1px 0;word-break:break-word}
+#spChat{height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.3);font-size:14px;color:var(--mute);text-align:left}
+#spCf{display:flex;gap:8px;margin-top:10px}#spCf .nsin{flex:1;min-width:0}#spCf .btn{width:auto;margin:0;padding:0 18px}
+.sp-ok{color:#8fe3a8}.sp-bad{color:#ff9a9a}.sp-warn{color:#ffd27a}.sp-dim{color:var(--dim)}
+#spOres{font:500 28px var(--serif)}
+/* portal lock */
+#lbtn{display:none;position:fixed;z-index:7;top:calc(var(--sat) + 12px);right:60px;width:40px;height:40px;min-width:40px;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none;align-items:center;justify-content:center}
+#lbtn svg{width:18px;height:18px;display:block}
+body.ready.owner #lbtn{display:flex}
+body[data-view=founders] #lbtn,body[data-view=sync] #lbtn,body[data-view=lock] #lbtn,body[data-view=lock] #fbtn{display:none!important}
+body.ready.owner #cats{max-width:calc(100vw - 114px)}
+.view[data-view=lock] .sheet{max-height:calc(100% - var(--sat) - 16px)}
+.lkst{margin:12px 0;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.35);font-size:13.5px;color:var(--mute);text-align:center;font-variant-numeric:tabular-nums}
+.lkst.on{color:#ffc27a;border-color:rgba(255,194,122,.45)}
+.fld textarea{display:block;width:100%;min-height:96px;margin-top:6px;font:16px var(--sans);letter-spacing:0;text-transform:none;color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px;resize:vertical;-webkit-appearance:none;appearance:none}
+.fld textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.lcnt{text-align:right;font-size:10.5px;color:var(--dim);margin:-6px 0 12px}
+.ltime{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:6px}
+.ltime input,.ltime select{display:block;width:100%;min-height:48px;font:16px var(--sans);color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px 14px;-webkit-appearance:none;appearance:none}
+.ltime input:disabled{opacity:.4}
+.lchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.lchip{font:600 12px var(--sans);color:var(--text);background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:99px;padding:8px 12px;cursor:pointer}
+.lsearch{display:block;width:100%;min-height:44px;font:16px var(--sans);color:var(--text);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 6px;-webkit-appearance:none;appearance:none}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.lwho{min-width:0}.lwho b{display:block;font-size:13.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lwho small{display:block;font-size:11px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbt{font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--line);border-radius:99px;padding:9px 14px;cursor:pointer;flex:none}
+.lbt.on{background:linear-gradient(#fff,#b9bfca);color:#000;border-color:transparent}
+#plock{display:none;position:fixed;top:0;left:0;width:100%;height:var(--h);z-index:100;align-items:center;justify-content:center;padding:calc(var(--sat) + 16px) 16px calc(var(--sab) + 16px);background:rgba(0,0,0,.9);backdrop-filter:blur(18px) saturate(120%);-webkit-backdrop-filter:blur(18px) saturate(120%);overflow-y:auto}
+body.plocked #plock{display:flex}
+.pl-card{pointer-events:auto;width:100%;max-width:420px;padding:30px 22px 24px;text-align:center;margin:auto}
+.pl-ic{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,194,122,.45);background:rgba(255,194,122,.08);color:#ffc27a;box-shadow:0 0 36px rgba(255,194,122,.14)}
+.pl-ic svg{width:30px;height:30px}
+.pl-card h2{margin:8px 0 12px}
+.pl-msg{color:var(--text);font-size:15px;line-height:1.6;white-space:pre-wrap;word-break:break-word;margin:0 0 16px}
+.pl-t{font:600 12px var(--mono);letter-spacing:.12em;color:var(--dim);font-variant-numeric:tabular-nums}
+
+/* locked: the whole portal blinks red */
+#plock::before{content:"";position:fixed;top:0;left:0;width:100%;height:var(--h);pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(255,40,40,.6),rgba(190,0,0,.38) 60%,rgba(120,0,0,.3));opacity:0;animation:plblink 1.2s ease-in-out infinite}
+@keyframes plblink{0%,100%{opacity:0}50%{opacity:1}}
+@keyframes plglow{0%,100%{box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 rgba(255,50,50,0)}50%{box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 60px rgba(255,50,50,.5)}}
+.pl-card{position:relative;z-index:1;border-color:rgba(255,80,80,.55);animation:plglow 1.2s ease-in-out infinite}
+.pl-ic{border-color:rgba(255,90,90,.6);background:rgba(255,60,60,.1);color:#ff6b6b;box-shadow:0 0 36px rgba(255,60,60,.3)}
+@media (prefers-reduced-motion:reduce){#plock::before,.pl-card{animation-duration:3.6s}}
+</style>
+
+
+
+<style>/* Sidebar menu: one round button opens a drawer with every section, so the top of the screen stays clean. */
+html body #cats{display:flex!important;flex-direction:column;gap:8px;position:fixed;z-index:20;top:0;left:0;bottom:0;right:auto;width:min(300px,84vw);height:auto;max-width:none!important;margin:0;padding:calc(var(--sat) + 74px) 14px calc(var(--sab) + 20px);overflow-x:hidden;overflow-y:auto;border:0;border-right:1px solid var(--line);border-radius:0 26px 26px 0;background:rgba(12,13,17,.94);backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);box-shadow:24px 0 60px rgba(0,0,0,.55);transform:translateX(-106%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s}
+html body.menu-open #cats{transform:none;visibility:visible;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s}
+#cats .mlabel{order:-1;font:600 10.5px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin:2px 6px 4px}
+#cats .mlabel.own{order:19;margin-top:14px;display:none}
+#cats button{display:flex;align-items:center;gap:12px;width:100%;flex:none;text-align:left;font:600 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin:0;white-space:normal}
+#cats button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000;border-color:transparent}
+#cats button.sporebtn{order:10;width:100%!important;height:auto!important;padding:15px 16px!important;margin:0!important;border-radius:14px!important;justify-content:flex-start}
+#cats button.sporebtn svg{width:20px;height:20px;flex:none}
+#cats button[data-go]{display:none!important}
+body[data-view=done] #cats button[data-go],body[data-view=merits] #cats button[data-go],body[data-view=genesis] #cats button[data-go],body[data-view=web] #cats button[data-go],body[data-view=tools] #cats button[data-go],body[data-view=spore] #cats button[data-go]{display:flex!important}
+#cats .mbtn.own{order:20;display:none}
+body.owner #cats .mlabel.own{display:block}body.owner #cats .mbtn.own{display:flex}
+html body #fbtn,html body #lbtn{display:none!important}
+#menubtn{display:none;position:fixed;z-index:21;top:calc(var(--sat) + 12px);left:12px;width:40px;height:40px;min-width:40px;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#fff;cursor:pointer;align-items:center;justify-content:center;-webkit-appearance:none;appearance:none}
+#menubtn svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+#menubtn .x{display:none}body.menu-open #menubtn .x{display:block}body.menu-open #menubtn .bars{display:none}
+body.ready[data-view=done] #menubtn,body.ready[data-view=merits] #menubtn,body.ready[data-view=genesis] #menubtn,body.ready[data-view=web] #menubtn,body.ready[data-view=tools] #menubtn,body.ready[data-view=spore] #menubtn{display:flex}
+body.ready.owner:not([data-view=founders]):not([data-view=sync]):not([data-view=lock]):not([data-view=denied]):not([data-view=banned]) #menubtn{display:flex}
+body.plocked #menubtn,body.locked #menubtn{display:none!important}
+#menuscrim{position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+body.menu-open #menuscrim{opacity:1;visibility:visible;transition-delay:0s}
+@media (prefers-reduced-motion:reduce){html body #cats,#menuscrim{transition:none}}
+</style>
+<style>/* Full-page sections: the 3D logo only lives on the intro screen, so every other section fills the page from just under the menu button down to the countdown bar. */
+.view[data-view=letter] .sheet,.view[data-view=form] .sheet,.view[data-view=done] .sheet,.view[data-view=genesis] .sheet,.view[data-view=merits] .sheet,.view[data-view=web] .sheet,.view[data-view=tools] .sheet,.view[data-view=spore] .sheet{height:calc(100% - var(--sat) - 60px);max-height:none}
+.view[data-view=sync] .sheet,.view[data-view=founders] .sheet,.view[data-view=lock] .sheet{height:calc(100% - var(--sat) - 16px);max-height:none}
+@media (min-width:700px){.view[data-view=letter] .sheet,.view[data-view=form] .sheet,.view[data-view=done] .sheet,.view[data-view=genesis] .sheet,.view[data-view=merits] .sheet,.view[data-view=web] .sheet,.view[data-view=tools] .sheet,.view[data-view=spore] .sheet,.view[data-view=sync] .sheet,.view[data-view=founders] .sheet,.view[data-view=lock] .sheet{height:calc(100% - 24px);max-height:none}}
+</style>
+<style>/* keep every section clear of the countdown bar, whatever its height */
+html body .view{bottom:calc(var(--sab) + 22px + var(--dock-h,103px))}
+</style>
+<style>/* Adaptive layer: safe areas, landscape / tiny / large screens, input comfort, and lighter rendering on weaker devices. Layout and paint only; no behaviour. */
+:root{--sal:calc(env(safe-area-inset-left,0px) + var(--tg-sal,0px));--sar:calc(env(safe-area-inset-right,0px) + var(--tg-sar,0px))}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,select,summary,label,input[type=radio],input[type=checkbox]{touch-action:manipulation}
+.view,.sheet,#nsMsgs,#spChat,#plock{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
+/* notches and rounded corners in landscape */
+html body .view{padding-left:max(14px,var(--sal));padding-right:max(14px,var(--sar))}
+html body .tabs{left:max(12px,var(--sal));right:max(12px,var(--sar))}
+html body #menubtn{left:max(12px,var(--sal))}
+html body #cats{padding-left:max(14px,var(--sal))}
+@media (min-width:700px){html body .view{right:max(5vw,var(--sar))}}
+/* keyboard users and mouse users */
+button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:disabled{cursor:not-allowed}
+@media (hover:hover) and (pointer:fine){
+.btn:not(:disabled):hover,#cats button:hover,.nstabs button:hover,.lbt:hover,.mc button:hover,.fback:hover,.lchip:hover,#menubtn:hover,.cside button:hover{border-color:rgba(255,255,255,.4)}
+.btn.solid:not(:disabled):hover{filter:brightness(1.08)}
+}
+/* landscape phones and other short screens */
+@media (max-height:520px) and (orientation:landscape){
+h2{font-size:24px}.gl-t{font-size:24px}
+.gl-pct b,.mtot b{font-size:44px}
+.tabs .cd b{font-size:18px}.cdl{margin-bottom:4px}
+.nsslot,.nstile{height:46px}
+}
+/* very narrow phones and tiny split-screen windows */
+@media (max-width:359px){
+h2{font-size:26px}.gl-t{font-size:26px}
+.gl-pct b,.mtot b{font-size:48px}
+.tabs .cd b{font-size:19px}.cd{gap:6px}.cd small{letter-spacing:.12em;font-size:8.5px}
+.nsslot,.nstile{min-width:40px;height:48px}
+.seg span{font-size:13px}
+#cats button{letter-spacing:.1em}
+.facts{font-size:10px}
+}
+@media (prefers-reduced-motion:reduce){.gl-s::before,.mv.pop{animation:none}}
+/* weaker devices: html[data-perf] is set by the device profile script and can drop to "low" live if the device struggles */
+html[data-perf=mid] .glass{-webkit-backdrop-filter:blur(14px) saturate(130%);backdrop-filter:blur(14px) saturate(130%)}
+html[data-perf=mid] .tabs{-webkit-backdrop-filter:blur(16px) saturate(130%);backdrop-filter:blur(16px) saturate(130%)}
+html[data-perf=low] .glass,html[data-perf=low] .tabs,html[data-perf=low] #cats,html[data-perf=low] #menubtn,html[data-perf=low] #menuscrim,html[data-perf=low] #plock,html[data-perf=low] #fbtn,html[data-perf=low] #lbtn{-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-perf=low] .glass{background:linear-gradient(145deg,rgba(40,42,50,.93),rgba(16,17,21,.95));box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12)}
+html[data-perf=low] .tabs{background:rgba(20,21,26,.92)}
+html[data-perf=low] #menubtn{background:rgba(20,21,26,.9)}
+html[data-perf=low] #menuscrim{background:rgba(0,0,0,.7)}
+html[data-perf=low] .view,html[data-perf=low] .view.out{filter:none}
+</style>
+<link rel="preload" href="assets/model.e0f63614.json" as="fetch" crossorigin><link rel="preload" href="assets/pyramid.0334b620.bin" as="fetch" crossorigin>
+<script defer src="https://telegram.org/js/telegram-web-app.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/app.js"></script>
+<script>window.__MODEL__={json:"assets/model.e0f63614.json",bin:"assets/pyramid.0334b620.bin"}</script>
+<script defer src="js/loader.js"></script>
+</head>
+<body>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div id="safeProbe"></div>
+<div class="vignette"></div>
+<main id="views">
+  <section class="view on" data-view="intro"><div class="hero"><p class="tag">ILLUMINATI SECRET SOCIETY</p><p class="eyebrow cap">Member portal</p></div></section>
+
+  <section class="view" data-view="letter"><div class="glass sheet">
+    <h2>Welcome to the Society</h2>
+    <p class="lead">Your application has been accepted.</p>
+    <p class="lead">You are now an official member of the Illuminati.</p>
+    <p>As part of your induction, you will be required to complete your Member Profile through the official Portal by providing the following information:</p>
+    <ul class="req"><li>Full Name</li><li>Date of Birth</li><li>Country of Residence</li><li>Gender</li><li>Username</li></ul>
+    <h3>Privacy Notice</h3>
+    <p>To preserve the privacy, anonymity, and security of all members, the Society does not require your email address or phone number during the registration process. Only the information listed above is necessary to establish your membership identity.</p>
+    <p>Once your profile is submitted, the Portal will generate:</p>
+    <ul class="req"><li>A unique Member Identification Code</li><li>A personalized Digital Membership Card</li></ul>
+    <p>Additional instructions, access privileges, and operational details will be released once the Founders officially initiate Operation: New Order.</p>
+    <p>Until then, await further communication.</p>
+    <p class="lead">The next phase begins soon.</p>
+    <div class="stick"><button class="btn solid" data-go="form">Complete member profile</button></div>
+  </div></section>
+
+  <section class="view" data-view="form"><div class="glass sheet">
+    <h2>Member Profile</h2>
+    <label class="fld">Full name<input id="fn" maxlength="60" autocomplete="off" autocapitalize="words"></label>
+    <label class="fld">Username<input id="un" maxlength="20" required aria-required="true" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. shadow_wolf"></label>
+    <p class="note un" id="unh"></p>
+    <label class="fld">Date of birth<input id="dob" type="date" min="1900-01-01"></label>
+    <label class="fld">Country of residence<select id="ct"><option value="">Select your country</option></select></label>
+    <fieldset><legend>Gender</legend><div class="seg">
+      <label><input type="radio" name="g" value="Male"><span>Male</span></label>
+      <label><input type="radio" name="g" value="Female"><span>Female</span></label>
+      <label><input type="radio" name="g" value="Other"><span>Other</span></label>
+    </div></fieldset>
+    <p class="note err" id="err" role="alert"></p>
+    <button class="btn solid" id="sub">Submit profile</button>
+    <p class="note">One submission per member. It cannot be changed afterwards.</p>
+  </div></section>
+
+  <section class="view" data-view="done"><div class="glass sheet">
+    <h2>Profile received</h2>
+    <p class="lbl">Your Member Identification Code</p>
+    <div class="codebox"><div class="code" id="dcode"></div></div>
+    <button class="btn solid" id="cdec" type="button" style="display:none;margin:0 0 8px">Decrypt Identification Code</button>
+    <p class="note" id="clockn" style="display:none">Your code is encrypted. Synchronize nodes with 4 other members to decrypt it. You only do this once.</p>
+    <button class="btn cpy" id="ccopy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy code</span></button>
+    <button class="btn" id="chelp" type="button" style="margin:-6px 0 14px">Open Node Sync · help other members</button>
+    <div class="cardwrap"><canvas id="cardGl" role="img" aria-label="Your 3D Digital Membership Card. Drag to rotate."></canvas><div class="cfb" id="cfb">Your 3D card needs WebGL, which this browser has turned off.</div></div>
+    <div class="cside" role="group" aria-label="Card side"><button id="cbf" aria-pressed="true">Front</button><button id="cbb" aria-pressed="false">Back</button></div>
+    <p class="note">Drag the card to rotate it, or double-tap to flip it.</p>
+    <ul class="sum"><li>Name<b id="dn"></b></li><li>Country<b id="dc"></b></li><li>Username<b id="du"></b></li></ul>
+    <div id="uclaim" style="display:none"><label class="fld">Choose your username<input id="uc" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. shadow_wolf"></label><p class="note un" id="uch"></p><button class="btn" id="ucb">Save username</button><p class="note">Usernames are unique and cannot be changed afterwards.</p></div>
+    <p>Your profile has been received and your personalized Digital Membership Card has been generated. Keep your code private. It activates your membership once.</p>
+    <p>Additional instructions, access privileges, and operational details will be released once the Founders officially initiate Operation: New Order.</p>
+    <p class="lead">Until then, await further communication.</p>
+  </div></section>
+
+  <section class="view" data-view="genesis"><div class="glass sheet">
+    <p class="sh">Genesis Lock</p>
+    <p class="gl-p">The Genesis Lock is a global synchronization protocol that can only advance through collective participation.</p>
+    <p class="gl-p">Every interaction with the network contributes to its overall synchronization state. As the protocol stabilizes, the Progress Index gradually increases, unlocking new transmissions, encrypted archives, hidden nodes, and previously inaccessible sections of the system.</p>
+    <div class="gl-pct"><b id="glp">0%</b><span>Progress</span></div>
+    <div class="gl-bar" role="progressbar" aria-label="Genesis Lock progress" aria-valuemin="0" aria-valuemax="100"><i id="glb"></i></div>
+    <div class="gl-m">
+      <div><small>Participants Online</small><b id="glo">&mdash;</b></div>
+      <div><small>Network Stability</small><b id="gls">&mdash;</b></div>
+      <div style="grid-column:span 2"><small>Synchronization Accuracy</small><b id="gla">&mdash;</b></div>
+    </div>
+    <div class="gl-s" id="glst">Status: Awaiting Full Synchronization</div>
+    <p class="gl-p">Progress cannot be accelerated by any individual. The protocol advances only when the network reaches and maintains the required synchronization conditions.</p>
+    <p class="gl-p">Unexpected anomalies, synchronization failures, and unidentified interference may temporarily reduce network stability or delay activation.</p>
+    <p class="gl-p">When the Genesis Lock reaches full synchronization, the protocol will transition to its next operational phase and reveal the next stage of the investigation.</p>
+    <div class="wallet" id="glw" aria-disabled="true" role="group" aria-label="BTC Wallet, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>BTC Wallet</b><span id="glws">Unlocks at full synchronization.</span></div>
+      <i class="wp" id="glwp">Locked</i>
+    </div>
+  </div></section>
+
+  <section class="view" data-view="merits"><div class="glass sheet">
+    <p class="sh">Merits</p>
+    <div class="mtot"><b id="mv">0</b><span>Merits</span></div>
+    <div class="mstat"><div><small>Rank</small><b id="mr">&mdash;</b></div><div><small>Status</small><b id="ms">Active</b></div></div>
+
+    <div class="wallet" aria-disabled="true" role="group" aria-label="BTC Wallet, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>BTC Wallet</b><span>Locked. Not accessible.</span></div>
+      <i class="wp">Locked</i>
+    </div>
+
+    <p class="sh">Hall of Merit<small id="hc"></small></p>
+    <div class="hh"><span>Rank</span><span>Member</span><span>Merits</span></div>
+    <div id="hall"></div>
+  </div></section>
+
+  <section class="view" data-view="web"><div class="glass sheet">
+    <p class="sh">Access Web</p>
+    <p class="gl-p">Web access is locked. It can only be unlocked once a node synchronization is decrypted.</p>
+    <p class="gl-p">The synchronization needs 100 members online in the same batch at the same time. Each round gives you a 7 second timer, and the batch live chat stays open for 10 minutes before it resets.</p>
+    <div class="gl-m">
+      <div><small>Nodes needed</small><b>100</b></div>
+      <div><small>Timer</small><b>7s</b></div>
+      <div><small>Live chat</small><b>10 min</b></div>
+    </div>
+    <div class="wallet web" id="webw" aria-disabled="true" role="group" aria-label="Web access, locked">
+      <div class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="wt"><b>Web Access</b><span>Locked. Decrypt a 100-node synchronization to unlock.</span></div>
+      <i class="wp" id="webp">Locked</i>
+    </div>
+    <button class="btn solid" id="webdec" type="button">Decrypt web access</button>
+    <button class="btn solid" id="webgo" type="button" style="display:none">Open vssociety.site</button>
+    <button class="btn" id="webhelp" type="button" style="display:none">Open Node Sync &middot; help other members unlock web access</button>
+    <p class="gl-p" id="webn">The decryption runs once. Join a batch with other members, rebuild your reference code before the 7 second timer ends, and when 100 nodes align together web access opens permanently.</p>
+  </div></section>
+
+    <section class="view" data-view="sync"><div class="glass sheet">
+    <div class="nshead"><button class="fback" id="nsBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button><span class="eyebrow" id="nsMode">Node synchronization</span></div>
+
+    <div id="nsPick">
+      <h2>Choose a batch</h2>
+      <p id="nsWho"></p>
+      <div class="nscard"><p class="nslbl">No friends here yet?</p><p>Get matched into a random batch with other members waiting to sync.</p><button class="btn solid" id="nsRnd" type="button" style="margin:0">Join random batch</button><p class="note err" id="nsRe" role="alert"></p></div>
+      <div class="nstabs" role="group" aria-label="Batch options"><button id="nsTS" type="button" aria-pressed="true">Search</button><button id="nsTC" type="button" aria-pressed="false">Create</button><button id="nsTJ" type="button" aria-pressed="false">Friends key</button></div>
+      <div id="nsPS">
+        <input class="nsin" type="search" id="nsQ" placeholder="Search batches" maxlength="40" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search batches">
+        <div id="nsRes"></div>
+        <p class="note" id="nsRs" style="text-align:left"></p>
+      </div>
+      <form id="nsPC" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="nsCn" maxlength="24" autocomplete="off"></label>
+        <label class="nschk"><input type="checkbox" id="nsCf2"> Friends only (hidden from search)</label>
+        <label class="fld" id="nsKw" hidden>Friends key<input id="nsCk" maxlength="24" placeholder="Share this with friends" autocomplete="off"></label>
+        <p class="note err" id="nsCe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Create &amp; join</button>
+      </form>
+      <form id="nsPJ" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="nsJn" maxlength="24" autocomplete="off"></label>
+        <label class="fld">Friends key<input id="nsJk" maxlength="24" autocomplete="off"></label>
+        <p class="note err" id="nsJe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Join</button>
+      </form>
+    </div>
+
+    <div id="nsGame" hidden>
+      <div class="nshead" style="margin-top:2px"><span class="eyebrow" id="nsMeta"></span><button class="nslink" id="nsLeave" type="button">Change batch</button></div>
+      <h2>Synchronize</h2>
+      <p id="nsRule">Your reference code is unique to you. Rebuild it before the timer ends. Synchronization only runs while 5 members are online.</p>
+      <div class="nscard">
+        <p class="nslbl">Your reference code</p>
+        <div class="nsref" id="nsRef"></div>
+        <p class="nsdim" style="margin:6px 0 0">new code in <span id="nsRt">3:00</span></p>
+        <div class="nsbar"><div id="nsBarI"></div></div>
+        <p class="nsdim" style="margin:0"><span id="nsT">5.0</span>s</p>
+      </div>
+      <div class="nscard">
+        <p class="nslbl">Your sequence</p><div class="nsrow" id="nsSlots"></div>
+        <p class="nslbl" style="margin-top:16px">Fragments</p><div class="nsrow" id="nsTiles"></div>
+      </div>
+      <div class="nscard"><div id="nsSt" style="min-height:22px;font-size:14px;color:var(--mute)"></div><p class="nsdim" id="nsOn" style="margin:4px 0 0"></p></div>
+      <div class="nscard" style="text-align:left">
+        <div class="nshead"><span class="nslbl" style="margin:0">Live chat</span><span class="nsdim">resets in <span id="nsCt">3:00</span></span></div>
+        <div id="nsMsgs" aria-live="polite"></div>
+        <form id="nsCf" autocomplete="off"><input class="nsin" id="nsCi" maxlength="200" placeholder="Message your batch" aria-label="Message"><button class="btn solid" type="submit">Send</button></form>
+        <p class="nsdim" id="nsCn" style="margin:10px 0 0;font-size:11px">Messages live only on screen for online members and vanish every 3 minutes.</p>
+      </div>
+    </div>
+
+    <div id="nsDone" hidden style="text-align:center;padding:26px 0 6px">
+      <span class="eyebrow">Protocol</span>
+      <h2 style="margin:10px 0">Node Synchronized</h2>
+      <p id="nsDn"></p>
+      <button class="btn solid" id="nsDbtn" type="button"></button>
+    </div>
+  </div></section>  <section class="view" data-view="spore"><div class="glass sheet">
+    <div id="spPick">
+      <span class="eyebrow">Spore outbreak</span>
+      <h2>Choose a batch</h2>
+      <p>Join a batch. When 5 members are online and press Start, the outbreak begins. Every game is unique to its batch. You get 3 attempts per day.</p>
+      <p class="nsdim" id="spLeft" style="margin:0 0 10px"></p>
+      <div class="nscard"><p class="nslbl">No friends here yet?</p><p>Get matched into a random batch with other members waiting to play.</p><button class="btn solid" id="spRnd" type="button" style="margin:0">Join random batch</button><p class="note err" id="spRe" role="alert"></p></div>
+      <div class="nstabs" role="group" aria-label="Batch options"><button id="spTS" type="button" aria-pressed="true">Search</button><button id="spTC" type="button" aria-pressed="false">Create</button><button id="spTJ" type="button" aria-pressed="false">Friends key</button></div>
+      <div id="spPS">
+        <input class="nsin" type="search" id="spQ" placeholder="Search batches" maxlength="40" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search batches">
+        <div id="spRes"></div>
+        <p class="note" id="spRs" style="text-align:left"></p>
+      </div>
+      <form id="spPC" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="spCn" maxlength="24" autocomplete="off"></label>
+        <label class="nschk"><input type="checkbox" id="spCf2"> Friends only (hidden from search)</label>
+        <label class="fld" id="spKw" hidden>Friends key<input id="spCk" maxlength="24" placeholder="Share this with friends" autocomplete="off"></label>
+        <p class="note err" id="spCe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Create &amp; join</button>
+      </form>
+      <form id="spPJ" hidden autocomplete="off" novalidate>
+        <label class="fld">Batch name<input id="spJn" maxlength="24" autocomplete="off"></label>
+        <label class="fld">Friends key<input id="spJk" maxlength="24" autocomplete="off"></label>
+        <p class="note err" id="spJe" role="alert" style="text-align:left"></p>
+        <button class="btn solid" type="submit" style="margin-top:0">Join</button>
+      </form>
+    </div>
+
+    <div id="spGame" hidden>
+      <div class="nshead"><span class="eyebrow" id="spMeta"></span><button class="nslink" id="spLeave" type="button">Change batch</button></div>
+      <h2>Spore: 5 Users</h2>
+      <p class="gl-p">Each of the 5 users guards one home node (ringed U1 to U5) and has only 4 cures. Only the owner can cure their home node. If any home node is infected at 20s, or an owner runs out of cures while theirs is infected, everyone loses. Win: +5 merits for all 5 users. Loss: -2 merits for all 5 users.</p>
+      <div class="nscard">
+        <div class="sp-stat"><span id="spL">Accepted: 0/5</span><span><b id="spT">20</b>s</span></div>
+        <div class="nsbar"><div id="spBar"></div></div>
+        <p class="nsdim" id="spOn" style="margin:8px 0 0"></p>
+      </div>
+      <canvas id="spCv" aria-label="Spore network. Tap a node."></canvas>
+      <div class="nscard">
+        <div class="sp-pls" id="spPlayers"></div>
+        <div id="spInfo">Tap a node.</div>
+        <div class="sp-row"><input class="nsin" id="spCode" maxlength="4" placeholder="code" autocomplete="off" autocapitalize="characters" spellcheck="false" hidden><button class="btn solid" id="spCure" type="button" hidden>Cure</button><button class="btn" id="spScan" type="button" hidden>Scan</button></div>
+        <button class="btn solid" id="spGo" type="button" disabled>Start</button>
+        <p class="note" style="margin-top:12px">The game begins when all 5 users in your batch press Start. Every cure attempt costs 1 cure, even a wrong code or a fake alarm. A node may be a false alarm, and a cure on a false alarm still costs 1. A scan is free but takes 3s, then shows a node's true state for 10s. Codes mutate every 6s.</p>
+      </div>
+      <div class="nscard" id="spLog"></div>
+      <div class="nscard" id="spOver" hidden><p class="nslbl">Outbreak report</p><div id="spOres"></div><p class="nsdim" id="spOt" style="margin-top:6px"></p><p class="nsdim" id="spOm" style="margin-top:4px;color:var(--text)"></p><button class="btn solid" id="spAgain" type="button" style="margin-top:8px">Play again</button></div>
+      <div class="nscard" style="text-align:left">
+        <div class="nshead"><span class="nslbl" style="margin:0">Live chat</span><span class="nsdim">resets in <span id="spCc">3:00</span></span></div>
+        <div id="spChat" aria-live="polite"></div>
+        <form id="spCf" autocomplete="off"><input class="nsin" id="spCi" maxlength="140" placeholder="Message your batch" aria-label="Message"><button class="btn solid" type="submit">Send</button></form>
+        <p class="nsdim" style="margin:10px 0 0;font-size:11px">Messages live only for online members and vanish every 3 minutes.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="view" data-view="denied"><div class="glass sheet">
+    <h2>Access denied</h2>
+    <p id="dmsg">This miniapp is only for members of the paid channel. Join the channel, then reopen the app.</p>
+  </div></section>
+
+  <section class="view" data-view="banned"><div class="glass sheet">
+    <h2>Access revoked</h2>
+    <p>This account has been removed from the Society. It can no longer register or sign in.</p>
+  </div></section>
+
+  <section class="view" data-view="tools"><div class="glass sheet">
+    <p class="sh">Tools</p>
+    <p class="gl-p">Tools for members will appear here.</p>
+    <div id="toolsl"><div class="wallet" aria-disabled="true" role="group" aria-label="No tools yet"><div class="wt"><b>Coming soon</b><span>No tools are available yet.</span></div></div></div>
+  </div></section>
+
+  <section class="view" data-view="founders"><div class="glass sheet">
+    <div class="fhead">
+      <div class="frow"><button class="fback" id="fback" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button><h2>Founders</h2><span class="fcount" id="fc"></span></div>
+      <input id="fq" type="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Search code, name, country, account" aria-label="Search members">
+    </div>
+    <div id="fl"></div>
+  </div></section>
+  <section class="view" data-view="lock"><div class="glass sheet">
+    <div class="fhead">
+      <div class="frow"><button class="fback" id="lback" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button><h2>Portal Lock</h2><span class="fcount" id="lst"></span></div>
+    </div>
+    <div class="lkst" id="lkst" role="status" aria-live="polite">Loading…</div>
+    <label class="fld">Warning shown to members<textarea id="lmsg" maxlength="500" rows="4" placeholder="The portal is temporarily locked by the founder." autocomplete="off"></textarea></label>
+    <div class="lcnt" id="lcnt">0/500</div>
+    <fieldset><legend>Time limit</legend><div class="ltime"><input id="lnum" type="number" inputmode="numeric" min="1" max="525600" step="1" value="30" aria-label="Time limit amount"><select id="lunit" aria-label="Time limit unit"><option value="1">Minutes</option><option value="60">Hours</option><option value="1440">Days</option><option value="0">Until I unlock</option></select></div></fieldset>
+    <h3>Exceptions</h3>
+    <p class="note" style="text-align:left;margin:0 0 10px">These members can still enter while the portal is locked. You are always allowed in. Changes apply when you press Save or Lock.</p>
+    <div class="lchips" id="lex"></div>
+    <input class="lsearch" id="lq" type="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Search members to allow" aria-label="Search members to allow">
+    <div id="llist"></div>
+    <button class="btn" id="lsave" type="button">Save message &amp; exceptions</button>
+    <button class="btn" id="lrs" type="button" style="display:none">Restart timer with this limit</button>
+    <button class="btn solid" id="lgo" type="button">Lock portal</button>
+    <p class="note" id="lnote" role="status"></p>
+  </div></section>
+</main>
+<button id="lbtn" type="button" aria-label="Portal lock" title="Portal lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
+<button id="fbtn" type="button" aria-label="Founders" title="Founders"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.4 9.6l6.7-.9z"/></svg></button>
+<div id="cats" role="navigation" aria-label="Menu"><span class="mlabel">Menu</span><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button><button class="sporebtn" data-go="spore" aria-pressed="false" aria-label="Spore" title="Spore"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.8v8.4l6.6-4.2z" fill="currentColor"/></svg><span>Spore</span></button><span class="mlabel own">Founder</span><button class="mbtn own" id="mfound" type="button">Founders</button><button class="mbtn own" id="mlock" type="button">Portal lock</button></div>
+<button id="menubtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="cats"><svg class="bars" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<div id="menuscrim"></div>
+
+<div id="plock" role="alertdialog" aria-modal="true" aria-labelledby="plh" aria-describedby="plm"><div class="glass pl-card"><div class="pl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div><div class="eyebrow">Warning from the System</div><h2 id="plh">Portal Locked</h2><p class="pl-msg" id="plm"></p><div class="pl-t" id="plc"></div></div></div>
+
+<div class="glass tabs" id="tabs">
+  <span class="cdl" id="cdTitle">Operation: New Order commences in</span>
+  <div class="cd"><div><b id="d">00</b><small>Days</small></div><div><b id="h">00</b><small>Hours</small></div><div><b id="m">00</b><small>Minutes</small></div><div><b id="s">00</b><small>Seconds</small></div></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
