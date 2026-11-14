@@ -320,6 +320,14 @@ body.plocked #menubtn,body.locked #menubtn{display:none!important}
 body.menu-open #menuscrim{opacity:1;visibility:visible;transition-delay:0s}
 @media (prefers-reduced-motion:reduce){html body #cats,#menuscrim{transition:none}}
 </style>
+<style>/* Full-page sections: the 3D logo only lives on the intro screen, so every other section fills the page from just under the menu button down to the countdown bar. */
+.view[data-view=letter] .sheet,.view[data-view=form] .sheet,.view[data-view=done] .sheet,.view[data-view=genesis] .sheet,.view[data-view=merits] .sheet,.view[data-view=web] .sheet,.view[data-view=tools] .sheet,.view[data-view=spore] .sheet{height:calc(100% - var(--sat) - 60px);max-height:none}
+.view[data-view=sync] .sheet,.view[data-view=founders] .sheet,.view[data-view=lock] .sheet{height:calc(100% - var(--sat) - 16px);max-height:none}
+@media (min-width:700px){.view[data-view=letter] .sheet,.view[data-view=form] .sheet,.view[data-view=done] .sheet,.view[data-view=genesis] .sheet,.view[data-view=merits] .sheet,.view[data-view=web] .sheet,.view[data-view=tools] .sheet,.view[data-view=spore] .sheet,.view[data-view=sync] .sheet,.view[data-view=founders] .sheet,.view[data-view=lock] .sheet{height:calc(100% - 24px);max-height:none}}
+</style>
+<style>/* keep every section clear of the countdown bar, whatever its height */
+html body .view{bottom:calc(var(--sab) + 22px + var(--dock-h,103px))}
+</style>
 </head>
 <body>
 <canvas id="stage" aria-hidden="true"></canvas>
@@ -1482,5 +1490,9 @@ const via=id=>()=>{set(false);const t=document.getElementById(id);if(t)t.click()
 document.getElementById("mfound").onclick=via("fbtn");document.getElementById("mlock").onclick=via("lbtn");
 new MutationObserver(()=>{if(!b.classList.contains("menu-open"))mb.setAttribute("aria-expanded","false")}).observe(b,{attributes:true,attributeFilter:["class"]});
 })();</script>
+<script>/* measure the countdown bar so sections always stop just above it */
+(function(){const t=document.getElementById("tabs");if(!t)return;
+const f=()=>{const h=Math.ceil(t.offsetHeight);if(h>0)document.documentElement.style.setProperty("--dock-h",h+"px")};
+f();if(window.ResizeObserver)new ResizeObserver(f).observe(t);addEventListener("resize",f);})();</script>
 </body>
 </html>
