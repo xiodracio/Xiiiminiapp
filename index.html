@@ -296,11 +296,29 @@ body.plocked #plock{display:flex}
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<style>/* Top bar: section tabs (spore, Profile, Merits, ...) scroll in their own lane and never sit under the founder star or lock button. */
-#cats{right:auto;width:max-content;max-width:calc(100% - 24px);height:40px;align-items:center;gap:2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-#cats::-webkit-scrollbar{display:none}
-#cats button{flex:0 0 auto;white-space:nowrap}
-body.ready.owner #cats{max-width:calc(100% - 124px)}
+<style>/* Sidebar menu: one round button opens a drawer with every section, so the top of the screen stays clean. */
+html body #cats{display:flex!important;flex-direction:column;gap:8px;position:fixed;z-index:20;top:0;left:0;bottom:0;right:auto;width:min(300px,84vw);height:auto;max-width:none!important;margin:0;padding:calc(var(--sat) + 74px) 14px calc(var(--sab) + 20px);overflow-x:hidden;overflow-y:auto;border:0;border-right:1px solid var(--line);border-radius:0 26px 26px 0;background:rgba(12,13,17,.94);backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);box-shadow:24px 0 60px rgba(0,0,0,.55);transform:translateX(-106%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s}
+html body.menu-open #cats{transform:none;visibility:visible;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s}
+#cats .mlabel{order:-1;font:600 10.5px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin:2px 6px 4px}
+#cats .mlabel.own{order:19;margin-top:14px;display:none}
+#cats button{display:flex;align-items:center;gap:12px;width:100%;flex:none;text-align:left;font:600 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin:0;white-space:normal}
+#cats button[aria-pressed=true]{background:linear-gradient(#fff,#b9bfca);color:#000;border-color:transparent}
+#cats button.sporebtn{order:10;width:100%!important;height:auto!important;padding:15px 16px!important;margin:0!important;border-radius:14px!important;justify-content:flex-start}
+#cats button.sporebtn svg{width:20px;height:20px;flex:none}
+#cats button[data-go]{display:none!important}
+body[data-view=done] #cats button[data-go],body[data-view=merits] #cats button[data-go],body[data-view=genesis] #cats button[data-go],body[data-view=web] #cats button[data-go],body[data-view=tools] #cats button[data-go],body[data-view=spore] #cats button[data-go]{display:flex!important}
+#cats .mbtn.own{order:20;display:none}
+body.owner #cats .mlabel.own{display:block}body.owner #cats .mbtn.own{display:flex}
+html body #fbtn,html body #lbtn{display:none!important}
+#menubtn{display:none;position:fixed;z-index:21;top:calc(var(--sat) + 12px);left:12px;width:40px;height:40px;min-width:40px;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(20,21,26,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#fff;cursor:pointer;align-items:center;justify-content:center;-webkit-appearance:none;appearance:none}
+#menubtn svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+#menubtn .x{display:none}body.menu-open #menubtn .x{display:block}body.menu-open #menubtn .bars{display:none}
+body.ready[data-view=done] #menubtn,body.ready[data-view=merits] #menubtn,body.ready[data-view=genesis] #menubtn,body.ready[data-view=web] #menubtn,body.ready[data-view=tools] #menubtn,body.ready[data-view=spore] #menubtn{display:flex}
+body.ready.owner:not([data-view=founders]):not([data-view=sync]):not([data-view=lock]):not([data-view=denied]):not([data-view=banned]) #menubtn{display:flex}
+body.plocked #menubtn,body.locked #menubtn{display:none!important}
+#menuscrim{position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+body.menu-open #menuscrim{opacity:1;visibility:visible;transition-delay:0s}
+@media (prefers-reduced-motion:reduce){html body #cats,#menuscrim{transition:none}}
 </style>
 </head>
 <body>
@@ -577,7 +595,9 @@ body.ready.owner #cats{max-width:calc(100% - 124px)}
 </main>
 <button id="lbtn" type="button" aria-label="Portal lock" title="Portal lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>
 <button id="fbtn" type="button" aria-label="Founders" title="Founders"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.4 9.6l6.7-.9z"/></svg></button>
-<div id="cats" role="group" aria-label="Sections"><button class="sporebtn" data-go="spore" aria-pressed="false" aria-label="Spore" title="Spore"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.8v8.4l6.6-4.2z" fill="currentColor"/></svg></button><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button></div>
+<div id="cats" role="navigation" aria-label="Menu"><span class="mlabel">Menu</span><button data-go="done" aria-pressed="true">Profile</button><button data-go="merits" aria-pressed="false">Merits</button><button data-go="genesis" aria-pressed="false">Genesis Lock</button><button data-go="web" aria-pressed="false">Access Web</button><button data-go="tools" aria-pressed="false">Tools</button><button class="sporebtn" data-go="spore" aria-pressed="false" aria-label="Spore" title="Spore"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 7.8v8.4l6.6-4.2z" fill="currentColor"/></svg><span>Spore</span></button><span class="mlabel own">Founder</span><button class="mbtn own" id="mfound" type="button">Founders</button><button class="mbtn own" id="mlock" type="button">Portal lock</button></div>
+<button id="menubtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="cats"><svg class="bars" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<div id="menuscrim"></div>
 
 <div id="plock" role="alertdialog" aria-modal="true" aria-labelledby="plh" aria-describedby="plm"><div class="glass pl-card"><div class="pl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div><div class="eyebrow">Warning from the System</div><h2 id="plh">Portal Locked</h2><p class="pl-msg" id="plm"></p><div class="pl-t" id="plc"></div></div></div>
 
@@ -1292,7 +1312,7 @@ const meP=api.me().catch(()=>({status:"none"}));
 function go(n){if(n===cur)return;const nx=$('.view[data-view="'+n+'"]'),pv=$('.view[data-view="'+cur+'"]');
  pv.classList.add("out");pv.classList.remove("on");setTimeout(()=>pv.classList.remove("out"),520);
  nx.classList.add("on");nx.scrollTop=0;cur=n;document.body.dataset.view=n;if(n!=="intro"&&V.pyramid&&V.pyramid.stop)V.pyramid.stop();V.tg.haptic("light");V.card&&(V.card.view(n==="done"),(n==="letter"||n==="form")&&V.card.warm());
- document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));try{const ct=document.getElementById("cats"),pb=ct&&ct.querySelector("button[aria-pressed=true]");if(pb)ct.scrollTo({left:Math.max(0,pb.offsetLeft-(ct.clientWidth-pb.offsetWidth)/2),behavior:"smooth"})}catch(_){}if(n==="merits")loadMerits();if(n==="web")webLoad();if(n==="genesis")glStart();else glStop();if(V.spore){if(n==="spore")V.spore.enter();else V.spore.stop()}try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"||n==="lock"?bb.show():bb.hide()}catch(e){}}
+ document.querySelectorAll("#cats button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.go===n)));document.body.classList.remove("menu-open");if(n==="merits")loadMerits();if(n==="web")webLoad();if(n==="genesis")glStart();else glStop();if(V.spore){if(n==="spore")V.spore.enter();else V.spore.stop()}try{const bb=V.tg.app&&V.tg.app.BackButton;if(bb)n==="founders"||n==="lock"?bb.show():bb.hide()}catch(e){}}
 let MEM=null,justDec=false;
 const MASK="VC-\u2022\u2022Q\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022-\u2022\u2022\u2022\u2022";
 /* new members see the code only after one node sync; everyone else sees it right away */
@@ -1452,5 +1472,15 @@ $("#lgo").onclick=async()=>{const b=$("#lgo");if(!LK)return;
  if(await lkSend("lock_set",Object.assign({locked:true,minutes:t.m},d),b))lkNote("Portal locked.");lkPaint()};
 setInterval(()=>{if(cur==="lock"&&LK&&!document.hidden)lkPaint()},1000);
 })(window.ILLUMINATI);</script>
+<script>/* Sidebar menu */
+(function(){const b=document.body,mb=document.getElementById("menubtn"),sc=document.getElementById("menuscrim"),ct=document.getElementById("cats");
+const set=o=>{b.classList.toggle("menu-open",o);mb.setAttribute("aria-expanded",String(o));mb.setAttribute("aria-label",o?"Close menu":"Open menu")};
+mb.onclick=()=>set(!b.classList.contains("menu-open"));sc.onclick=()=>set(false);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")set(false)});
+ct.addEventListener("click",e=>{if(e.target.closest("button"))set(false)});
+const via=id=>()=>{set(false);const t=document.getElementById(id);if(t)t.click()};
+document.getElementById("mfound").onclick=via("fbtn");document.getElementById("mlock").onclick=via("lbtn");
+new MutationObserver(()=>{if(!b.classList.contains("menu-open"))mb.setAttribute("aria-expanded","false")}).observe(b,{attributes:true,attributeFilter:["class"]});
+})();</script>
 </body>
 </html>
