@@ -438,7 +438,8 @@ body[data-view=spore] #cats{display:flex}
     <div id="spPick">
       <span class="eyebrow">Spore outbreak</span>
       <h2>Choose a batch</h2>
-      <p>Join a batch. When 5 members are online and press Start, the outbreak begins. Every game is unique to its batch.</p>
+      <p>Join a batch. When 5 members are online and press Start, the outbreak begins. Every game is unique to its batch. You get 3 attempts per day.</p>
+      <p class="nsdim" id="spLeft" style="margin:0 0 10px"></p>
       <div class="nscard"><p class="nslbl">No friends here yet?</p><p>Get matched into a random batch with other members waiting to play.</p><button class="btn solid" id="spRnd" type="button" style="margin:0">Join random batch</button><p class="note err" id="spRe" role="alert"></p></div>
       <div class="nstabs" role="group" aria-label="Batch options"><button id="spTS" type="button" aria-pressed="true">Search</button><button id="spTC" type="button" aria-pressed="false">Create</button><button id="spTJ" type="button" aria-pressed="false">Friends key</button></div>
       <div id="spPS">
@@ -1069,6 +1070,8 @@ const cv=$('spCv'),cx=cv.getContext('2d');let W=0,H=0;
 let alive=false,batch='',isRnd=false,rtries=0,timer=0,busy=false,ST=null,G=null,sel=null,seen=0,after=0,tAt=0,elAt=0,scanUntil=0,scan={},loc=[],cw=Math.floor(Date.now()/CW),sentAt=0,settled=false;
 function fit(){const d=devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;if(!W)return;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
 const code=$('spCode');
+const DAILY=3;let lft=null;
+function setLeft(n){if(typeof n!=='number')return;lft=n;const e=$('spLeft');if(e)e.textContent='Attempts left today: '+n+'/'+DAILY+(n===0?' · resets at 7 PM GMT':'');const b=$('spRnd');if(b)b.disabled=n===0;const a=$('spAgain');if(a)a.hidden=n===0}
 function view(p){$('spPick').hidden=p!=='p';$('spGame').hidden=p!=='g';if(p==='g')setTimeout(fit,0);if(p==='p')search()}
 function myRank(){return G?G.me:(ST&&ST.me)||0}
 /* ---------- pick a batch ---------- */
@@ -1077,6 +1080,7 @@ async function search(){
   if(!alive||batch)return;
   box.textContent='';
   if(!r||!r.ok){$('spRs').textContent=(r&&r.error)||'Spore is unavailable right now.';return}
+  setLeft(r.left);
   const list=r.batches||[];$('spRs').textContent=list.length?'':'No batches found. Create one.';
   list.forEach(x=>{const d=document.createElement('div');d.className='nsitem';d.innerHTML='<div><b></b><small></small></div>';
     d.querySelector('b').textContent=x.batch;d.querySelector('small').textContent='by '+(x.o||'a member')+' · '+x.n+'/'+USERS+(x.live?' · in progress':'');
@@ -1122,6 +1126,7 @@ async function tick(){
   busy=true;const b=batch;let r;
   try{r=await api.spore_state({batch:b,seen,after})}catch(e){r=null}
   busy=false;if(!alive||b!==batch)return;
+  if(r&&r.left!=null)setLeft(r.left);
   if(r&&r.gone){
     if(isRnd&&++rtries<5){leaveLocal();say('Batch full or in progress. Finding another.','warn');random();return}
     leaveLocal(r.error||'That batch is full or in progress.');return}
@@ -1129,10 +1134,11 @@ async function tick(){
   if(r&&r.ok)apply(r);
   schedule(G&&!G.over?900:1500)}
 function apply(r){
+  if(r.left!=null)setLeft(r.left);
   ST=r;G=r.game||null;settled=true;
   if(G){elAt=G.el;tAt=performance.now()}
   if(G&&G.over){const w=G.win;$('spOres').textContent=w?'Network survived!':'Network lost.';$('spOres').className=w?'sp-ok':'sp-bad';
-    $('spOt').textContent=String(G.why||'');$('spOm').textContent=w?'Each of the 5 users earned +5 merits.':'Each of the 5 users lost 2 merits.';$('spOver').hidden=false}
+    $('spOt').textContent=String(G.why||'');$('spOm').textContent=(w?'Each of the 5 users earned +5 merits.':'Each of the 5 users lost 2 merits.')+(lft!=null?' Attempts left today: '+lft+'/'+DAILY+'.':'');$('spOver').hidden=false}
   else $('spOver').hidden=true;
   (r.chat||[]).forEach(m=>{after=Math.max(after,m.id);line(m.u?'User '+m.u:'?',m.t,m.u&&m.u===myRank())});
   renderLog();ui()}
